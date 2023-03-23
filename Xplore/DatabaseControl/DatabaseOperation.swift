@@ -21,15 +21,12 @@ class DatabaseOperation : DatabaseOperationDelegate{
         createWishListTable()
         createCurrencyTable()
         createPlaceImagesTable()
-        //this is a comment
     }
     
     private func openDatabase() -> OpaquePointer?{
         let filePath = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
             .appendingPathComponent("Xplore.sqlite")
-        
-        print(filePath)
-        
+                
         var db: OpaquePointer? = nil
         if sqlite3_open(filePath.path, &db) != SQLITE_OK
         {
@@ -112,7 +109,7 @@ class DatabaseOperation : DatabaseOperationDelegate{
     }
     
     private func createRatingTable(){
-        let createTableString = "CREATE TABLE IF NOT EXISTS Rating(placeId TEXT, userId TEXT, rating INTEGER NOT NULL, PRIMARY KEY (placeId, userId));"
+        let createTableString = "CREATE TABLE IF NOT EXISTS Rating(placeId TEXT, userId TEXT, rating REAL NOT NULL, PRIMARY KEY (placeId, userId));"
         
         var createTableStatement: OpaquePointer? = nil
         if sqlite3_prepare_v2(database, createTableString, -1, &createTableStatement, nil) == SQLITE_OK
@@ -130,7 +127,7 @@ class DatabaseOperation : DatabaseOperationDelegate{
     }
     
     private func createLocationTable(){
-        let createTableString = "CREATE TABLE IF NOT EXISTS Location(placeId TEXT PRIMARY KEY, address TEXT NOT NULL, city TEXT NOT NULL, state TEXT NOT NULL, country INTEGER NOT NULL);"
+        let createTableString = "CREATE TABLE IF NOT EXISTS Location(placeId TEXT PRIMARY KEY, address TEXT NOT NULL, city TEXT NOT NULL, state TEXT NOT NULL, country TEXT NOT NULL);"
         
         var createTableStatement: OpaquePointer? = nil
         if sqlite3_prepare_v2(database, createTableString, -1, &createTableStatement, nil) == SQLITE_OK
@@ -183,7 +180,7 @@ class DatabaseOperation : DatabaseOperationDelegate{
     }
     
     private func createBookedTripsTable(){
-        let createTableString = "CREATE TABLE IF NOT EXISTS BookedTrips(placeId TEXT, userId TEXT, bookedDateFrom TEXT NOT NULL, bookedDateTo TEXT NOT NULL, PRIMARY KEY(placeId, userId));"
+        let createTableString = "CREATE TABLE IF NOT EXISTS BookedTrips(placeId TEXT, userId TEXT, bookedDateFrom TEXT NOT NULL, bookedDateTo TEXT NOT NULL,pricePerNight INTEGER NOT NULL, taxPercentage REAL NOT NULL, currencyCode TEXT NOT NULL,isVisited INTEGER DEFAULT 0,PRIMARY KEY(placeId, userId));"
         
         var createTableStatement: OpaquePointer? = nil
         if sqlite3_prepare_v2(database, createTableString, -1, &createTableStatement, nil) == SQLITE_OK
@@ -250,6 +247,200 @@ class DatabaseOperation : DatabaseOperationDelegate{
         sqlite3_finalize(createTableStatement)
     }
     
+    
+    func loadUserDetailData(_ userDetails : [UserDetail]) {
+        let insertStatementString = "INSERT INTO UserDetail(userId,userName,email,mobile,password) VALUES (?,?,?,?,?);"
+        var insertStatement: OpaquePointer? = nil
+        
+        if sqlite3_prepare_v2(database, insertStatementString, -1, &insertStatement, nil) == SQLITE_OK {
+            
+            for detail in userDetails {
+                sqlite3_bind_text(insertStatement, 1, (detail.userId as NSString).utf8String, -1, nil)
+                sqlite3_bind_text(insertStatement, 2, (detail.userName as NSString).utf8String, -1, nil)
+                sqlite3_bind_text(insertStatement, 3, (detail.email as NSString).utf8String, -1, nil)
+                sqlite3_bind_text(insertStatement, 4, (detail.mobile as NSString).utf8String, -1, nil)
+                sqlite3_bind_text(insertStatement, 5, (detail.password as NSString).utf8String, -1, nil)
+                
+                let result = sqlite3_step(insertStatement)
+                if result != SQLITE_DONE {
+                    print("Could not insert a row : stmt[ \(insertStatementString) ]")
+                }
+                sqlite3_reset(insertStatement)
+            }
+        } else {
+            print("INSERT statement could not be prepared.")
+        }
+        sqlite3_finalize(insertStatement)
+    }
+    
+    func loadTravelPlaceDetailData(_ travelPlaceDetail : [TravelPlaceDetail]){
+        for detail in travelPlaceDetail {
+            let review = detail.review
+            let amenities = detail.amenities
+            let location = detail.location
+            let images = detail.images
+            let rating = detail.rating
+            let pricing = detail.price
+            
+            let insertStatementString = "INSERT INTO TravelPlaceDetail(placeId,placeName,description,hostId,numberOfRooms,numberOfBeds,numberOfBedrooms,numberOfBathrooms,numberOfPeopleAccomodate,isPlaceAvailable) VALUES (?,?,?,?,?,?,?,?,?,?);"
+            var insertStatement: OpaquePointer? = nil
+            
+            if sqlite3_prepare_v2(database, insertStatementString, -1, &insertStatement, nil) == SQLITE_OK {
+                sqlite3_bind_text(insertStatement, 1, (detail.placeId as NSString).utf8String, -1, nil)
+                sqlite3_bind_text(insertStatement, 2, (detail.placeName as NSString).utf8String, -1, nil)
+                sqlite3_bind_text(insertStatement, 3, (detail.description as NSString).utf8String, -1, nil)
+                sqlite3_bind_text(insertStatement, 4, (detail.hostId as NSString).utf8String, -1, nil)
+                sqlite3_bind_int(insertStatement, 5, Int32(detail.noOfRooms))
+                sqlite3_bind_int(insertStatement, 6, Int32(detail.noOfBeds))
+                sqlite3_bind_int(insertStatement, 7, Int32(detail.noOfBedRooms))
+                sqlite3_bind_int(insertStatement, 8, Int32(detail.noOfBathRooms))
+                sqlite3_bind_int(insertStatement, 9, Int32(detail.noOfPeopleAccomodate))
+                sqlite3_bind_int(insertStatement, 10, Int32(detail.isAvailable ? 1 : 0))
+
+                let result = sqlite3_step(insertStatement)
+                if result != SQLITE_DONE {
+                    print("Could not insert a row : stmt[ \(insertStatementString) ]")
+                }
+                sqlite3_reset(insertStatement)
+            } else {
+                print("INSERT statement could not be prepared.")
+            }
+            sqlite3_finalize(insertStatement)
+            
+            
+            loadReviewDetail(placeId: detail.placeId, reviews: review)
+            loadRatingDetail(placeId: detail.placeId, ratings: rating)
+            loadAmenitiesDetail(placeId: detail.placeId, amenities: amenities)
+            loadLocationDetail(placeId: detail.placeId, location: location)
+            loadImageDetail(placeId: detail.placeId, imageUrls: images)
+            loadPriceDetail(placeId: detail.placeId, price: pricing)
+
+        }
+    }
+    
+    private func loadReviewDetail(placeId : String ,reviews : [Review]){
+        
+        for review in reviews{
+            let insertStatementString = "INSERT INTO Review(placeId,userId,review) VALUES (?,?,?);"
+            var insertStatement: OpaquePointer? = nil
+            
+            if sqlite3_prepare_v2(database, insertStatementString, -1, &insertStatement, nil) == SQLITE_OK {
+                sqlite3_bind_text(insertStatement, 1, (placeId as NSString).utf8String, -1, nil)
+                sqlite3_bind_text(insertStatement, 2, (review.userID as NSString).utf8String, -1, nil)
+                sqlite3_bind_text(insertStatement, 3, (review.review as NSString).utf8String, -1, nil)
+                
+                let result = sqlite3_step(insertStatement)
+                if result != SQLITE_DONE {
+                    print("Could not insert a row : stmt[ \(insertStatementString) ]")
+                }
+                sqlite3_reset(insertStatement)
+                
+            } else {
+                print("INSERT statement could not be prepared.")
+            }
+            sqlite3_finalize(insertStatement)
+        }
+    }
+    private func loadRatingDetail(placeId : String ,ratings : [Rating]){
+        for rating in ratings {
+            let insertStatementString = "INSERT INTO Rating(placeId,userId,rating) VALUES (?,?,?);"
+            var insertStatement: OpaquePointer? = nil
+            
+            if sqlite3_prepare_v2(database, insertStatementString, -1, &insertStatement, nil) == SQLITE_OK {
+                sqlite3_bind_text(insertStatement, 1, (placeId as NSString).utf8String, -1, nil)
+                sqlite3_bind_text(insertStatement, 2, (rating.userID as NSString).utf8String, -1, nil)
+                sqlite3_bind_double(insertStatement, 3, rating.rating)
+                
+                
+                let result = sqlite3_step(insertStatement)
+                if result != SQLITE_DONE {
+                    print("Could not insert a row : stmt[ \(insertStatementString) ]")
+                }
+                sqlite3_reset(insertStatement)
+                
+            } else {
+                print("INSERT statement could not be prepared.")
+            }
+            sqlite3_finalize(insertStatement)
+        }
+        
+    }
+    
+    private func loadAmenitiesDetail(placeId : String ,amenities : [Amenity]){
+        for amenity in amenities {
+            let insertStatementString = "INSERT INTO PlaceAmenities(placeId,amenity) VALUES (?,?);"
+            var insertStatement: OpaquePointer? = nil
+            
+            if sqlite3_prepare_v2(database, insertStatementString, -1, &insertStatement, nil) == SQLITE_OK {
+                sqlite3_bind_text(insertStatement, 1, (placeId as NSString).utf8String, -1, nil)
+                sqlite3_bind_text(insertStatement, 2, (amenity.rawValue as NSString).utf8String, -1, nil)
+               
+                let result = sqlite3_step(insertStatement)
+                if result != SQLITE_DONE {
+                    print("Could not insert a row : stmt[ \(insertStatementString) ]")
+                }
+                sqlite3_reset(insertStatement)
+                
+            } else {
+                print("INSERT statement could not be prepared.")
+            }
+            sqlite3_finalize(insertStatement)
+        }
+        
+    }
+    
+    private func loadLocationDetail(placeId : String ,location : Location){
+        let insertStatementString = "INSERT INTO Location(placeId,address,city,state,country) VALUES (?,?,?,?,?);"
+        
+        var insertStatement: OpaquePointer? = nil
+        
+        if sqlite3_prepare_v2(database, insertStatementString, -1, &insertStatement, nil) == SQLITE_OK {
+            sqlite3_bind_text(insertStatement, 1, (placeId as NSString).utf8String, -1, nil)
+            sqlite3_bind_text(insertStatement, 2, (location.address as NSString).utf8String, -1, nil)
+            sqlite3_bind_text(insertStatement, 3, (location.city as NSString).utf8String, -1, nil)
+            sqlite3_bind_text(insertStatement, 4, (location.state as NSString).utf8String, -1, nil)
+            sqlite3_bind_text(insertStatement, 5, (location.country as NSString).utf8String, -1, nil)
+            
+            let result = sqlite3_step(insertStatement)
+            if result != SQLITE_DONE {
+                print("Could not insert a row : stmt[ \(insertStatementString) ]")
+            }
+            sqlite3_reset(insertStatement)
+            
+        } else {
+            print("INSERT statement could not be prepared.")
+        }
+        sqlite3_finalize(insertStatement)
+    }
+    
+    private func loadPriceDetail(placeId : String, price : Price){
+        let insertStatementString = "INSERT INTO Pricing(placeId,pricePerNight,taxPercentage,currencyCode) VALUES (?,?,?,?);"
+        
+        var insertStatement: OpaquePointer? = nil
+        
+        if sqlite3_prepare_v2(database, insertStatementString, -1, &insertStatement, nil) == SQLITE_OK {
+            sqlite3_bind_text(insertStatement, 1, (placeId as NSString).utf8String, -1, nil)
+            sqlite3_bind_int(insertStatement, 2, Int32(price.pricePerNight))
+            sqlite3_bind_double(insertStatement, 3, price.taxPercentage)
+            sqlite3_bind_text(insertStatement, 4, (price.currencyCode as NSString).utf8String, -1, nil)
+            
+            let result = sqlite3_step(insertStatement)
+            if result != SQLITE_DONE {
+                print("Could not insert a row : stmt[ \(insertStatementString) ]")
+            }
+            sqlite3_reset(insertStatement)
+            
+        } else {
+            print("INSERT statement could not be prepared.")
+        }
+        sqlite3_finalize(insertStatement)
+    }
+
+    
+    private func loadImageDetail(placeId : String ,imageUrls : [String]){
+        //TODO: need to upload Images to filemanager
+        
+    }
 }
 
 

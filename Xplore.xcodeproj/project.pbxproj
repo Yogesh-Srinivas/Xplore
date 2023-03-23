@@ -10,9 +10,21 @@
 		3F50BAAF29CAFFB900E0D6D4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BAAE29CAFFB900E0D6D4 /* AppDelegate.swift */; };
 		3F50BAB129CAFFB900E0D6D4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BAB029CAFFB900E0D6D4 /* SceneDelegate.swift */; };
 		3F50BAB329CAFFB900E0D6D4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BAB229CAFFB900E0D6D4 /* ViewController.swift */; };
-		3F50BAB629CAFFB900E0D6D4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F50BAB429CAFFB900E0D6D4 /* Main.storyboard */; };
 		3F50BAB829CAFFBC00E0D6D4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F50BAB729CAFFBC00E0D6D4 /* Assets.xcassets */; };
 		3F50BABB29CAFFBC00E0D6D4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F50BAB929CAFFBC00E0D6D4 /* LaunchScreen.storyboard */; };
+		3F50BAC929CB2B9900E0D6D4 /* DatabaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BAC829CB2B9900E0D6D4 /* DatabaseController.swift */; };
+		3F50BACB29CB2BB400E0D6D4 /* DatabaseOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BACA29CB2BB400E0D6D4 /* DatabaseOperation.swift */; };
+		3F50BACD29CB2DEE00E0D6D4 /* DatabaseOperationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BACC29CB2DEE00E0D6D4 /* DatabaseOperationDelegate.swift */; };
+		3F50BACF29CC46E500E0D6D4 /* DataHold.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BACE29CC46E500E0D6D4 /* DataHold.swift */; };
+		3F50BAD129CC487C00E0D6D4 /* UserDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BAD029CC487C00E0D6D4 /* UserDetail.swift */; };
+		3F50BAD329CC48AE00E0D6D4 /* TravelPlaceDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BAD229CC48AE00E0D6D4 /* TravelPlaceDetail.swift */; };
+		3F50BAD529CC48D200E0D6D4 /* Amenity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BAD429CC48D200E0D6D4 /* Amenity.swift */; };
+		3F50BAD729CC4A2600E0D6D4 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BAD629CC4A2600E0D6D4 /* Location.swift */; };
+		3F50BAD929CC4A4800E0D6D4 /* Price.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BAD829CC4A4800E0D6D4 /* Price.swift */; };
+		3F50BADB29CC4AC800E0D6D4 /* Review.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BADA29CC4AC800E0D6D4 /* Review.swift */; };
+		3F50BADD29CC4D6000E0D6D4 /* BookedTrip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BADC29CC4D6000E0D6D4 /* BookedTrip.swift */; };
+		3F50BADF29CC4E3600E0D6D4 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BADE29CC4E3600E0D6D4 /* Currency.swift */; };
+		3F50BAE329CC7A2200E0D6D4 /* Rating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BAE229CC7A2200E0D6D4 /* Rating.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,10 +32,22 @@
 		3F50BAAE29CAFFB900E0D6D4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3F50BAB029CAFFB900E0D6D4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		3F50BAB229CAFFB900E0D6D4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		3F50BAB529CAFFB900E0D6D4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3F50BAB729CAFFBC00E0D6D4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3F50BABA29CAFFBC00E0D6D4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3F50BABC29CAFFBC00E0D6D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3F50BAC829CB2B9900E0D6D4 /* DatabaseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseController.swift; sourceTree = "<group>"; };
+		3F50BACA29CB2BB400E0D6D4 /* DatabaseOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseOperation.swift; sourceTree = "<group>"; };
+		3F50BACC29CB2DEE00E0D6D4 /* DatabaseOperationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseOperationDelegate.swift; sourceTree = "<group>"; };
+		3F50BACE29CC46E500E0D6D4 /* DataHold.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataHold.swift; sourceTree = "<group>"; };
+		3F50BAD029CC487C00E0D6D4 /* UserDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetail.swift; sourceTree = "<group>"; };
+		3F50BAD229CC48AE00E0D6D4 /* TravelPlaceDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelPlaceDetail.swift; sourceTree = "<group>"; };
+		3F50BAD429CC48D200E0D6D4 /* Amenity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Amenity.swift; sourceTree = "<group>"; };
+		3F50BAD629CC4A2600E0D6D4 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		3F50BAD829CC4A4800E0D6D4 /* Price.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Price.swift; sourceTree = "<group>"; };
+		3F50BADA29CC4AC800E0D6D4 /* Review.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Review.swift; sourceTree = "<group>"; };
+		3F50BADC29CC4D6000E0D6D4 /* BookedTrip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookedTrip.swift; sourceTree = "<group>"; };
+		3F50BADE29CC4E3600E0D6D4 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
+		3F50BAE229CC7A2200E0D6D4 /* Rating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rating.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +80,43 @@
 		3F50BAAD29CAFFB900E0D6D4 /* Xplore */ = {
 			isa = PBXGroup;
 			children = (
+				3F50BAC329CB012400E0D6D4 /* DatabaseControl */,
+				3F50BAC229CB010D00E0D6D4 /* Models */,
 				3F50BAAE29CAFFB900E0D6D4 /* AppDelegate.swift */,
 				3F50BAB029CAFFB900E0D6D4 /* SceneDelegate.swift */,
 				3F50BAB229CAFFB900E0D6D4 /* ViewController.swift */,
-				3F50BAB429CAFFB900E0D6D4 /* Main.storyboard */,
 				3F50BAB729CAFFBC00E0D6D4 /* Assets.xcassets */,
 				3F50BAB929CAFFBC00E0D6D4 /* LaunchScreen.storyboard */,
 				3F50BABC29CAFFBC00E0D6D4 /* Info.plist */,
 			);
 			path = Xplore;
+			sourceTree = "<group>";
+		};
+		3F50BAC229CB010D00E0D6D4 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				3F50BAD029CC487C00E0D6D4 /* UserDetail.swift */,
+				3F50BAD229CC48AE00E0D6D4 /* TravelPlaceDetail.swift */,
+				3F50BAD429CC48D200E0D6D4 /* Amenity.swift */,
+				3F50BAD629CC4A2600E0D6D4 /* Location.swift */,
+				3F50BAD829CC4A4800E0D6D4 /* Price.swift */,
+				3F50BADA29CC4AC800E0D6D4 /* Review.swift */,
+				3F50BADC29CC4D6000E0D6D4 /* BookedTrip.swift */,
+				3F50BADE29CC4E3600E0D6D4 /* Currency.swift */,
+				3F50BAE229CC7A2200E0D6D4 /* Rating.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		3F50BAC329CB012400E0D6D4 /* DatabaseControl */ = {
+			isa = PBXGroup;
+			children = (
+				3F50BACC29CB2DEE00E0D6D4 /* DatabaseOperationDelegate.swift */,
+				3F50BAC829CB2B9900E0D6D4 /* DatabaseController.swift */,
+				3F50BACA29CB2BB400E0D6D4 /* DatabaseOperation.swift */,
+				3F50BACE29CC46E500E0D6D4 /* DataHold.swift */,
+			);
+			path = DatabaseControl;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -127,7 +179,6 @@
 			files = (
 				3F50BABB29CAFFBC00E0D6D4 /* LaunchScreen.storyboard in Resources */,
 				3F50BAB829CAFFBC00E0D6D4 /* Assets.xcassets in Resources */,
-				3F50BAB629CAFFB900E0D6D4 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,8 +189,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F50BAC929CB2B9900E0D6D4 /* DatabaseController.swift in Sources */,
+				3F50BAD729CC4A2600E0D6D4 /* Location.swift in Sources */,
+				3F50BAE329CC7A2200E0D6D4 /* Rating.swift in Sources */,
 				3F50BAB329CAFFB900E0D6D4 /* ViewController.swift in Sources */,
+				3F50BACB29CB2BB400E0D6D4 /* DatabaseOperation.swift in Sources */,
+				3F50BACF29CC46E500E0D6D4 /* DataHold.swift in Sources */,
+				3F50BAD929CC4A4800E0D6D4 /* Price.swift in Sources */,
+				3F50BADF29CC4E3600E0D6D4 /* Currency.swift in Sources */,
+				3F50BACD29CB2DEE00E0D6D4 /* DatabaseOperationDelegate.swift in Sources */,
+				3F50BAD529CC48D200E0D6D4 /* Amenity.swift in Sources */,
+				3F50BADD29CC4D6000E0D6D4 /* BookedTrip.swift in Sources */,
+				3F50BADB29CC4AC800E0D6D4 /* Review.swift in Sources */,
+				3F50BAD129CC487C00E0D6D4 /* UserDetail.swift in Sources */,
 				3F50BAAF29CAFFB900E0D6D4 /* AppDelegate.swift in Sources */,
+				3F50BAD329CC48AE00E0D6D4 /* TravelPlaceDetail.swift in Sources */,
 				3F50BAB129CAFFB900E0D6D4 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -147,14 +211,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		3F50BAB429CAFFB900E0D6D4 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				3F50BAB529CAFFB900E0D6D4 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		3F50BAB929CAFFBC00E0D6D4 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -291,7 +347,6 @@
 				INFOPLIST_FILE = Xplore/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -318,7 +373,6 @@
 				INFOPLIST_FILE = Xplore/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
