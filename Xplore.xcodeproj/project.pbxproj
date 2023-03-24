@@ -25,6 +25,15 @@
 		3F50BADD29CC4D6000E0D6D4 /* BookedTrip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BADC29CC4D6000E0D6D4 /* BookedTrip.swift */; };
 		3F50BADF29CC4E3600E0D6D4 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BADE29CC4E3600E0D6D4 /* Currency.swift */; };
 		3F50BAE329CC7A2200E0D6D4 /* Rating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BAE229CC7A2200E0D6D4 /* Rating.swift */; };
+		3F50BAE529CD210500E0D6D4 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BAE429CD210500E0D6D4 /* Utils.swift */; };
+		3F50BAE929CD673300E0D6D4 /* MainTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BAE829CD673300E0D6D4 /* MainTabViewController.swift */; };
+		3F50BAEB29CD676300E0D6D4 /* ExploreCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BAEA29CD676300E0D6D4 /* ExploreCollectionViewController.swift */; };
+		3F50BAFB29CD8D9000E0D6D4 /* Explore1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BAFA29CD8D9000E0D6D4 /* Explore1ViewController.swift */; };
+		3F50BAFD29CD928600E0D6D4 /* PlaceDetailCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BAFC29CD928600E0D6D4 /* PlaceDetailCardView.swift */; };
+		3F50BAFF29CDB99000E0D6D4 /* WishListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BAFE29CDB99000E0D6D4 /* WishListViewController.swift */; };
+		3F50BB0129CDBBCC00E0D6D4 /* MyTripViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB0029CDBBCC00E0D6D4 /* MyTripViewController.swift */; };
+		3F50BB0329CDBBDA00E0D6D4 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB0229CDBBDA00E0D6D4 /* ProfileViewController.swift */; };
+		3F50BB0529CDD37400E0D6D4 /* PlaceDetailedPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB0429CDD37400E0D6D4 /* PlaceDetailedPageViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +57,15 @@
 		3F50BADC29CC4D6000E0D6D4 /* BookedTrip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookedTrip.swift; sourceTree = "<group>"; };
 		3F50BADE29CC4E3600E0D6D4 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		3F50BAE229CC7A2200E0D6D4 /* Rating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rating.swift; sourceTree = "<group>"; };
+		3F50BAE429CD210500E0D6D4 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		3F50BAE829CD673300E0D6D4 /* MainTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabViewController.swift; sourceTree = "<group>"; };
+		3F50BAEA29CD676300E0D6D4 /* ExploreCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreCollectionViewController.swift; sourceTree = "<group>"; };
+		3F50BAFA29CD8D9000E0D6D4 /* Explore1ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Explore1ViewController.swift; sourceTree = "<group>"; };
+		3F50BAFC29CD928600E0D6D4 /* PlaceDetailCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetailCardView.swift; sourceTree = "<group>"; };
+		3F50BAFE29CDB99000E0D6D4 /* WishListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishListViewController.swift; sourceTree = "<group>"; };
+		3F50BB0029CDBBCC00E0D6D4 /* MyTripViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTripViewController.swift; sourceTree = "<group>"; };
+		3F50BB0229CDBBDA00E0D6D4 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		3F50BB0429CDD37400E0D6D4 /* PlaceDetailedPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetailedPageViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +98,8 @@
 		3F50BAAD29CAFFB900E0D6D4 /* Xplore */ = {
 			isa = PBXGroup;
 			children = (
+				3F50BAE729CD66A400E0D6D4 /* View Controllers */,
+				3F50BAE629CD22F900E0D6D4 /* Utility */,
 				3F50BAC329CB012400E0D6D4 /* DatabaseControl */,
 				3F50BAC229CB010D00E0D6D4 /* Models */,
 				3F50BAAE29CAFFB900E0D6D4 /* AppDelegate.swift */,
@@ -117,6 +137,29 @@
 				3F50BACE29CC46E500E0D6D4 /* DataHold.swift */,
 			);
 			path = DatabaseControl;
+			sourceTree = "<group>";
+		};
+		3F50BAE629CD22F900E0D6D4 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				3F50BAE429CD210500E0D6D4 /* Utils.swift */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
+		3F50BAE729CD66A400E0D6D4 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				3F50BAE829CD673300E0D6D4 /* MainTabViewController.swift */,
+				3F50BAEA29CD676300E0D6D4 /* ExploreCollectionViewController.swift */,
+				3F50BAFA29CD8D9000E0D6D4 /* Explore1ViewController.swift */,
+				3F50BAFC29CD928600E0D6D4 /* PlaceDetailCardView.swift */,
+				3F50BAFE29CDB99000E0D6D4 /* WishListViewController.swift */,
+				3F50BB0029CDBBCC00E0D6D4 /* MyTripViewController.swift */,
+				3F50BB0229CDBBDA00E0D6D4 /* ProfileViewController.swift */,
+				3F50BB0429CDD37400E0D6D4 /* PlaceDetailedPageViewController.swift */,
+			);
+			path = "View Controllers";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -189,22 +232,31 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F50BB0529CDD37400E0D6D4 /* PlaceDetailedPageViewController.swift in Sources */,
 				3F50BAC929CB2B9900E0D6D4 /* DatabaseController.swift in Sources */,
 				3F50BAD729CC4A2600E0D6D4 /* Location.swift in Sources */,
 				3F50BAE329CC7A2200E0D6D4 /* Rating.swift in Sources */,
 				3F50BAB329CAFFB900E0D6D4 /* ViewController.swift in Sources */,
 				3F50BACB29CB2BB400E0D6D4 /* DatabaseOperation.swift in Sources */,
 				3F50BACF29CC46E500E0D6D4 /* DataHold.swift in Sources */,
+				3F50BB0329CDBBDA00E0D6D4 /* ProfileViewController.swift in Sources */,
+				3F50BAFD29CD928600E0D6D4 /* PlaceDetailCardView.swift in Sources */,
+				3F50BAFF29CDB99000E0D6D4 /* WishListViewController.swift in Sources */,
 				3F50BAD929CC4A4800E0D6D4 /* Price.swift in Sources */,
 				3F50BADF29CC4E3600E0D6D4 /* Currency.swift in Sources */,
 				3F50BACD29CB2DEE00E0D6D4 /* DatabaseOperationDelegate.swift in Sources */,
+				3F50BAE529CD210500E0D6D4 /* Utils.swift in Sources */,
 				3F50BAD529CC48D200E0D6D4 /* Amenity.swift in Sources */,
 				3F50BADD29CC4D6000E0D6D4 /* BookedTrip.swift in Sources */,
 				3F50BADB29CC4AC800E0D6D4 /* Review.swift in Sources */,
 				3F50BAD129CC487C00E0D6D4 /* UserDetail.swift in Sources */,
+				3F50BAFB29CD8D9000E0D6D4 /* Explore1ViewController.swift in Sources */,
+				3F50BB0129CDBBCC00E0D6D4 /* MyTripViewController.swift in Sources */,
+				3F50BAEB29CD676300E0D6D4 /* ExploreCollectionViewController.swift in Sources */,
 				3F50BAAF29CAFFB900E0D6D4 /* AppDelegate.swift in Sources */,
 				3F50BAD329CC48AE00E0D6D4 /* TravelPlaceDetail.swift in Sources */,
 				3F50BAB129CAFFB900E0D6D4 /* SceneDelegate.swift in Sources */,
+				3F50BAE929CD673300E0D6D4 /* MainTabViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

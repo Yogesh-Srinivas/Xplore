@@ -17,19 +17,23 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow()
         window?.windowScene = windowScene
-        window?.rootViewController = ViewController()
         window?.makeKeyAndVisible()
         
         let userDefault = UserDefaults.standard
-        
-
         if !userDefault.bool(forKey: "hasAppOpenedBefore"){
            userDefault.set(true, forKey: "hasAppOpenedBefore")
             
             // procedures when app first launches
-            userDefault.set(true, forKey: "isDarkTheme")
+            userDefault.set(false, forKey: "isDarkTheme")
             window?.overrideUserInterfaceStyle = .light
         }
+        
+        
+        let mainTabBarController = MainTabBarController()
+        
+        window?.rootViewController = mainTabBarController
+        
+        
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

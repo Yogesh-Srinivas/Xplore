@@ -4,7 +4,7 @@ class DatabaseController{
     let databaseOperationDelegate : DatabaseOperationDelegate
     
     init(){
-        self.databaseOperationDelegate = DatabaseOperation()
+        self.databaseOperationDelegate = DatabaseOperation.shared
         
         initializeDatabase()
     }
