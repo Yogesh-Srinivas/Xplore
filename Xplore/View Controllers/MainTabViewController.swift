@@ -53,4 +53,8 @@ class MainTabBarController: UITabBarController {
             profileViewController]
         
     }
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .portrait
+    }
 }

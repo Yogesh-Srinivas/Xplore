@@ -34,6 +34,7 @@
 		3F50BB0129CDBBCC00E0D6D4 /* MyTripViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB0029CDBBCC00E0D6D4 /* MyTripViewController.swift */; };
 		3F50BB0329CDBBDA00E0D6D4 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB0229CDBBDA00E0D6D4 /* ProfileViewController.swift */; };
 		3F50BB0529CDD37400E0D6D4 /* PlaceDetailedPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB0429CDD37400E0D6D4 /* PlaceDetailedPageViewController.swift */; };
+		3F50BB0929CF767F00E0D6D4 /* AvailabilityCalenderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB0829CF767F00E0D6D4 /* AvailabilityCalenderViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,6 +67,7 @@
 		3F50BB0029CDBBCC00E0D6D4 /* MyTripViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTripViewController.swift; sourceTree = "<group>"; };
 		3F50BB0229CDBBDA00E0D6D4 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		3F50BB0429CDD37400E0D6D4 /* PlaceDetailedPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetailedPageViewController.swift; sourceTree = "<group>"; };
+		3F50BB0829CF767F00E0D6D4 /* AvailabilityCalenderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailabilityCalenderViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,6 +160,7 @@
 				3F50BB0029CDBBCC00E0D6D4 /* MyTripViewController.swift */,
 				3F50BB0229CDBBDA00E0D6D4 /* ProfileViewController.swift */,
 				3F50BB0429CDD37400E0D6D4 /* PlaceDetailedPageViewController.swift */,
+				3F50BB0829CF767F00E0D6D4 /* AvailabilityCalenderViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -251,6 +254,7 @@
 				3F50BADB29CC4AC800E0D6D4 /* Review.swift in Sources */,
 				3F50BAD129CC487C00E0D6D4 /* UserDetail.swift in Sources */,
 				3F50BAFB29CD8D9000E0D6D4 /* Explore1ViewController.swift in Sources */,
+				3F50BB0929CF767F00E0D6D4 /* AvailabilityCalenderViewController.swift in Sources */,
 				3F50BB0129CDBBCC00E0D6D4 /* MyTripViewController.swift in Sources */,
 				3F50BAEB29CD676300E0D6D4 /* ExploreCollectionViewController.swift in Sources */,
 				3F50BAAF29CAFFB900E0D6D4 /* AppDelegate.swift in Sources */,

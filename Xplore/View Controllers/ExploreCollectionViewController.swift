@@ -20,6 +20,8 @@ class ExploreViewController : UIViewController {
         placeDetailCollectionView.register(PlaceDetailCardView.self, forCellWithReuseIdentifier: "placeDetailCell")
         view.addSubview(placeDetailCollectionView)
     }
+    
+
 }
 
 extension ExploreViewController : UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
