@@ -14,30 +14,48 @@ class AvailabilityCalenderViewController: UIViewController {
         DateComponents(era: 1, year: 2023,month: 4,day: 13),
 
     ]
+    
+    let headerLabel = UILabel()
+    let footerLabel = UILabel()
+    let saveButton = {
+        let button = UIButton()
+        return button
 
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
+    }()
+    let footerView = UIView()
+
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //sample coloring
+        headerLabel.backgroundColor = .systemPink
+        footerView.backgroundColor = .systemPink
+        saveButton.backgroundColor = .gray
+        saveButton.setTitle("Save", for: .normal)
+
+        
+        view.addSubview(headerLabel)
+        view.addSubview(footerView)
+        footerView.addSubview(saveButton)
+        footerView.addSubview(footerLabel)
         view.addSubview(calendarView)
         
         
         setupCalendar()
-        setupBookedDatesCalender()
+        setupHeaderLabel()
+        setupFooterView()
     }
     
     func setupCalendar(){
         calendarView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            calendarView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 100),
+            
+            calendarView.topAnchor.constraint(equalTo: headerLabel.bottomAnchor),
             calendarView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             calendarView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            calendarView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: 100)
+            calendarView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor,multiplier: 0.8)
         
         ])
         
@@ -50,6 +68,8 @@ class AvailabilityCalenderViewController: UIViewController {
         calendarView.fontDesign = .monospaced
         
         calendarView.selectionBehavior = UICalendarSelectionMultiDate(delegate: self)
+        
+        setupBookedDatesCalender()
     }
     
     func setupBookedDatesCalender(){
@@ -58,6 +78,45 @@ class AvailabilityCalenderViewController: UIViewController {
         }
     }
     
+    func setupHeaderLabel(){
+        headerLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            headerLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            headerLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            headerLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            headerLabel.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor,multiplier: 0.1)
+            
+        ])
+    }
+    
+    func setupFooterView(){
+        footerView.translatesAutoresizingMaskIntoConstraints = false
+        footerLabel.translatesAutoresizingMaskIntoConstraints = false
+        saveButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            footerView.topAnchor.constraint(equalTo: calendarView.bottomAnchor),
+            footerView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
+            footerView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
+            footerView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
+            footerView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.1)
+            
+        ])
+        
+        NSLayoutConstraint.activate([
+            footerLabel.topAnchor.constraint(equalTo: footerView.topAnchor),
+            footerLabel.leadingAnchor.constraint(equalTo: footerView.leadingAnchor),
+            footerLabel.bottomAnchor.constraint(equalTo: footerView.bottomAnchor),
+            footerLabel.widthAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.widthAnchor,multiplier: 0.6)
+        ])
+        
+        NSLayoutConstraint.activate([
+            saveButton.topAnchor.constraint(equalTo: footerView.topAnchor),
+            saveButton.trailingAnchor.constraint(equalTo: footerView.trailingAnchor),
+            saveButton.bottomAnchor.constraint(equalTo: footerView.bottomAnchor),
+            saveButton.widthAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.widthAnchor,multiplier: 0.4)
+        ])
+    }
 }
 
 

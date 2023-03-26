@@ -19,6 +19,12 @@ class ExploreViewController : UIViewController {
         placeDetailCollectionView.frame = view.bounds
         placeDetailCollectionView.register(PlaceDetailCardView.self, forCellWithReuseIdentifier: "placeDetailCell")
         view.addSubview(placeDetailCollectionView)
+        
+
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = false
     }
     
 
@@ -41,7 +47,10 @@ extension ExploreViewController : UICollectionViewDelegate,UICollectionViewDataS
         
     
         cell.placeImagesViewClickHandler = { [weak self] in
-            self?.present(UINavigationController(rootViewController: PlaceDetailedPageViewController()), animated: true)
+            self?.navigationController?.pushViewController(
+                 PlaceDetailedPageViewController()
+                , animated: true
+            )
         }
         return cell
                

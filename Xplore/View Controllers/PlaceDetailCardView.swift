@@ -128,7 +128,12 @@ extension PlaceDetailCardView : UICollectionViewDelegate,UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = placeImagesView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as UICollectionViewCell
         let image = UIImageView(image: UIImage(systemName: "bell"))
-        image.backgroundColor = .purple
+        
+        
+        //sample coloring
+        image.backgroundColor = .systemPink
+        image.tintColor = .white
+        
         
         cell.contentView.addSubview(image)
         
