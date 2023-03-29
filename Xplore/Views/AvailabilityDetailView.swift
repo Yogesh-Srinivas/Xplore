@@ -56,7 +56,7 @@ class AvailabilityDetailView: UIView {
     @objc private func viewOnTap(){
         if let viewControllerToPresentOnTap = self.viewControllerToPresentOnTap,let referenceViewControllerToPresent = self.referenceViewControllerToPresent{
             referenceViewControllerToPresent.present(viewControllerToPresentOnTap, animated: true)
-//            referenceViewControllerToPresent.navigationController?.pushViewController(viewControllerToPresentOnTap, animated: true)
+
         }
     }
 

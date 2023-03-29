@@ -9,6 +9,7 @@ class DatabaseOperation : DatabaseOperationDelegate{
     
     private init(){
         database = openDatabase()
+    
     }
     
     func initializeDatabase(){
@@ -29,6 +30,9 @@ class DatabaseOperation : DatabaseOperationDelegate{
     private func openDatabase() -> OpaquePointer?{
         let filePath = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
             .appendingPathComponent("Xplore.sqlite")
+        
+        print(filePath)
+        
         var db: OpaquePointer? = nil
         if sqlite3_open(filePath.path, &db) != SQLITE_OK
         {
@@ -171,7 +175,7 @@ class DatabaseOperation : DatabaseOperationDelegate{
             
             if sqlite3_prepare_v2(database, insertStatementString, -1, &insertStatement, nil) == SQLITE_OK {
                 for detail in travelPlaceDetail {
-                    let review = detail.review
+                    let review = detail.reviewDetail
                     let amenities = detail.amenities
                     let location = detail.location
                     let images = detail.images
@@ -358,6 +362,7 @@ class DatabaseOperation : DatabaseOperationDelegate{
                         
                         weak var weakSelf = self
                         weakSelf?.loadImageDetail(placeId: placeId, imageDirPath: imageDirPath)
+                                                
                     }
                 }
             }

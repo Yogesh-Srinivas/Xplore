@@ -10,7 +10,7 @@ class Utils{
     
     static func showAlertMessage(message : String, viewController : UIViewController , durationInSeconds : Double){
         
-        let alert = UIAlertController(title: nil, message: message, preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
 
         viewController.present(alert, animated: true)
 

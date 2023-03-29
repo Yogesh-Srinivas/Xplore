@@ -36,10 +36,18 @@
 		3F50BB0929CF767F00E0D6D4 /* AvailabilityCalenderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB0829CF767F00E0D6D4 /* AvailabilityCalenderViewController.swift */; };
 		3F50BB0B29D03F4C00E0D6D4 /* AvailabilityDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB0A29D03F4C00E0D6D4 /* AvailabilityDetailView.swift */; };
 		3F50BB0E29D09FA500E0D6D4 /* ReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB0D29D09FA500E0D6D4 /* ReviewView.swift */; };
-		3F50BB1029D09FC200E0D6D4 /* HouseRulesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB0F29D09FC200E0D6D4 /* HouseRulesView.swift */; };
-		3F50BB1229D09FE600E0D6D4 /* SafetyAndPropertyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB1129D09FE600E0D6D4 /* SafetyAndPropertyView.swift */; };
-		3F50BB1429D09FFB00E0D6D4 /* CancellationPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB1329D09FFB00E0D6D4 /* CancellationPolicyView.swift */; };
+		3F50BB1429D09FFB00E0D6D4 /* CommonDetailShowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB1329D09FFB00E0D6D4 /* CommonDetailShowView.swift */; };
 		3F50BB1629D0A36600E0D6D4 /* RatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB1529D0A36600E0D6D4 /* RatingView.swift */; };
+		3F50BB1829D159BD00E0D6D4 /* ReviewCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB1729D159BD00E0D6D4 /* ReviewCard.swift */; };
+		3F50BB1A29D1736000E0D6D4 /* AmenitiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB1929D1736000E0D6D4 /* AmenitiesView.swift */; };
+		3F50BB1C29D19BDE00E0D6D4 /* AmenitiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB1B29D19BDE00E0D6D4 /* AmenitiesViewController.swift */; };
+		3F50BB1E29D1B02300E0D6D4 /* CancellationPolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB1D29D1B02300E0D6D4 /* CancellationPolicyViewController.swift */; };
+		3F50BB2029D1B03000E0D6D4 /* HouseRulesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB1F29D1B03000E0D6D4 /* HouseRulesViewController.swift */; };
+		3F50BB2229D1B04400E0D6D4 /* SafetyAndPropertyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB2129D1B04400E0D6D4 /* SafetyAndPropertyViewController.swift */; };
+		3F50BB2429D1D27300E0D6D4 /* SectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB2329D1D27300E0D6D4 /* SectionView.swift */; };
+		3F50BB2629D2A61000E0D6D4 /* IconedLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB2529D2A61000E0D6D4 /* IconedLabelView.swift */; };
+		3F50BB2829D2F18400E0D6D4 /* ReservationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB2729D2F18400E0D6D4 /* ReservationViewController.swift */; };
+		3F50BB2C29D406C300E0D6D4 /* StackViewWithCornorLabels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB2B29D406C300E0D6D4 /* StackViewWithCornorLabels.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -74,10 +82,18 @@
 		3F50BB0829CF767F00E0D6D4 /* AvailabilityCalenderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailabilityCalenderViewController.swift; sourceTree = "<group>"; };
 		3F50BB0A29D03F4C00E0D6D4 /* AvailabilityDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailabilityDetailView.swift; sourceTree = "<group>"; };
 		3F50BB0D29D09FA500E0D6D4 /* ReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewView.swift; sourceTree = "<group>"; };
-		3F50BB0F29D09FC200E0D6D4 /* HouseRulesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HouseRulesView.swift; sourceTree = "<group>"; };
-		3F50BB1129D09FE600E0D6D4 /* SafetyAndPropertyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafetyAndPropertyView.swift; sourceTree = "<group>"; };
-		3F50BB1329D09FFB00E0D6D4 /* CancellationPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancellationPolicyView.swift; sourceTree = "<group>"; };
+		3F50BB1329D09FFB00E0D6D4 /* CommonDetailShowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonDetailShowView.swift; sourceTree = "<group>"; };
 		3F50BB1529D0A36600E0D6D4 /* RatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingView.swift; sourceTree = "<group>"; };
+		3F50BB1729D159BD00E0D6D4 /* ReviewCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCard.swift; sourceTree = "<group>"; };
+		3F50BB1929D1736000E0D6D4 /* AmenitiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmenitiesView.swift; sourceTree = "<group>"; };
+		3F50BB1B29D19BDE00E0D6D4 /* AmenitiesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmenitiesViewController.swift; sourceTree = "<group>"; };
+		3F50BB1D29D1B02300E0D6D4 /* CancellationPolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancellationPolicyViewController.swift; sourceTree = "<group>"; };
+		3F50BB1F29D1B03000E0D6D4 /* HouseRulesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HouseRulesViewController.swift; sourceTree = "<group>"; };
+		3F50BB2129D1B04400E0D6D4 /* SafetyAndPropertyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafetyAndPropertyViewController.swift; sourceTree = "<group>"; };
+		3F50BB2329D1D27300E0D6D4 /* SectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionView.swift; sourceTree = "<group>"; };
+		3F50BB2529D2A61000E0D6D4 /* IconedLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconedLabelView.swift; sourceTree = "<group>"; };
+		3F50BB2729D2F18400E0D6D4 /* ReservationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservationViewController.swift; sourceTree = "<group>"; };
+		3F50BB2B29D406C300E0D6D4 /* StackViewWithCornorLabels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackViewWithCornorLabels.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,8 +129,8 @@
 				3F50BB0C29D03F5800E0D6D4 /* Views */,
 				3F50BAE729CD66A400E0D6D4 /* View Controllers */,
 				3F50BAE629CD22F900E0D6D4 /* Utility */,
-				3F50BAC329CB012400E0D6D4 /* DatabaseControl */,
 				3F50BAC229CB010D00E0D6D4 /* Models */,
+				3F50BAC329CB012400E0D6D4 /* DatabaseControl */,
 				3F50BAAE29CAFFB900E0D6D4 /* AppDelegate.swift */,
 				3F50BAB029CAFFB900E0D6D4 /* SceneDelegate.swift */,
 				3F50BAB229CAFFB900E0D6D4 /* ViewController.swift */,
@@ -171,6 +187,10 @@
 				3F50BB0229CDBBDA00E0D6D4 /* ProfileViewController.swift */,
 				3F50BB0429CDD37400E0D6D4 /* PlaceDetailedPageViewController.swift */,
 				3F50BB0829CF767F00E0D6D4 /* AvailabilityCalenderViewController.swift */,
+				3F50BB1B29D19BDE00E0D6D4 /* AmenitiesViewController.swift */,
+				3F50BB1F29D1B03000E0D6D4 /* HouseRulesViewController.swift */,
+				3F50BB2129D1B04400E0D6D4 /* SafetyAndPropertyViewController.swift */,
+				3F50BB2729D2F18400E0D6D4 /* ReservationViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -180,10 +200,14 @@
 			children = (
 				3F50BB0A29D03F4C00E0D6D4 /* AvailabilityDetailView.swift */,
 				3F50BB0D29D09FA500E0D6D4 /* ReviewView.swift */,
-				3F50BB0F29D09FC200E0D6D4 /* HouseRulesView.swift */,
-				3F50BB1129D09FE600E0D6D4 /* SafetyAndPropertyView.swift */,
-				3F50BB1329D09FFB00E0D6D4 /* CancellationPolicyView.swift */,
+				3F50BB1329D09FFB00E0D6D4 /* CommonDetailShowView.swift */,
 				3F50BB1529D0A36600E0D6D4 /* RatingView.swift */,
+				3F50BB1729D159BD00E0D6D4 /* ReviewCard.swift */,
+				3F50BB1929D1736000E0D6D4 /* AmenitiesView.swift */,
+				3F50BB2329D1D27300E0D6D4 /* SectionView.swift */,
+				3F50BB2529D2A61000E0D6D4 /* IconedLabelView.swift */,
+				3F50BB1D29D1B02300E0D6D4 /* CancellationPolicyViewController.swift */,
+				3F50BB2B29D406C300E0D6D4 /* StackViewWithCornorLabels.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -260,29 +284,37 @@
 			files = (
 				3F50BB0529CDD37400E0D6D4 /* PlaceDetailedPageViewController.swift in Sources */,
 				3F50BAC929CB2B9900E0D6D4 /* DatabaseController.swift in Sources */,
+				3F50BB2229D1B04400E0D6D4 /* SafetyAndPropertyViewController.swift in Sources */,
+				3F50BB2629D2A61000E0D6D4 /* IconedLabelView.swift in Sources */,
 				3F50BAD729CC4A2600E0D6D4 /* Location.swift in Sources */,
+				3F50BB2829D2F18400E0D6D4 /* ReservationViewController.swift in Sources */,
 				3F50BB0B29D03F4C00E0D6D4 /* AvailabilityDetailView.swift in Sources */,
 				3F50BAE329CC7A2200E0D6D4 /* Rating.swift in Sources */,
-				3F50BB1429D09FFB00E0D6D4 /* CancellationPolicyView.swift in Sources */,
+				3F50BB1429D09FFB00E0D6D4 /* CommonDetailShowView.swift in Sources */,
 				3F50BAB329CAFFB900E0D6D4 /* ViewController.swift in Sources */,
 				3F50BACB29CB2BB400E0D6D4 /* DatabaseOperation.swift in Sources */,
 				3F50BACF29CC46E500E0D6D4 /* DataHold.swift in Sources */,
+				3F50BB1E29D1B02300E0D6D4 /* CancellationPolicyViewController.swift in Sources */,
 				3F50BB0329CDBBDA00E0D6D4 /* ProfileViewController.swift in Sources */,
+				3F50BB2029D1B03000E0D6D4 /* HouseRulesViewController.swift in Sources */,
+				3F50BB1829D159BD00E0D6D4 /* ReviewCard.swift in Sources */,
 				3F50BB1629D0A36600E0D6D4 /* RatingView.swift in Sources */,
-				3F50BB1029D09FC200E0D6D4 /* HouseRulesView.swift in Sources */,
+				3F50BB2C29D406C300E0D6D4 /* StackViewWithCornorLabels.swift in Sources */,
 				3F50BAFD29CD928600E0D6D4 /* PlaceDetailCardView.swift in Sources */,
 				3F50BB0E29D09FA500E0D6D4 /* ReviewView.swift in Sources */,
 				3F50BAFF29CDB99000E0D6D4 /* WishListViewController.swift in Sources */,
 				3F50BAD929CC4A4800E0D6D4 /* Price.swift in Sources */,
 				3F50BADF29CC4E3600E0D6D4 /* Currency.swift in Sources */,
+				3F50BB2429D1D27300E0D6D4 /* SectionView.swift in Sources */,
+				3F50BB1C29D19BDE00E0D6D4 /* AmenitiesViewController.swift in Sources */,
 				3F50BACD29CB2DEE00E0D6D4 /* DatabaseOperationDelegate.swift in Sources */,
 				3F50BAE529CD210500E0D6D4 /* Utils.swift in Sources */,
 				3F50BAD529CC48D200E0D6D4 /* Amenity.swift in Sources */,
 				3F50BADD29CC4D6000E0D6D4 /* BookedTrip.swift in Sources */,
+				3F50BB1A29D1736000E0D6D4 /* AmenitiesView.swift in Sources */,
 				3F50BADB29CC4AC800E0D6D4 /* Review.swift in Sources */,
 				3F50BAD129CC487C00E0D6D4 /* UserDetail.swift in Sources */,
 				3F50BB0929CF767F00E0D6D4 /* AvailabilityCalenderViewController.swift in Sources */,
-				3F50BB1229D09FE600E0D6D4 /* SafetyAndPropertyView.swift in Sources */,
 				3F50BB0129CDBBCC00E0D6D4 /* MyTripViewController.swift in Sources */,
 				3F50BAEB29CD676300E0D6D4 /* ExploreCollectionViewController.swift in Sources */,
 				3F50BAAF29CAFFB900E0D6D4 /* AppDelegate.swift in Sources */,

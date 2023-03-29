@@ -29,10 +29,10 @@ class PlaceDetailCardView : UICollectionViewCell {
         placeImagesView.dataSource = self
         placeImagesView.delegate = self
         placeImagesView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "ImageCell")
+        
         placeImagesView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(placeImageViewTapped)))
 
         placeImagesView.translatesAutoresizingMaskIntoConstraints = false
-        
         NSLayoutConstraint.activate([
             placeImagesView.topAnchor.constraint(equalTo: self.topAnchor),
             placeImagesView.heightAnchor.constraint(equalTo: self.heightAnchor,multiplier: 0.64),
@@ -127,8 +127,10 @@ extension PlaceDetailCardView : UICollectionViewDelegate,UICollectionViewDataSou
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = placeImagesView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as UICollectionViewCell
-        let image = UIImageView(image: UIImage(systemName: "bell"))
         
+        let image = UIImageView(image: UIImage(systemName: "bell"))
+        image.clipsToBounds = true
+        image.contentMode = .scaleAspectFit
         
         //sample coloring
         image.backgroundColor = .systemPink

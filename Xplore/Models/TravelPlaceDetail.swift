@@ -1,3 +1,5 @@
+import UIKit
+
 struct TravelPlaceDetail {
     let placeId : String
     var placeName : String
@@ -10,7 +12,7 @@ struct TravelPlaceDetail {
     var noOfPeopleAccomodate : Int
     var isAvailable : Bool
     var price : Price
-    var review : [Review]
+    var reviewDetail : [Review]
     var rating : [Rating]
     var amenities : [Amenity]
     let location : Location

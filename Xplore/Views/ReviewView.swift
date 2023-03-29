@@ -2,76 +2,80 @@ import UIKit
 
 class ReviewView: UIView {
 
-    let headerLabel = UILabel()
-    let contentView = UIView()
+    lazy var titleLabel = UILabel()
+    lazy var reviewCollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let uiCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
+        return uiCollectionView
+    }()
+    var reviewList : [Review]
 //    private var viewControllerToPresentOnTap : UIViewController?
 //    private var referenceViewControllerToPresent : UIViewController?
-    var rating : Double
     
-    init(frame: CGRect,rating : Double) {
-        self.rating = rating
+    init(frame: CGRect,reviewList : [Review]) {
+        self.reviewList = reviewList
         super.init(frame: frame)
 
-        self.addSubview(headerLabel)
-        self.addSubview(contentView)
-        setupHeaderLabel()
-        setupContentView()
+        self.addSubview(titleLabel)
+        self.addSubview(reviewCollectionView)
+        setupTitleLabel()
+        setupRatingCollectionView()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupHeaderLabel(){
-        headerLabel.translatesAutoresizingMaskIntoConstraints = false
+    func setupTitleLabel(){
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            headerLabel.topAnchor.constraint(equalTo: self.topAnchor),
-            headerLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            headerLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            headerLabel.heightAnchor.constraint(equalTo: self.heightAnchor,multiplier : 0.5),
+            titleLabel.topAnchor.constraint(equalTo: self.topAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            titleLabel.heightAnchor.constraint(equalTo: self.heightAnchor,multiplier : 0.2),
         ])
-        headerLabel.text = "Review"
-        headerLabel.adjustsFontSizeToFitWidth = true
-        headerLabel.font = .boldSystemFont(ofSize: 20)
+        titleLabel.text = "Reviews"
+        titleLabel.adjustsFontSizeToFitWidth = true
+        titleLabel.font = .boldSystemFont(ofSize: 20)
        
     }
-    func setupContentView(){
-        contentView.translatesAutoresizingMaskIntoConstraints = false
+    func setupRatingCollectionView(){
+        reviewCollectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            contentView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            contentView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            contentView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            contentView.heightAnchor.constraint(equalTo: self.heightAnchor,multiplier : 0.5),
+            reviewCollectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            reviewCollectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            reviewCollectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            reviewCollectionView.heightAnchor.constraint(equalTo: self.heightAnchor,multiplier : 0.8),
         ])
-            
-        let fullStarImage = UIImage(systemName: "star.fill")
-        let halfStarImage = UIImage(systemName: "star.leadinghalf.fill")
-        let emptyStarImage = UIImage(systemName: "star")
-
-        let ratingView = UIStackView()
-        ratingView.axis = .horizontal
-        ratingView.distribution = .fillEqually
-
-        for i in 1...5 {
-            if rating >= Double(i) {
-                ratingView.addArrangedSubview(UIImageView(image: fullStarImage))
-            } else if rating > Double(i) - 1 {
-                ratingView.addArrangedSubview(UIImageView(image: halfStarImage))
-            } else {
-                ratingView.addArrangedSubview(UIImageView(image: emptyStarImage))
-            }
-        }
         
-        contentView.addSubview(ratingView)
-        
-        ratingView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            ratingView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            ratingView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            ratingView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            ratingView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-        ])
+        reviewCollectionView.register(ReviewCard.self, forCellWithReuseIdentifier: "ReviewCard")
+        reviewCollectionView.delegate = self
+        reviewCollectionView.dataSource = self
         
     }
+    
+}
+
+
+extension ReviewView : UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return reviewList.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = reviewCollectionView.dequeueReusableCell(withReuseIdentifier: "ReviewCard", for: indexPath) as! ReviewCard
+        
+        cell.profilePicture.image = UIImage(systemName: "person")
+        cell.reviewerNameLabel.text = reviewList[indexPath.row].userName
+        cell.reviewLabel.text = "        " + reviewList[indexPath.row].review
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: self.reviewCollectionView.frame.height, height: self.reviewCollectionView.frame.height)
+    }
+    
     
 }

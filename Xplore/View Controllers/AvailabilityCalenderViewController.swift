@@ -64,7 +64,7 @@ class AvailabilityCalenderViewController: UIViewController {
         calendarView.calendar = Calendar(identifier: .gregorian)
         calendarView.calendar.locale = .current
         
-        calendarView.availableDateRange = DateInterval(start: .now, end: Date(timeIntervalSinceNow: TimeInterval(NUMBER_OF_SECONDS_IN_A_YEAR * 2)))
+        calendarView.availableDateRange = DateInterval(start: .now, end: Date(timeIntervalSinceNow: TimeInterval(NUMBER_OF_SECONDS_IN_A_YEAR / 2)))
         calendarView.fontDesign = .monospaced
         
         calendarView.selectionBehavior = UICalendarSelectionMultiDate(delegate: self)
