@@ -22,6 +22,7 @@ class StackViewWithCornorLabels: UIStackView {
     }
     
     private func setupStackView(){
+
         self.addArrangedSubview(leadingLabel)
         self.addArrangedSubview(trailingLabel)
         
@@ -31,7 +32,7 @@ class StackViewWithCornorLabels: UIStackView {
         trailingLabel.textAlignment = .right
     }
     
-    func setTripDetailCard(leadingLabelText : String,leadingLabelFontSize : CGFloat,leadingLabelFontWeight : UIFont.Weight, trailingLabelText : String,trailingLabelFontSize : CGFloat,trailingLabelFontWeight : UIFont.Weight)-> UIStackView{
+    func setStackViewContent(leadingLabelText : String,leadingLabelFontSize : CGFloat,leadingLabelFontWeight : UIFont.Weight, trailingLabelText : String,trailingLabelFontSize : CGFloat,trailingLabelFontWeight : UIFont.Weight)-> UIStackView{
         let stackView = StackViewWithCornorLabels(frame: .zero)
         
         stackView.leadingLabel.text = leadingLabelText

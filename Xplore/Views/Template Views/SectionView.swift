@@ -8,9 +8,9 @@
 import UIKit
 
 class SectionView: UIView {
-    let titleView = UILabel()
-    let contentView : UIView
-    let titleText : String
+    var titleView = UILabel()
+    var contentView : UIView
+    var titleText : String
     
     init(frame: CGRect,contentView : UIView,titleText : String) {
         self.titleText = titleText

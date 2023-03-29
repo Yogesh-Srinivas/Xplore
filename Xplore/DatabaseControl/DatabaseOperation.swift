@@ -353,7 +353,7 @@ class DatabaseOperation : DatabaseOperationDelegate{
             for url in imageUrls{
                 if let imageUrl = URL(string: url){
                     if let imageData = try? Data(contentsOf: imageUrl){
-                        let uniqueImageName = Utils.generateRandomImageName()
+                        let uniqueImageName = GeneralUtils.generateRandomImageName()
                         let docDir = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
                         let imageDirURL = docDir.appendingPathComponent("\(uniqueImageName).png")
                         try! imageData.write(to: imageDirURL)
