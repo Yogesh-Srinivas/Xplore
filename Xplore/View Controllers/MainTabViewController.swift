@@ -2,7 +2,7 @@ import UIKit
 
 class MainTabBarController: UITabBarController {
     lazy var exploreViewController = {
-        let viewController =  ExploreViewController()
+        let viewController =  ExploreMainPageViewController()
         viewController.tabBarItem = UITabBarItem(
             title: "Explore",
             image: UIImage(systemName: "house"),

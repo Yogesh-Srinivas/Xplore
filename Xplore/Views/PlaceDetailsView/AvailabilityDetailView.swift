@@ -12,6 +12,7 @@ class AvailabilityDetailView: UIView {
         super.init(frame: frame)
         self.addSubview(headerLabel)
         self.addSubview(contentLabel)
+        self.backgroundColor = .systemBackground
         setupHeaderLabel()
         setupContentLabel()
     }
@@ -26,11 +27,11 @@ class AvailabilityDetailView: UIView {
             headerLabel.topAnchor.constraint(equalTo: self.topAnchor),
             headerLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             headerLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            headerLabel.heightAnchor.constraint(equalTo: self.heightAnchor,multiplier : 0.5),
+            headerLabel.bottomAnchor.constraint(equalTo: contentLabel.topAnchor,constant: -10)
         ])
         headerLabel.text = "Availability"
         headerLabel.adjustsFontSizeToFitWidth = true
-        headerLabel.font = .boldSystemFont(ofSize: 20)
+        headerLabel.configPrimaryStyle()
        
     }
     func setupContentLabel(){

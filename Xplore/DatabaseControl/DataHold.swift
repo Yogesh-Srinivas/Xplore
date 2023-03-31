@@ -57,7 +57,7 @@ class DataHold{
                 isAvailable: true,
                 price: Price(pricePerNight: 20000, taxPercentage: 12.0, currencyCode: "INR"),
                 reviewDetail: [Review(userID: "UD1102", userName: "Yogi", review: "Nice Place Must Visit.")],
-                rating: [Rating(userID: "1102", rating: 5.0)],
+                ratingDetail: [Rating(userID: "1102", rating: 5.0)],
                 amenities: [Amenity.Air_Conditioning,Amenity.CarbonMonoxide_Alarm,Amenity.First_Aid_Kit],
                 location: Location(city: "Chennai", state: "TN", country: "India", address: "23/24 big map street"),
                 images: ["https://cdn.pixabay.com/photo/2020/04/17/12/28/pool-5055009_1280.jpg","https://cdn.pixabay.com/photo/2020/04/17/12/28/pool-5055009_1280.jpg"]
@@ -78,7 +78,7 @@ class DataHold{
                 isAvailable: true,
                 price: Price(pricePerNight: 20000, taxPercentage: 12.0, currencyCode: "USD"),
                 reviewDetail: [Review(userID: "UD1102", userName: "Yogi", review: "Nice Place Must Visit.")],
-                rating : [Rating(userID: "1102", rating: 5.0)],
+                ratingDetail : [Rating(userID: "1102", rating: 5.0)],
                 amenities: [Amenity.Air_Conditioning,Amenity.CarbonMonoxide_Alarm,Amenity.First_Aid_Kit],
                 location: Location(city: "Chennai", state: "Kerala", country: "India", address: "475, Raily watson street, Vadakalaur"),
                 images: ["https://cdn.pixabay.com/photo/2020/04/17/12/28/pool-5055009_1280.jpg","https://cdn.pixabay.com/photo/2020/04/17/12/28/pool-5055009_1280.jpg"]

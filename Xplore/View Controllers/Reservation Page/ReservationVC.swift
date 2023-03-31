@@ -80,7 +80,7 @@ class ReservationViewController : UITableViewController {
         
     }
     private func configGroundRuleDetailsCell(_ config : inout UIListContentConfiguration){
-        config.text = "We ask every guest to rember a few simple things about what makes a great guest.\n\n\u{2022} Follow the house rules\n\u{2022} Treat your Host's home like your own"
+        config.text = "We ask every guest to rember a few simple things about what makes a great guest.\n\n\(Constants.BULLETING_POINT) Follow the house rules\n\(Constants.BULLETING_POINT) Treat your Host's home like your own"
     }
     private func configHeaderCell(_ config : inout UIListContentConfiguration){
         config.image = UIImage(named: "test")
@@ -88,7 +88,7 @@ class ReservationViewController : UITableViewController {
         config.imageProperties.maximumSize = CGSize(width: 170, height: 125)
         config.imageProperties.cornerRadius = 15
         
-        config.secondaryText = "\u{2605} \(tripDetails.rating) (\(tripDetails.numberOfRating))"
+        config.secondaryText = "\(Constants.RATING_STAR) \(tripDetails.rating) (\(tripDetails.numberOfRating))"
        
         config.text = tripDetails.placeName
         config.textProperties.font = .systemFont(ofSize: 19)

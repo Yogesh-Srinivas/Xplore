@@ -10,6 +10,9 @@ class AmenitiesView: UIView {
     lazy var showAllAmenitiesButton = {
         let uiButton = UIButton()
         uiButton.setTitle("Show All Amenties", for: .normal)
+        uiButton.setTitleColor(.label, for: .normal)
+        uiButton.layer.cornerRadius = 10
+        uiButton.underline()
         return uiButton
     }()
     
@@ -21,13 +24,11 @@ class AmenitiesView: UIView {
         self.amenitiesList = amenitiesList
         super.init(frame: frame)
         
+        self.backgroundColor = .systemBackground
         self.addSubview(titleLabel)
         self.addSubview(amenityStackView)
         
-       
-        //sample coloring
-        showAllAmenitiesButton.backgroundColor = .systemPink
-        
+               
         setupTitleLabel()
         setupAmenityListView()
         
@@ -51,7 +52,7 @@ class AmenitiesView: UIView {
         ])
         titleLabel.text = "What This Place Offers"
         titleLabel.adjustsFontSizeToFitWidth = true
-        titleLabel.font = .boldSystemFont(ofSize: 20)
+        titleLabel.configPrimaryStyle()
         
     }
     private func setupAmenityListView(){

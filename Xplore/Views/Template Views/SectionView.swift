@@ -37,7 +37,7 @@ class SectionView: UIView {
             titleView.trailingAnchor.constraint(equalTo: self.trailingAnchor)
         ])
         titleView.text = titleText
-        titleView.font = .boldSystemFont(ofSize: 25)
+        titleView.configPrimaryStyle()
     }
     
     func setupContentView(){

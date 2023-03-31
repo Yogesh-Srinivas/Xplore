@@ -179,7 +179,7 @@ class DatabaseOperation : DatabaseOperationDelegate{
                     let amenities = detail.amenities
                     let location = detail.location
                     let images = detail.images
-                    let rating = detail.rating
+                    let rating = detail.ratingDetail
                     let pricing = detail.price
                     
                     sqlite3_bind_text(insertStatement, 1, (detail.placeId as NSString).utf8String, -1, nil)

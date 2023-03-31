@@ -3,7 +3,7 @@ import UIKit
 class PlaceDetailedPageViewController: UIViewController {
 
         
-    lazy var placeImagesCollectionView = PlaceDetailCardView()
+    var placeImagesCollectionView : UICollectionView
     
     lazy var availabiltiyView = AvailabilityDetailView()
     
@@ -11,12 +11,50 @@ class PlaceDetailedPageViewController: UIViewController {
     
     lazy var ratingView = RatingView(frame: CGRect.zero, rating: 1.45)
     
+    let titleLabel = {
+        let label = UILabel()
+        return label
+    }()
+    
+    let locationLabel = {
+        let label = UILabel()
+        return label
+    }()
     
     let priceLabel = UILabel()
     let footerView = UIView()
     lazy var reserveButton = UIButton()
-
     
+    var fromDate : DateComponents = DateComponents(){
+        didSet{
+            availabiltiyView.contentLabel.text = "\(fromDate.day!)-\(fromDate.month!) '\(fromDate.year! % 100)"
+            
+            availabiltiyView.contentLabel.configSecondaryStyle()
+            
+            priceLabel.text = "\(pricePerDay) x 1 = \(pricePerDay) \(currencyCode)"
+            
+            reserveButton.backgroundColor = .systemPink
+        }
+    }
+    var toDate : DateComponents? = nil{
+        didSet{
+            if let toDate = toDate{
+                
+                availabiltiyView.contentLabel.text = "\(fromDate.day!)-\(fromDate.month!) '\(fromDate.year! % 100) to \(toDate.day!)-\(toDate.month!) '\(toDate.year! % 100)"
+                
+                if let numberOfDays = Calendar.current.dateComponents([.day], from: fromDate.date!, to: toDate.date!).day{
+                    
+                    priceLabel.text = "\(pricePerDay) x \(numberOfDays + 1) = \(pricePerDay * (numberOfDays+1)) \(currencyCode)"
+                }
+            }
+        }
+    }
+    
+
+    //sample details
+    let districtName : String = "Naggar"
+    let pricePerDay : Int = 12000
+    let currencyCode : String = "INR"
     //sample amenity list
     let amenitiesList = [Amenity.Air_Conditioning,Amenity.CarbonMonoxide_Alarm,Amenity.Hot_Tub,Amenity.First_Aid_Kit,Amenity.Air_Conditioning,Amenity.CarbonMonoxide_Alarm,Amenity.Hot_Tub,Amenity.First_Aid_Kit,Amenity.Air_Conditioning,Amenity.CarbonMonoxide_Alarm,Amenity.Hot_Tub,Amenity.First_Aid_Kit]
 //    let amenitiesList = [Amenity.Air_Conditioning]
@@ -25,6 +63,7 @@ class PlaceDetailedPageViewController: UIViewController {
     
     //sample review list
     let reviewList = [Review(userID: "UD101", userName: "Rahul", review: " this is nice course fd dfdvd v dfv df vdfv d v d vd  vdfd d d v d v dfv d vd cf d fd  d f this is nice course fd dfdvd v dfv df vdfv d v d vd  vdfd d d v d v dfv d vd cf d fd  d f this is nice course fd dfdvd v dfv df vdfv d v d vd  vdfd d d v d v dfv d vd cf d fd  d f this is nice course fd dfdvd v dfv df vdfv d v d vd  vdfd d d v d v dfv d vd cf d fd  d f this is nice course fd dfdvd v dfv df vdfv d v d vd  vdfd d d v d v dfv d vd cf d fd  d f v "),Review(userID: "UD101", userName: "Rahul", review: "this is nice course"),Review(userID: "UD101", userName: "Rahul", review: "this is nice course")]
+    
     lazy var reviewView = ReviewView(frame: CGRect.zero, reviewList: reviewList)
     
     
@@ -42,6 +81,20 @@ class PlaceDetailedPageViewController: UIViewController {
         let commonDetailShowView = CommonDetailShowView(frame: CGRect.zero, title: "Safety & Property")
         return commonDetailShowView
     }()
+    
+    
+    
+    
+    init(imageList : [UIImage]){
+        self.placeImagesCollectionView = ImagesDisplayCollectionView(imagesList: imageList)
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -49,31 +102,29 @@ class PlaceDetailedPageViewController: UIViewController {
         
         //sample coloring
         footerView.backgroundColor = .systemBackground
-        reserveButton.backgroundColor = .systemPink
-        view.backgroundColor = .white
+        reserveButton.backgroundColor = .systemGray
+        contentScrollView.backgroundColor = .systemBackground
+        view.backgroundColor = .systemBackground
 
         view.addSubview(contentScrollView)
         contentScrollView.addSubview(placeImagesCollectionView)
-        contentScrollView.addSubview(availabiltiyView)
         contentScrollView.addSubview(ratingView)
         contentScrollView.addSubview(reviewView)
+        contentScrollView.addSubview(availabiltiyView)
         contentScrollView.addSubview(amenitiesView)
         contentScrollView.addSubview(cancellationPolicyView)
         contentScrollView.addSubview(houseRulesView)
         contentScrollView.addSubview(safetyAndPropertyView)
         view.addSubview(footerView)
 
-        
-        setupFooterView()
         setupScrollView()
-        setupPlaceImagesCollectionView()
         setupAvailabilityView()
-        setupRatingView()
-        setupReviewView()
         setupAmentiesView()
         setupCancellationPolicyView()
         setupHouseRulesView()
         setupSafetyAndPropertyView()
+        setupFooterView()
+
     }
 
     private func setupFooterView(){
@@ -96,9 +147,7 @@ class PlaceDetailedPageViewController: UIViewController {
         reserveButton.titleLabel?.font = .systemFont(ofSize: 20, weight: .semibold)
         reserveButton.layer.cornerRadius = 10
         
-        priceLabel.text = "20000 INR"
-        priceLabel.font = .systemFont(ofSize: 15)
-
+        priceLabel.configSecondaryStyle()
     }
     
     private func setupPriceLabel(){
@@ -127,26 +176,7 @@ class PlaceDetailedPageViewController: UIViewController {
     @objc private func reserveButtonOnTapAction(){
         self.navigationController?.pushViewController(ReservationViewController(), animated: true)
     }
-    
-    private func setupPlaceImagesCollectionView(){
-        placeImagesCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            placeImagesCollectionView.topAnchor.constraint(equalTo: contentScrollView.topAnchor),
-            placeImagesCollectionView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
-            placeImagesCollectionView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
-            placeImagesCollectionView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.6)
-        ])
-        
-        placeImagesCollectionView.titleLabel.text = "fsdfd sfds fds ds v"
-        placeImagesCollectionView.locationLabel.text = "njdfsdjksnfkjdsf,ijnfsdfsjknkjndsf,njkdvskjnsvkj"
-        placeImagesCollectionView.ratingLabel.text = "Rating : 5.0"
-        
-        placeImagesCollectionView.titleLabel.numberOfLines = 0
-        placeImagesCollectionView.titleLabel.sizeToFit()
-        placeImagesCollectionView.titleLabel.lineBreakMode = .byTruncatingTail
-        placeImagesCollectionView.titleLabel.adjustsFontSizeToFitWidth = true
-    }
+
     
     private func setupScrollView(){
         
@@ -157,93 +187,66 @@ class PlaceDetailedPageViewController: UIViewController {
             contentScrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             contentScrollView.bottomAnchor.constraint(equalTo: footerView.topAnchor)
         ])
+        
+        let scrollViewChildren = contentScrollView.subviews
+        
+        for childIndex in 0..<scrollViewChildren.count{
+            let child = scrollViewChildren[childIndex]
+            var widthPadingSize = 20.0
+            child.translatesAutoresizingMaskIntoConstraints = false
+            switch childIndex{
+            case 0:
+                NSLayoutConstraint.activate([
+                    child.topAnchor.constraint(equalTo: contentScrollView.topAnchor),
+                    child.heightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.4)
+                ])
+                widthPadingSize = 0
+            case scrollViewChildren.count - 1:
+                NSLayoutConstraint.activate([
+                    child.bottomAnchor.constraint(equalTo: contentScrollView.bottomAnchor)
+                ])
+            default:
+                NSLayoutConstraint.activate([
+                    child.topAnchor.constraint(equalTo: scrollViewChildren[childIndex-1].bottomAnchor,constant: 20),
+                    child.bottomAnchor.constraint(equalTo: scrollViewChildren[childIndex+1].topAnchor,constant: -20)
+    
+                ])
+            }
+            
+            NSLayoutConstraint.activate([
+                child.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor,constant: widthPadingSize),
+                child.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor,constant: -widthPadingSize)
+            ])
+        }
+        
+        contentScrollView.showsVerticalScrollIndicator = false
     }
     
     private func setupAvailabilityView(){
-        availabiltiyView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            availabiltiyView.topAnchor.constraint(equalTo: reviewView.bottomAnchor),
-            availabiltiyView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            availabiltiyView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            availabiltiyView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor,multiplier: 0.1)
-        ])
-        availabiltiyView.setupTapAction(currentViewController: self, viewControllerToPresentOnTap: AvailabilityCalenderViewController())
+        availabiltiyView.setupTapAction(currentViewController: self, viewControllerToPresentOnTap: AvailabilityCalenderViewController(districtName: districtName, pricePerDay: pricePerDay, currencyCode: currencyCode){[weak self](fromDate,toDate) in
+            self?.fromDate = fromDate
+            self?.toDate = toDate
+        })
         
-        
-        availabiltiyView.contentLabel.text = "20 jun '22 - 31 Aug '22"
-        
-        
+        availabiltiyView.contentLabel.text = "choose your dates"
+        availabiltiyView.contentLabel.font = .systemFont(ofSize: 15, weight: .light)
        
     }
-    private func setupRatingView(){
-        ratingView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            
-            ratingView.topAnchor.constraint(equalTo: amenitiesView.bottomAnchor),
-            ratingView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            ratingView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            ratingView.heightAnchor.constraint(equalTo: view.heightAnchor,multiplier: 0.15)
-        
-        ])
-    }
-    
-    private func setupReviewView(){
-        reviewView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            reviewView.topAnchor.constraint(equalTo: ratingView.bottomAnchor),
-            reviewView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            reviewView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            reviewView.heightAnchor.constraint(equalTo: view.heightAnchor,multiplier: 0.35)
-        ])
-    }
-    
+
     private func setupAmentiesView(){
-        amenitiesView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            amenitiesView.topAnchor.constraint(equalTo: placeImagesCollectionView.bottomAnchor),
-            amenitiesView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            amenitiesView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
-        ])
         
         amenitiesView.enableShowAllButtonAction(referenceViewControllerToPresent: self)
       
     }
     private func setupCancellationPolicyView(){
-        cancellationPolicyView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            cancellationPolicyView.topAnchor.constraint(equalTo: availabiltiyView.bottomAnchor),
-            cancellationPolicyView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            cancellationPolicyView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            cancellationPolicyView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.1)
-        ])
-        
         cancellationPolicyView.setViewTapAction(referenceViewController: self, viewControllerToPresent: CancellationPolicyViewController())
     }
     
     func setupHouseRulesView(){
-        houseRulesView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            houseRulesView.topAnchor.constraint(equalTo: cancellationPolicyView.bottomAnchor),
-            houseRulesView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            houseRulesView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            houseRulesView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.1)
-        ])
-        
         houseRulesView.setViewTapAction(referenceViewController: self, viewControllerToPresent: HouseRulesViewController())
     }
     func setupSafetyAndPropertyView(){
-        safetyAndPropertyView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            safetyAndPropertyView.topAnchor.constraint(equalTo: houseRulesView.bottomAnchor),
-            safetyAndPropertyView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            safetyAndPropertyView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            safetyAndPropertyView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.1),
-            safetyAndPropertyView.bottomAnchor.constraint(equalTo: contentScrollView.bottomAnchor),
-        ])
-        
         safetyAndPropertyView.setViewTapAction(referenceViewController: self, viewControllerToPresent: SafetyAndPropertyViewController())
-        
     }
 
 }

@@ -4,10 +4,10 @@ class HouseRulesViewController: UIViewController {
     lazy var headerView = {
         let textLabel = UILabel()
         textLabel.text = "Follow these rules to be a considerate guest and avoid any issues during your stay."
-        textLabel.font = .systemFont(ofSize: 20)
+        textLabel.configSecondaryRegularStyle()
         textLabel.numberOfLines = 0
         let sectionView = SectionView(frame: CGRect.zero, contentView: textLabel, titleText: "House Rules")
-        sectionView.titleView.font = .systemFont(ofSize: 25, weight: .bold)
+        sectionView.titleView.configPrimaryStyle()
         return sectionView
     }()
     
@@ -15,7 +15,7 @@ class HouseRulesViewController: UIViewController {
         let textLabel = UILabel()
         textLabel.text = "No loud music allowed and no Music allowed after ten.\nElectric heater and any sort of things with fire emmiting like candles are not allowed in room or permises."
         textLabel.numberOfLines = 0
-        textLabel.font = .systemFont(ofSize: 20)
+        textLabel.configSecondaryRegularStyle()
         let sectionView = SectionView(frame: CGRect.zero, contentView: textLabel, titleText: "Additional Rules")
         return sectionView
     }()

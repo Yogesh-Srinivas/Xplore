@@ -13,9 +13,17 @@ struct TravelPlaceDetail {
     var isAvailable : Bool
     var price : Price
     var reviewDetail : [Review]
-    var rating : [Rating]
+    var ratingDetail : [Rating]
+    var placeRating : Double{
+        var sumOfRating = 0
+        for rating in ratingDetail{
+            sumOfRating += Int(rating.rating)
+        }
+        return Double(sumOfRating / ratingDetail.count)
+    }
     var amenities : [Amenity]
     let location : Location
     var images : [String]
+    
 }
 

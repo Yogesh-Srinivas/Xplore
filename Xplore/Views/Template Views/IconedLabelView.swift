@@ -1,10 +1,3 @@
-//
-//  IconedLabelView.swift
-//  Xplore
-//
-//  Created by yogesh-pt6219 on 28/03/23.
-//
-
 import UIKit
 
 class IconedLabelView: UIView {
@@ -46,6 +39,7 @@ class IconedLabelView: UIView {
             contentLabel.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor,constant: 20)
         ])
         
+        iconImageView.tintColor = .label
         contentLabel.numberOfLines = 0
     }
 

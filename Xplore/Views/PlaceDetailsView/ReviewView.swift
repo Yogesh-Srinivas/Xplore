@@ -3,15 +3,15 @@ import UIKit
 class ReviewView: UIView {
 
     lazy var titleLabel = UILabel()
+    
     lazy var reviewCollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         let uiCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         return uiCollectionView
     }()
+    
     var reviewList : [Review]
-//    private var viewControllerToPresentOnTap : UIViewController?
-//    private var referenceViewControllerToPresent : UIViewController?
     
     init(frame: CGRect,reviewList : [Review]) {
         self.reviewList = reviewList
@@ -19,6 +19,7 @@ class ReviewView: UIView {
 
         self.addSubview(titleLabel)
         self.addSubview(reviewCollectionView)
+        self.backgroundColor = .systemBackground
         setupTitleLabel()
         setupRatingCollectionView()
     }
@@ -33,11 +34,11 @@ class ReviewView: UIView {
             titleLabel.topAnchor.constraint(equalTo: self.topAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            titleLabel.heightAnchor.constraint(equalTo: self.heightAnchor,multiplier : 0.2),
+            titleLabel.bottomAnchor.constraint(equalTo: reviewCollectionView.topAnchor,constant: -10)
         ])
         titleLabel.text = "Reviews"
         titleLabel.adjustsFontSizeToFitWidth = true
-        titleLabel.font = .boldSystemFont(ofSize: 20)
+        titleLabel.configPrimaryStyle()
        
     }
     func setupRatingCollectionView(){
@@ -46,12 +47,16 @@ class ReviewView: UIView {
             reviewCollectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             reviewCollectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             reviewCollectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            reviewCollectionView.heightAnchor.constraint(equalTo: self.heightAnchor,multiplier : 0.8),
+            reviewCollectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor,constant: 10),
+            reviewCollectionView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height * 0.2)
         ])
         
         reviewCollectionView.register(ReviewCard.self, forCellWithReuseIdentifier: "ReviewCard")
         reviewCollectionView.delegate = self
         reviewCollectionView.dataSource = self
+        
+        reviewCollectionView.showsHorizontalScrollIndicator = false
+        reviewCollectionView.showsVerticalScrollIndicator = false
         
     }
     
@@ -66,8 +71,9 @@ extension ReviewView : UICollectionViewDelegate,UICollectionViewDataSource,UICol
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = reviewCollectionView.dequeueReusableCell(withReuseIdentifier: "ReviewCard", for: indexPath) as! ReviewCard
         
-        cell.profilePicture.image = UIImage(systemName: "person")
+      
         cell.reviewerNameLabel.text = reviewList[indexPath.row].userName
+        
         cell.reviewLabel.text = "        " + reviewList[indexPath.row].review
         
         return cell

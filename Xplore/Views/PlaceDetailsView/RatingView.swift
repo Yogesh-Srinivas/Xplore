@@ -4,14 +4,14 @@ class RatingView: UIView {
     
     let headerLabel = UILabel()
     let contentView = UIView()
-    //    private var viewControllerToPresentOnTap : UIViewController?
-    //    private var referenceViewControllerToPresent : UIViewController?
+   
     var rating : Double
     
     init(frame: CGRect,rating : Double) {
         self.rating = rating
         super.init(frame: frame)
         
+        self.backgroundColor = .systemBackground
         self.addSubview(headerLabel)
         self.addSubview(contentView)
         setupHeaderLabel()
@@ -28,25 +28,28 @@ class RatingView: UIView {
             headerLabel.topAnchor.constraint(equalTo: self.topAnchor),
             headerLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             headerLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            headerLabel.heightAnchor.constraint(equalTo: self.heightAnchor,multiplier : 0.5),
+            headerLabel.bottomAnchor.constraint(equalTo: contentView.topAnchor,constant: -10)
         ])
-        headerLabel.text = "Rating  \(rating)"
+        headerLabel.text = "Rating \(Constants.RATING_STAR)\(Constants.BULLETING_POINT)\(rating)"
         headerLabel.adjustsFontSizeToFitWidth = true
-        headerLabel.font = .boldSystemFont(ofSize: 20)
+        headerLabel.configPrimaryStyle()
         
     }
     func setupContentView(){
         contentView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            contentView.topAnchor.constraint(equalTo: headerLabel.bottomAnchor),
+            contentView.topAnchor.constraint(equalTo: headerLabel.bottomAnchor,constant: 10),
             contentView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            contentView.heightAnchor.constraint(equalTo: self.heightAnchor,multiplier : 0.3),
+            contentView.heightAnchor.constraint(equalTo: self.heightAnchor,multiplier : 0.5),
+            contentView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
         
-        let fullStarImage = UIImage(systemName: "star.fill")
-        let halfStarImage = UIImage(systemName: "star.leadinghalf.fill")
-        let emptyStarImage = UIImage(systemName: "star")
+        let fullStarImage = UIImage(systemName: "star.fill")?.withTintColor(.systemYellow,renderingMode: .alwaysOriginal)
+        
+        let halfStarImage = UIImage(systemName: "star.leadinghalf.fill")?.withTintColor(.systemYellow,renderingMode: .alwaysOriginal)
+        
+        let emptyStarImage = UIImage(systemName: "star")?.withTintColor(.systemYellow,renderingMode: .alwaysOriginal)
         
         let ratingView = UIStackView()
         ratingView.axis = .horizontal

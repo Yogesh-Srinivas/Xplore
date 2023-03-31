@@ -39,7 +39,7 @@ class CommonDetailShowView : UIView {
         ])
         
         titleLabel.text = title
-        titleLabel.font = .boldSystemFont(ofSize: 20)
+        titleLabel.configPrimaryStyle()
         
         rightArrowImage.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([

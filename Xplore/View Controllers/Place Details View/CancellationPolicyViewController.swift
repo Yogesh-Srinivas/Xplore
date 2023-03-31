@@ -36,7 +36,7 @@ class CancellationPolicyViewController: UIViewController {
         ])
         
         titleView.text = "Cancellation Policy"
-        titleView.font = .boldSystemFont(ofSize: 25)
+        titleView.configPrimaryStyle()
     }
     private func setupPolicyContentView(){
         labelWrapper.translatesAutoresizingMaskIntoConstraints = false

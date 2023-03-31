@@ -4,10 +4,10 @@ class SafetyAndPropertyViewController: UIViewController {
     lazy var headerView = {
         let textLabel = UILabel()
         textLabel.text = "Avoid surprises by looking over theses important details about your Host's property."
-        textLabel.font = .systemFont(ofSize: 20)
+        textLabel.configSecondaryRegularStyle()
         textLabel.numberOfLines = 0
         let sectionView = SectionView(frame: CGRect.zero, contentView: textLabel, titleText: "Safety & Property")
-        sectionView.titleView.font = .systemFont(ofSize: 25, weight: .bold)
+        sectionView.titleView.configPrimaryStyle()
         return sectionView
     }()
     

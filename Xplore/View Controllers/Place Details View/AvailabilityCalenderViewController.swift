@@ -1,12 +1,21 @@
 import UIKit
 
 class AvailabilityCalenderViewController: UIViewController {
-    private let NUMBER_OF_SECONDS_IN_A_YEAR = 31536000
     lazy private var calendarView = {
         let calendar = UICalendarView()
         return calendar
     }()
-    private var selctedDates : [DateComponents] = []
+    private var selectedDates : [DateComponents] = []{
+        didSet{
+            
+            headerLabel.text = "\(selectedDates.count) days in \(districtName)"
+            
+            footerLabel.text = "\(currencyCode) \(pricePerDay * selectedDates.count)"
+            
+            saveButton.backgroundColor = selectedDates.count > 0 ? .systemPink : .systemGray
+            
+        }
+    }
     
     var bookedDates : [DateComponents] = [
         DateComponents(era: 1, year: 2023,month: 4,day: 11),
@@ -24,16 +33,32 @@ class AvailabilityCalenderViewController: UIViewController {
     }()
     let footerView = UIView()
 
-
+    let districtName : String
+    let pricePerDay : Int
+    let currencyCode : String
+    let completionHandler : (DateComponents,DateComponents?)->()
+    
+    init(districtName : String,pricePerDay : Int,currencyCode : String,completionHandler: @escaping (_ fromDate : DateComponents,_ toDate : DateComponents?)->()){
+        self.districtName = districtName
+        self.pricePerDay = pricePerDay
+        self.currencyCode = currencyCode
+        self.completionHandler = completionHandler
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         //sample coloring
-        headerLabel.backgroundColor = .systemPink
-        footerView.backgroundColor = .systemPink
-        saveButton.backgroundColor = .gray
+        headerLabel.backgroundColor = .systemBackground
+        footerView.backgroundColor = .systemBackground
+        saveButton.backgroundColor = .systemGray
         saveButton.setTitle("Save", for: .normal)
-
+        self.view.backgroundColor = .systemBackground
         
         view.addSubview(headerLabel)
         view.addSubview(footerView)
@@ -52,7 +77,7 @@ class AvailabilityCalenderViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             
-            calendarView.topAnchor.constraint(equalTo: headerLabel.bottomAnchor),
+           
             calendarView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             calendarView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             calendarView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor,multiplier: 0.8)
@@ -64,7 +89,7 @@ class AvailabilityCalenderViewController: UIViewController {
         calendarView.calendar = Calendar(identifier: .gregorian)
         calendarView.calendar.locale = .current
         
-        calendarView.availableDateRange = DateInterval(start: .now, end: Date(timeIntervalSinceNow: TimeInterval(NUMBER_OF_SECONDS_IN_A_YEAR / 2)))
+        calendarView.availableDateRange = DateInterval(start: .now, end: Date(timeIntervalSinceNow: TimeInterval(Constants.NUMBER_OF_SECONDS_IN_A_YEAR / 2)))
         calendarView.fontDesign = .monospaced
         
         calendarView.selectionBehavior = UICalendarSelectionMultiDate(delegate: self)
@@ -87,6 +112,10 @@ class AvailabilityCalenderViewController: UIViewController {
             headerLabel.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor,multiplier: 0.1)
             
         ])
+        
+       
+        headerLabel.configPrimaryRegularStyle()
+        headerLabel.textAlignment = .center
     }
     
     func setupFooterView(){
@@ -105,17 +134,34 @@ class AvailabilityCalenderViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             footerLabel.topAnchor.constraint(equalTo: footerView.topAnchor),
-            footerLabel.leadingAnchor.constraint(equalTo: footerView.leadingAnchor),
+            footerLabel.leadingAnchor.constraint(equalTo: footerView.leadingAnchor,constant: 20),
             footerLabel.bottomAnchor.constraint(equalTo: footerView.bottomAnchor),
             footerLabel.widthAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.widthAnchor,multiplier: 0.6)
         ])
         
         NSLayoutConstraint.activate([
-            saveButton.topAnchor.constraint(equalTo: footerView.topAnchor),
-            saveButton.trailingAnchor.constraint(equalTo: footerView.trailingAnchor),
-            saveButton.bottomAnchor.constraint(equalTo: footerView.bottomAnchor),
+            saveButton.topAnchor.constraint(equalTo: footerView.topAnchor,constant: 10),
+            saveButton.trailingAnchor.constraint(equalTo: footerView.trailingAnchor,constant: -20),
+            saveButton.bottomAnchor.constraint(equalTo: footerView.bottomAnchor,constant: -10),
             saveButton.widthAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.widthAnchor,multiplier: 0.4)
         ])
+        saveButton.layer.cornerRadius = 10
+        
+        saveButton.addTarget(self, action: #selector(saveButtonOnTapAction), for: .touchDown)
+        
+        footerLabel.configSecondaryStyle()
+    }
+    
+    @objc private func saveButtonOnTapAction(){
+        if selectedDates.count == 1{
+            completionHandler(selectedDates[0],nil)
+            dismiss(animated: true)
+        }else if selectedDates.count > 1{
+            completionHandler(selectedDates[0],selectedDates[selectedDates.count-1])
+            dismiss(animated: true)
+        }else{
+            UIUtils.showAlertMessage(message: "Need to select atleast one Day", viewController: self, durationInSeconds: 2)
+        }
     }
 }
 
@@ -153,7 +199,7 @@ extension AvailabilityCalenderViewController : UICalendarViewDelegate,UICalendar
                     if(self.bookedDates.contains(newDateComponent)){
                         selection.setSelectedDates([], animated: true)
                         
-                        self.selctedDates = []
+                        self.selectedDates = []
                         UIUtils.showAlertMessage(message:  "Some Dates are already Booked ", viewController: self, durationInSeconds: 3)
                         
                         return
@@ -166,19 +212,19 @@ extension AvailabilityCalenderViewController : UICalendarViewDelegate,UICalendar
             }
             
             selection.setSelectedDates(newSelectedDatesList, animated: true)
-            self.selctedDates = newSelectedDatesList
+            self.selectedDates = newSelectedDatesList
             return
-        }else if(!self.selctedDates.contains(dateComponents)){
+        }else if(!self.selectedDates.contains(dateComponents)){
             selection.setSelectedDates([dateComponents], animated: true)
         }
-        self.selctedDates = [dateComponents]
+        self.selectedDates = [dateComponents]
         
     }
    
     
     func multiDateSelection(_ selection: UICalendarSelectionMultiDate, didDeselectDate dateComponents: DateComponents) {
         selection.selectedDates = [dateComponents]
-        self.selctedDates = [dateComponents]
+        self.selectedDates = [dateComponents]
     }
     
     func multiDateSelection(_ selection: UICalendarSelectionMultiDate, canSelectDate dateComponents: DateComponents) -> Bool {
