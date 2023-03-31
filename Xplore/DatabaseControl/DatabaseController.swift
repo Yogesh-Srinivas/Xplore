@@ -1,7 +1,7 @@
 import Foundation
 
 class DatabaseController{
-    let databaseOperationDelegate : DatabaseOperationDelegate
+    let databaseOperationDelegate : DatabaseOperation
     
     init(){
         self.databaseOperationDelegate = DatabaseOperation.shared
@@ -10,8 +10,9 @@ class DatabaseController{
     }
     
     func initializeDatabase(){
+        
         databaseOperationDelegate.initializeDatabase()
         databaseOperationDelegate.loadUserDetailData(DataHold.userDetails)
-        databaseOperationDelegate.loadTravelPlaceDetailData(DataHold.travelPlaceDetails)
+//        databaseOperationDelegate.loadTravelPlaceDetailData(DataHold.travelPlaceDetails)
     }
 }

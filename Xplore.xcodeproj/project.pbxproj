@@ -58,6 +58,12 @@
 		3F50BB4C29D59FC600E0D6D4 /* UILabel+fontConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB4B29D59FC600E0D6D4 /* UILabel+fontConfig.swift */; };
 		3F50BB4E29D5B3A300E0D6D4 /* UITextView+fontConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB4D29D5B3A300E0D6D4 /* UITextView+fontConfig.swift */; };
 		3F50BB5029D6945700E0D6D4 /* UIView+configCustomTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB4F29D6945700E0D6D4 /* UIView+configCustomTheme.swift */; };
+		3F50BB5229D696BA00E0D6D4 /* SqliteWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB5129D696B900E0D6D4 /* SqliteWrapper.swift */; };
+		3F50BB5429D69D4500E0D6D4 /* FieldDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB5329D69D4500E0D6D4 /* FieldDetail.swift */; };
+		3F50BB5629D69D8A00E0D6D4 /* FieldType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB5529D69D8A00E0D6D4 /* FieldType.swift */; };
+		3F50BB5829D6A42500E0D6D4 /* FieldWithValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB5729D6A42500E0D6D4 /* FieldWithValue.swift */; };
+		3F50BB5A29D6A4D900E0D6D4 /* QueryCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB5929D6A4D900E0D6D4 /* QueryCondition.swift */; };
+		3F50BB5C29D6A53500E0D6D4 /* EqualityOperator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB5B29D6A53500E0D6D4 /* EqualityOperator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -114,6 +120,12 @@
 		3F50BB4B29D59FC600E0D6D4 /* UILabel+fontConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+fontConfig.swift"; sourceTree = "<group>"; };
 		3F50BB4D29D5B3A300E0D6D4 /* UITextView+fontConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+fontConfig.swift"; sourceTree = "<group>"; };
 		3F50BB4F29D6945700E0D6D4 /* UIView+configCustomTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+configCustomTheme.swift"; sourceTree = "<group>"; };
+		3F50BB5129D696B900E0D6D4 /* SqliteWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SqliteWrapper.swift; sourceTree = "<group>"; };
+		3F50BB5329D69D4500E0D6D4 /* FieldDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldDetail.swift; sourceTree = "<group>"; };
+		3F50BB5529D69D8A00E0D6D4 /* FieldType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldType.swift; sourceTree = "<group>"; };
+		3F50BB5729D6A42500E0D6D4 /* FieldWithValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldWithValue.swift; sourceTree = "<group>"; };
+		3F50BB5929D6A4D900E0D6D4 /* QueryCondition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryCondition.swift; sourceTree = "<group>"; };
+		3F50BB5B29D6A53500E0D6D4 /* EqualityOperator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EqualityOperator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,6 +186,11 @@
 				3F50BADC29CC4D6000E0D6D4 /* BookedTrip.swift */,
 				3F50BADE29CC4E3600E0D6D4 /* Currency.swift */,
 				3F50BAE229CC7A2200E0D6D4 /* Rating.swift */,
+				3F50BB5329D69D4500E0D6D4 /* FieldDetail.swift */,
+				3F50BB5529D69D8A00E0D6D4 /* FieldType.swift */,
+				3F50BB5729D6A42500E0D6D4 /* FieldWithValue.swift */,
+				3F50BB5929D6A4D900E0D6D4 /* QueryCondition.swift */,
+				3F50BB5B29D6A53500E0D6D4 /* EqualityOperator.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -185,6 +202,7 @@
 				3F50BAC829CB2B9900E0D6D4 /* DatabaseController.swift */,
 				3F50BACA29CB2BB400E0D6D4 /* DatabaseOperation.swift */,
 				3F50BACE29CC46E500E0D6D4 /* DataHold.swift */,
+				3F50BB5129D696B900E0D6D4 /* SqliteWrapper.swift */,
 			);
 			path = DatabaseControl;
 			sourceTree = "<group>";
@@ -382,6 +400,7 @@
 				3F50BB2229D1B04400E0D6D4 /* SafetyAndPropertyViewController.swift in Sources */,
 				3F50BB3929D4657600E0D6D4 /* ImageWithLabelViewTableViewCell.swift in Sources */,
 				3F50BB2629D2A61000E0D6D4 /* IconedLabelView.swift in Sources */,
+				3F50BB5429D69D4500E0D6D4 /* FieldDetail.swift in Sources */,
 				3F50BAD729CC4A2600E0D6D4 /* Location.swift in Sources */,
 				3F50BB2829D2F18400E0D6D4 /* ReservationVC.swift in Sources */,
 				3F50BB0B29D03F4C00E0D6D4 /* AvailabilityDetailView.swift in Sources */,
@@ -393,11 +412,14 @@
 				3F50BACB29CB2BB400E0D6D4 /* DatabaseOperation.swift in Sources */,
 				3F50BACF29CC46E500E0D6D4 /* DataHold.swift in Sources */,
 				3F50BB1E29D1B02300E0D6D4 /* CancellationPolicyViewController.swift in Sources */,
+				3F50BB5229D696BA00E0D6D4 /* SqliteWrapper.swift in Sources */,
 				3F50BB0329CDBBDA00E0D6D4 /* ProfileViewController.swift in Sources */,
 				3F50BB2029D1B03000E0D6D4 /* HouseRulesViewController.swift in Sources */,
 				3F50BB1829D159BD00E0D6D4 /* ReviewCard.swift in Sources */,
 				3F50BB1629D0A36600E0D6D4 /* RatingView.swift in Sources */,
 				3F50BB2C29D406C300E0D6D4 /* StackViewWithCornorLabels.swift in Sources */,
+				3F50BB5829D6A42500E0D6D4 /* FieldWithValue.swift in Sources */,
+				3F50BB5629D69D8A00E0D6D4 /* FieldType.swift in Sources */,
 				3F50BB0E29D09FA500E0D6D4 /* ReviewView.swift in Sources */,
 				3F50BAFF29CDB99000E0D6D4 /* WishListViewController.swift in Sources */,
 				3F50BAD929CC4A4800E0D6D4 /* Price.swift in Sources */,
@@ -422,8 +444,10 @@
 				3F50BAAF29CAFFB900E0D6D4 /* AppDelegate.swift in Sources */,
 				3F50BAD329CC48AE00E0D6D4 /* TravelPlaceDetail.swift in Sources */,
 				3F50BB3D29D53F1700E0D6D4 /* ExploreMainPageViewController.swift in Sources */,
+				3F50BB5C29D6A53500E0D6D4 /* EqualityOperator.swift in Sources */,
 				3F50BB3729D4647F00E0D6D4 /* UIUtils.swift in Sources */,
 				3F50BAB129CAFFB900E0D6D4 /* SceneDelegate.swift in Sources */,
+				3F50BB5A29D6A4D900E0D6D4 /* QueryCondition.swift in Sources */,
 				3F50BAE929CD673300E0D6D4 /* MainTabViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
