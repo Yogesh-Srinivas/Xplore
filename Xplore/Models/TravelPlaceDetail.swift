@@ -19,6 +19,9 @@ struct TravelPlaceDetail {
         for rating in ratingDetail{
             sumOfRating += Int(rating.rating)
         }
+        if ratingDetail.count == 0{
+            return 0
+        }
         return Double(sumOfRating / ratingDetail.count)
     }
     var amenities : [Amenity]

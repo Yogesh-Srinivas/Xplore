@@ -22,7 +22,7 @@ final class SqliteWrapper{
         let filePath = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
             .appendingPathComponent(databaseName)
         
-        print(filePath)
+//        print(filePath)
         
         var db: OpaquePointer? = nil
         if sqlite3_open(filePath.path, &db) != SQLITE_OK
@@ -75,7 +75,7 @@ final class SqliteWrapper{
         executeStament(queryString: queryString, tableName: tableName, operation: .CREATE)
     }
     
-    func insert(into tableName : String,values fieldDetails : [FieldWithValue]){
+    func insert(into tableName : String,values fieldDetails : [FieldWithValue<String>]){
         
         var queryString = "INSERT INTO \(tableName)( "
         
@@ -130,7 +130,7 @@ final class SqliteWrapper{
     }
         
     
-    func update(into tableName : String,set fieldDetails : [FieldWithValue],where conditions : [QueryCondition]?){
+    func update(into tableName : String,set fieldDetails : [FieldWithValue<String>],where conditions : [QueryCondition]?){
         
         var queryString = "UPDATE \(tableName) SET "
         
@@ -202,12 +202,116 @@ final class SqliteWrapper{
         {
             if sqlite3_step(tableStatement) != SQLITE_DONE
             {
-                print("\(tableName) Table could not be \(operation.rawValue)")
+                let errmsg = String(cString: sqlite3_errmsg(dbReference)!)
+                print("\(tableName) Table could not be \(operation.rawValue)\nError Message: \(errmsg)")
             }
             
         }else {
-            print("\(operation.rawValue) TABLE statement for \(tableName) could not be prepared.")
+            let errmsg = String(cString: sqlite3_errmsg(dbReference)!)
+            print("\(operation.rawValue) TABLE statement for \(tableName) could not be prepared.\nError Message: \(errmsg)")
         }
         sqlite3_finalize(tableStatement)
+    }
+    
+    
+    func select(fields : [String]?,from tableName : String,where conditions : [QueryCondition]?) -> [[FieldWithValue<Any>]]{
+        var result : [[FieldWithValue<Any>]] = []
+        var queryString = "SELECT "
+        if let fields = fields{
+            for fieldIndex in 0 ..< fields.count {
+                let field = fields[fieldIndex]
+                queryString += field
+                queryString += fieldIndex == fields.count-1 ? " " : ", "
+            }
+        }else{
+            queryString += " * "
+        }
+        
+        queryString += "FROM \(tableName) "
+        
+        if let conditions = conditions{
+            queryString += "WHERE "
+            
+            for conditionIndex in 0 ..< conditions.count {
+                let condition = conditions[conditionIndex]
+                queryString += condition.lhs + " "
+                queryString += condition.condition.rawValue+" "
+                queryString += condition.rhsType == .TEXT ? "'" : ""
+                queryString += condition.rhs
+                queryString += condition.rhsType == .TEXT ? "'" : ""
+                
+                queryString += conditionIndex == conditions.count-1 ? " " : " AND "            }
+        }
+                
+        var tableStatement: OpaquePointer? = nil
+        
+        if sqlite3_prepare_v2(dbReference, queryString, -1, &tableStatement, nil) == SQLITE_OK
+        {
+            //Selecting from DB
+            
+            while sqlite3_step(tableStatement) == SQLITE_ROW {
+                
+                let columnCount = sqlite3_column_count(tableStatement)
+                
+                var qurriedRow : [FieldWithValue<Any>] = []
+                for rowIndex in 0 ..< columnCount{
+        
+                    if let row = getFieldValue(
+                        tableStatement: tableStatement,
+                        rowIndex: Int(rowIndex)){
+                        qurriedRow.append(row)
+                    }
+                                
+                }
+                result.append(qurriedRow)
+            }
+            
+            
+        }else {
+            let errmsg = String(cString: sqlite3_errmsg(dbReference)!)
+            print("\(SQLiteOperation.SELECT) TABLE statement for \(tableName) could not be prepared.\nError Message: \(errmsg)")
+        }
+        sqlite3_finalize(tableStatement)
+    
+        return result
+    }
+    
+    private func getFieldValue(tableStatement : OpaquePointer?, rowIndex : Int) -> FieldWithValue<Any>?{
+        
+        guard let fieldName = sqlite3_column_name(tableStatement, Int32(rowIndex)) else {
+            return nil
+        }
+        
+        switch sqlite3_column_type(tableStatement, Int32(rowIndex)) {
+            
+        case SQLITE_INTEGER:
+            let fieldValue = sqlite3_column_int(tableStatement, Int32(rowIndex))
+                
+            return FieldWithValue(
+                    fieldName: String(cString: fieldName),
+                    fieldType: .INTEGER,
+                    fieldValue: Int(fieldValue)
+                )
+
+        case SQLITE_FLOAT:
+            let fieldValue =
+                        sqlite3_column_double(tableStatement, Int32(rowIndex))
+            return FieldWithValue(
+                        fieldName: String(cString: fieldName),
+                        fieldType: .REAL,
+                        fieldValue: fieldValue
+                    )
+                            
+        case SQLITE_TEXT:
+            let fieldValue = sqlite3_column_text(tableStatement, Int32(rowIndex))
+           
+            return FieldWithValue(
+                            fieldName: String(cString: fieldName),
+                            fieldType: .TEXT,
+                            fieldValue: String(cString: fieldValue!)
+                        )
+        default:
+            return nil
+        }
     }
 }

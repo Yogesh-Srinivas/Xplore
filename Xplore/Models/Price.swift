@@ -1,5 +1,5 @@
 struct Price{
-    var pricePerNight : Int
+    var pricePerDay : Int
     var taxPercentage : Double
     var currencyCode : String
 }

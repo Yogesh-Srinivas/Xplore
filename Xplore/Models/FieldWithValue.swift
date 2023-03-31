@@ -1,5 +1,7 @@
-struct FieldWithValue{
+struct FieldWithValue<T>{
+    
     let fieldName : String
     let fieldType : FieldType
-    let fieldValue : String
+    let fieldValue : T
+    
 }

@@ -1,6 +1,6 @@
 import Foundation
 
-class DatabaseController{
+final class DatabaseController{
     let databaseOperationDelegate : DatabaseOperation
     
     init(){
@@ -13,6 +13,10 @@ class DatabaseController{
         
         databaseOperationDelegate.initializeDatabase()
         databaseOperationDelegate.loadUserDetailData(DataHold.userDetails)
-//        databaseOperationDelegate.loadTravelPlaceDetailData(DataHold.travelPlaceDetails)
+        databaseOperationDelegate.loadTravelPlaceDetailData(DataHold.travelPlaceDetails)
+    }
+    
+    func getAllPlaceDetail() -> [TravelPlaceDetail]{
+        databaseOperationDelegate.getAllPlacesDetails()
     }
 }

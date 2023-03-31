@@ -1,8 +1,10 @@
 import UIKit
 
 final class ExploreMainPageViewController: UITableViewController {
-
-    let placeDetailsList : [TravelPlaceDetail] = DataHold.travelPlaceDetails
+    
+    let databaseContoller = DatabaseController()
+    
+    var placeDetailsList : [TravelPlaceDetail] = []
     
     let imagesList : [[UIImage]] = [[
         UIImage(named: "test")!, UIImage(named: "test2")!, UIImage(named: "test2")!, UIImage(named: "test")!
@@ -12,6 +14,8 @@ final class ExploreMainPageViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.placeDetailsList = databaseContoller.getAllPlaceDetail()
         
         self.tableView.register(PlaceDetailCardView.self, forCellReuseIdentifier: PlaceDetailCardView.reuseIdentifier)
         
@@ -23,7 +27,7 @@ final class ExploreMainPageViewController: UITableViewController {
     private func configTabelCell(cell : inout PlaceDetailCardView,row : Int){
         cell.addImages(imagesList: imagesList[row])
         
-        let priceAmount = "\(placeDetailsList[row].price.currencyCode) \(placeDetailsList[row].price.pricePerNight)"
+        let priceAmount = "\(placeDetailsList[row].price.currencyCode) \(placeDetailsList[row].price.pricePerDay)"
         
         cell.priceLabelButton.setTitle(priceAmount, for: .normal)
         cell.priceLabelButton.underline()
