@@ -1,7 +1,7 @@
 import Foundation
 
 final class DatabaseController{
-    let databaseOperationDelegate : DatabaseOperation
+    let databaseOperationDelegate : DatabaseOperationDelegate
     
     init(){
         self.databaseOperationDelegate = DatabaseOperation.shared

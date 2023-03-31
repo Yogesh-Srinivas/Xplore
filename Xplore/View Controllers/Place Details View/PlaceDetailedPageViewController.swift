@@ -62,7 +62,7 @@ class PlaceDetailedPageViewController: UIViewController {
     
     
     //sample review list
-    let reviewList = [Review(userID: "UD101", userName: "Rahul", review: " this is nice course fd dfdvd v dfv df vdfv d v d vd  vdfd d d v d v dfv d vd cf d fd  d f this is nice course fd dfdvd v dfv df vdfv d v d vd  vdfd d d v d v dfv d vd cf d fd  d f this is nice course fd dfdvd v dfv df vdfv d v d vd  vdfd d d v d v dfv d vd cf d fd  d f this is nice course fd dfdvd v dfv df vdfv d v d vd  vdfd d d v d v dfv d vd cf d fd  d f this is nice course fd dfdvd v dfv df vdfv d v d vd  vdfd d d v d v dfv d vd cf d fd  d f v "),Review(userID: "UD101", userName: "Rahul", review: "this is nice course"),Review(userID: "UD101", userName: "Rahul", review: "this is nice course")]
+    let reviewList = [Review(userID: "UD101", userName: "Rahul", review: " this is nice course fd dfdvd v dfv df vdfv d v d vd  vdfd d d v d v dfv d vd cf d fd  d f this is nice course fd dfdvd v dfv df vdfv d v d vd  vdfd d d v d v dfv d vd cf d fd  d f this is nice course fd dfdvd v dfv df vdfv d v d vd  vdfd d d v d v dfv d vd cf d fd  d f this is nice course fd dfdvd v dfv df vdfv d v d vd  vdfd d d v d v dfv d vd cf d fd  d f this is nice course fd dfdvd v dfv df vdfv d v d vd  vdfd d d v d v dfv d vd cf d fd  d f v "),Review(userID: "UD101", userName: "Sujatha", review: "this is nice course"),Review(userID: "UD101", userName: "Susi", review: "this is nice course")]
     
     lazy var reviewView = ReviewView(frame: CGRect.zero, reviewList: reviewList)
     
@@ -82,8 +82,17 @@ class PlaceDetailedPageViewController: UIViewController {
         return commonDetailShowView
     }()
     
-    
-    
+    lazy var wishListButton = {
+       
+        let button = UIButton(type: .custom)
+        let image = UIImage(systemName: "heart")?.withRenderingMode(.alwaysTemplate)
+        button.setImage(image, for: .normal)
+        button.tintColor = .systemPink
+        button.contentVerticalAlignment = .fill
+        button.contentHorizontalAlignment = .fill
+        return button
+    }()
+
     
     init(imageList : [UIImage]){
         self.placeImagesCollectionView = ImagesDisplayCollectionView(imagesList: imageList)

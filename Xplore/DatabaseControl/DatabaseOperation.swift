@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-class DatabaseOperation : DatabaseOperationDelegate{
+final class DatabaseOperation : DatabaseOperationDelegate{
     
     static let shared = DatabaseOperation()
     

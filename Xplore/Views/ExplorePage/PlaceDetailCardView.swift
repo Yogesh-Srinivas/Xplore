@@ -93,7 +93,7 @@ class PlaceDetailCardView: UITableViewCell {
             wishListButton.topAnchor.constraint(equalTo: contentView.topAnchor,constant: 15),
             wishListButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -25),
             wishListButton.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.08),
-            wishListButton.heightAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.08),
+            wishListButton.heightAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.06),
      
         ])
     }
