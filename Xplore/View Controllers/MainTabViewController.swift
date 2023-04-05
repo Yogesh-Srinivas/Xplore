@@ -2,7 +2,11 @@ import UIKit
 
 class MainTabBarController: UITabBarController {
     lazy var exploreViewController = {
-        let viewController =  ExploreMainPageViewController()
+        
+        let exploreDBController = DBFactory.getExploreDatabaseController()
+        
+        let viewController =  ExplorePageViewController(databaseController: exploreDBController, isWishListPage: false)
+        
         viewController.tabBarItem = UITabBarItem(
             title: "Explore",
             image: UIImage(systemName: "house"),
@@ -11,7 +15,10 @@ class MainTabBarController: UITabBarController {
     }()
     
     lazy var wishListViewController = {
-        let viewController =  WishListViewController()
+        let exploreDBController = DBFactory.getExploreDatabaseController()
+        
+        let viewController =  ExplorePageViewController(databaseController: exploreDBController, isWishListPage: true)
+        
         viewController.tabBarItem = UITabBarItem(
             title: "WishList",
             image: UIImage(systemName: "heart"),
@@ -48,9 +55,11 @@ class MainTabBarController: UITabBarController {
                 
         self.viewControllers = [
             UINavigationController(rootViewController: exploreViewController) ,
-            wishListViewController,
+            UINavigationController(rootViewController: wishListViewController),
             myTripViewController,
             profileViewController]
+        
+        self.tabBar.tintColor = .systemPink
         
     }
     

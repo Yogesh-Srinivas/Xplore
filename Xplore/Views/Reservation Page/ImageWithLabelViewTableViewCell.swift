@@ -22,7 +22,6 @@ class ImageWithLabelViewTableViewCell: UITableViewCell {
     
     private func setupCell(){
         imageView?.translatesAutoresizingMaskIntoConstraints = false
-        
     }
     
 }

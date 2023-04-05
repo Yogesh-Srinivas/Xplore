@@ -1,7 +1,7 @@
 import UIKit
 
-class ReservationViewController : UITableViewController {
-    struct TripDetails{
+final class ReservationViewController : UITableViewController {
+    private struct TripDetails{
         let placeName : String
         let dates : String
         let numberOfGuestes : Int
@@ -12,7 +12,7 @@ class ReservationViewController : UITableViewController {
         }
     }
     
-    struct PriceDetails{
+    private struct PriceDetails{
         let pricePerDay : Int
         let cleaningFee : Int
         let serviceFee : Int
@@ -24,15 +24,53 @@ class ReservationViewController : UITableViewController {
             return actualPrice + taxes + cleaningFee + serviceFee
         }
         var taxes : Int{
-            return Int(Double(pricePerDay) * Double(numberOfDays) * taxPercentage)
+            return Int(Double(pricePerDay) * Double(numberOfDays) * taxPercentage) / 100
         }
         var actualPrice : Int{
             return pricePerDay * numberOfDays
         }
     }
     
-    let tripDetails = TripDetails(placeName : "Willow way - A Dream Wooden cottage in Himalayas",dates: "1-6 Apr", numberOfGuestes: 1,rating: 4.5,numberOfRating: 7)
-    let priceDetails = PriceDetails(pricePerDay: 12000, cleaningFee: 600, serviceFee: 1500, taxPercentage: 12.5, numberOfDays: 3, currencyCode: "INR")
+    private let tripDetails : TripDetails
+    private let priceDetails : PriceDetails
+    
+    init(fromDate : DateComponents,toDate : DateComponents?,placeDetail : TravelPlaceDetail){
+        
+        
+        var dates = "\(fromDate.day!) \(GeneralUtils.getMonthInString(month: fromDate.month!))"
+        
+        var numberOfDays = 1
+        
+        if let toDate = toDate{
+            dates += " - \(toDate.day!) \(GeneralUtils.getMonthInString(month: toDate.month!))"
+            
+            let numberOfDaysComponent = Calendar.current.dateComponents([.day], from: fromDate.date!, to: (toDate.date!))
+            
+            numberOfDays = numberOfDaysComponent.day!
+        }
+        
+        
+        self.tripDetails = TripDetails(
+            placeName: placeDetail.placeName,
+            dates: dates,
+            numberOfGuestes: 4,
+            rating: placeDetail.placeRating,
+            numberOfRating: placeDetail.ratingDetail.count)
+        
+        self.priceDetails = PriceDetails(
+            pricePerDay: placeDetail.price.pricePerDay,
+            cleaningFee: ControlCenter.cleaningFee,
+            serviceFee: ControlCenter.serviceFee,
+            taxPercentage: placeDetail.price.taxPercentage,
+            numberOfDays: numberOfDays,
+            currencyCode: placeDetail.price.currencyCode)
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         view.backgroundColor = .systemBackground
@@ -88,7 +126,7 @@ class ReservationViewController : UITableViewController {
         config.imageProperties.maximumSize = CGSize(width: 170, height: 125)
         config.imageProperties.cornerRadius = 15
         
-        config.secondaryText = "\(Constants.RATING_STAR) \(tripDetails.rating) (\(tripDetails.numberOfRating))"
+        config.secondaryText =  tripDetails.numberOfRating != 0 ? "\(Constants.RATING_STAR) \(tripDetails.rating) (\(tripDetails.numberOfRating))" : "\(Constants.RATING_STAR) new"
        
         config.text = tripDetails.placeName
         config.textProperties.font = .systemFont(ofSize: 19)
@@ -123,7 +161,7 @@ extension ReservationViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let defaultCell = tableView.dequeueReusableCell(withIdentifier: "ReservationDetailCell", for: indexPath)
-        var config = UIListContentConfiguration.valueCell()
+        var config = UIListContentConfiguration.subtitleCell()
         
         switch indexPath.section{
             case 0:

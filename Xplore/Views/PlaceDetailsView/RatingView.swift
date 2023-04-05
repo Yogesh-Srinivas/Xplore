@@ -31,6 +31,7 @@ class RatingView: UIView {
             headerLabel.bottomAnchor.constraint(equalTo: contentView.topAnchor,constant: -10)
         ])
         headerLabel.text = "Rating \(Constants.RATING_STAR)\(Constants.BULLETING_POINT)\(rating)"
+        
         headerLabel.adjustsFontSizeToFitWidth = true
         headerLabel.configPrimaryStyle()
         

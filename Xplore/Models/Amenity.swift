@@ -12,4 +12,8 @@ enum Amenity : String{
     case CarbonMonoxide_Alarm
     case Fire_Extinguisher
     case First_Aid_Kit
+    
+    static func fromRawValue(rawValue: String) -> Amenity? {
+           return Amenity(rawValue: rawValue)
+    }
 }

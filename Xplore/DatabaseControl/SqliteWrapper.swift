@@ -22,7 +22,7 @@ final class SqliteWrapper{
         let filePath = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
             .appendingPathComponent(databaseName)
         
-//        print(filePath)
+        print(filePath)
         
         var db: OpaquePointer? = nil
         if sqlite3_open(filePath.path, &db) != SQLITE_OK
@@ -36,6 +36,7 @@ final class SqliteWrapper{
     
     func create(tabel tableName : String,values fieldDetails : [FieldDetail],primaryKeys : [String]?){
         
+        //TODO: need to remove this line
         dropTable(table: tableName)
         
         var queryString = "CREATE TABLE IF NOT EXISTS \(tableName)("
@@ -162,7 +163,7 @@ final class SqliteWrapper{
         executeStament(queryString: queryString, tableName: tableName, operation: .UPDATE)
     }
     
-    func delete(into tableName : String,where conditions : [QueryCondition]?){
+    func delete(from tableName : String,where conditions : [QueryCondition]?){
         
         var queryString = "DELETE FROM \(tableName) "
         

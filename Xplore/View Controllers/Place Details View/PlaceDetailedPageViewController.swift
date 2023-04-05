@@ -2,22 +2,45 @@ import UIKit
 
 class PlaceDetailedPageViewController: UIViewController {
 
-        
+    let databaseController : ExploreDBController
+    
     var placeImagesCollectionView : UICollectionView
     
     lazy var availabiltiyView = AvailabilityDetailView()
     
     lazy var contentScrollView = UIScrollView()
     
-    lazy var ratingView = RatingView(frame: CGRect.zero, rating: 1.45)
+    lazy var ratingView = RatingView(frame: CGRect.zero, rating: placeDetails.placeRating)
     
     let titleLabel = {
         let label = UILabel()
+        label.configPrimaryStyle()
+        label.numberOfLines = 0
         return label
     }()
     
     let locationLabel = {
         let label = UILabel()
+        label.numberOfLines = 0
+        label.configSecondaryStyle()
+        
+        let sectionedView = SectionView(frame: .zero, contentView: label, titleText: "Destination")
+        return sectionedView
+    }()
+    
+    let hostLabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.configSecondaryRegularStyle()
+        let sectionedView = SectionView(frame: .zero, contentView: label, titleText: "Hosted By")
+        
+        return sectionedView
+    }()
+    
+    let descriptionLabel = {
+        let label = UILabel()
+        label.configSemiPrimary()
+        label.numberOfLines = 0
         return label
     }()
     
@@ -31,9 +54,17 @@ class PlaceDetailedPageViewController: UIViewController {
             
             availabiltiyView.contentLabel.configSecondaryStyle()
             
-            priceLabel.text = "\(pricePerDay) x 1 = \(pricePerDay) \(currencyCode)"
+            let pricePerDay = placeDetails.price.pricePerDay
+            let currencyCode = placeDetails.price.currencyCode
+            
+            priceLabel.text = "\(pricePerDay) x 1 day(s) = \(pricePerDay) \(currencyCode)"
             
             reserveButton.backgroundColor = .systemPink
+            
+            reserveButton.removeTarget(self, action: #selector(reserveButtonOnTapActionDisabled), for: .touchDown)
+            
+            reserveButton.addTarget(self, action: #selector(reserveButtonOnTapAction), for: .touchDown)
+            
         }
     }
     var toDate : DateComponents? = nil{
@@ -43,29 +74,17 @@ class PlaceDetailedPageViewController: UIViewController {
                 availabiltiyView.contentLabel.text = "\(fromDate.day!)-\(fromDate.month!) '\(fromDate.year! % 100) to \(toDate.day!)-\(toDate.month!) '\(toDate.year! % 100)"
                 
                 if let numberOfDays = Calendar.current.dateComponents([.day], from: fromDate.date!, to: toDate.date!).day{
-                    
-                    priceLabel.text = "\(pricePerDay) x \(numberOfDays + 1) = \(pricePerDay * (numberOfDays+1)) \(currencyCode)"
+                    let pricePerDay = placeDetails.price.pricePerDay
+                    let currencyCode = placeDetails.price.currencyCode
+                    priceLabel.text = "\(pricePerDay) x \(numberOfDays + 1) day(s) = \(pricePerDay * (numberOfDays+1)) \(currencyCode)"
                 }
             }
         }
     }
-    
 
-    //sample details
-    let districtName : String = "Naggar"
-    let pricePerDay : Int = 12000
-    let currencyCode : String = "INR"
-    //sample amenity list
-    let amenitiesList = [Amenity.Air_Conditioning,Amenity.CarbonMonoxide_Alarm,Amenity.Hot_Tub,Amenity.First_Aid_Kit,Amenity.Air_Conditioning,Amenity.CarbonMonoxide_Alarm,Amenity.Hot_Tub,Amenity.First_Aid_Kit,Amenity.Air_Conditioning,Amenity.CarbonMonoxide_Alarm,Amenity.Hot_Tub,Amenity.First_Aid_Kit]
-//    let amenitiesList = [Amenity.Air_Conditioning]
-    lazy var amenitiesView = AmenitiesView(frame: CGRect.zero, amenitiesList: amenitiesList)
+    lazy var amenitiesView = AmenitiesView(frame: CGRect.zero, amenitiesList: placeDetails.amenities)
     
-    
-    //sample review list
-    let reviewList = [Review(userID: "UD101", userName: "Rahul", review: " this is nice course fd dfdvd v dfv df vdfv d v d vd  vdfd d d v d v dfv d vd cf d fd  d f this is nice course fd dfdvd v dfv df vdfv d v d vd  vdfd d d v d v dfv d vd cf d fd  d f this is nice course fd dfdvd v dfv df vdfv d v d vd  vdfd d d v d v dfv d vd cf d fd  d f this is nice course fd dfdvd v dfv df vdfv d v d vd  vdfd d d v d v dfv d vd cf d fd  d f this is nice course fd dfdvd v dfv df vdfv d v d vd  vdfd d d v d v dfv d vd cf d fd  d f v "),Review(userID: "UD101", userName: "Sujatha", review: "this is nice course"),Review(userID: "UD101", userName: "Susi", review: "this is nice course")]
-    
-    lazy var reviewView = ReviewView(frame: CGRect.zero, reviewList: reviewList)
-    
+    lazy var reviewView = ReviewView(frame: CGRect.zero, reviewList: placeDetails.reviewDetail,referenceViewController: self)
     
     lazy var cancellationPolicyView = {
         let commonDetailShowView = CommonDetailShowView(frame: CGRect.zero, title: "Cancellation Policy")
@@ -82,21 +101,23 @@ class PlaceDetailedPageViewController: UIViewController {
         return commonDetailShowView
     }()
     
-    lazy var wishListButton = {
-       
-        let button = UIButton(type: .custom)
-        let image = UIImage(systemName: "heart")?.withRenderingMode(.alwaysTemplate)
-        button.setImage(image, for: .normal)
-        button.tintColor = .systemPink
-        button.contentVerticalAlignment = .fill
-        button.contentHorizontalAlignment = .fill
-        return button
-    }()
-
     
-    init(imageList : [UIImage]){
+    lazy var wishListItem = {
+        let barButtonItem = UIBarButtonItem()
+        barButtonItem.tintColor = .systemPink
+        return barButtonItem
+    }()
+    
+    var placeDetails : TravelPlaceDetail
+
+    let wishListButtonClosure : ()->()
+    
+    init(imageList : [UIImage],placeDetails :  TravelPlaceDetail,databaseController : ExploreDBController,wishListButtonClosure : @escaping ()->()){
         self.placeImagesCollectionView = ImagesDisplayCollectionView(imagesList: imageList)
+        self.wishListButtonClosure = wishListButtonClosure
+        self.placeDetails = placeDetails
         
+        self.databaseController = databaseController
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -108,15 +129,21 @@ class PlaceDetailedPageViewController: UIViewController {
         super.viewDidLoad()
         
         self.tabBarController?.tabBar.isHidden = true
-        
+        navigationItem.rightBarButtonItem = wishListItem
+
         //sample coloring
         footerView.backgroundColor = .systemBackground
         reserveButton.backgroundColor = .systemGray
         contentScrollView.backgroundColor = .systemBackground
         view.backgroundColor = .systemBackground
 
+        
         view.addSubview(contentScrollView)
         contentScrollView.addSubview(placeImagesCollectionView)
+        contentScrollView.addSubview(titleLabel)
+        contentScrollView.addSubview(descriptionLabel)
+        contentScrollView.addSubview(locationLabel)
+        contentScrollView.addSubview(hostLabel)
         contentScrollView.addSubview(ratingView)
         contentScrollView.addSubview(reviewView)
         contentScrollView.addSubview(availabiltiyView)
@@ -126,22 +153,25 @@ class PlaceDetailedPageViewController: UIViewController {
         contentScrollView.addSubview(safetyAndPropertyView)
         view.addSubview(footerView)
 
+
         setupScrollView()
+        setupDetailsLabels()
         setupAvailabilityView()
         setupAmentiesView()
         setupCancellationPolicyView()
         setupHouseRulesView()
         setupSafetyAndPropertyView()
         setupFooterView()
+        setupWishItem()
 
     }
 
     private func setupFooterView(){
         
         footerView.addSubview(priceLabel)
-        setupPriceLabel()
-        
         footerView.addSubview(reserveButton)
+
+        setupPriceLabel()
         setupReserveButton()
                 
         footerView.translatesAutoresizingMaskIntoConstraints = false
@@ -156,6 +186,8 @@ class PlaceDetailedPageViewController: UIViewController {
         reserveButton.titleLabel?.font = .systemFont(ofSize: 20, weight: .semibold)
         reserveButton.layer.cornerRadius = 10
         
+        priceLabel.text = "\(placeDetails.price.pricePerDay) x 1 day(s)  = \(placeDetails.price.pricePerDay) \(placeDetails.price.currencyCode)"
+        priceLabel.adjustsFontSizeToFitWidth = true
         priceLabel.configSecondaryStyle()
     }
     
@@ -165,9 +197,22 @@ class PlaceDetailedPageViewController: UIViewController {
         NSLayoutConstraint.activate([
             priceLabel.leadingAnchor.constraint(equalTo: footerView.leadingAnchor,constant: 10),
             priceLabel.topAnchor.constraint(equalTo: footerView.topAnchor,constant: 10),
-            priceLabel.bottomAnchor.constraint(equalTo: footerView.bottomAnchor,constant: -10)
+            priceLabel.bottomAnchor.constraint(equalTo: footerView.bottomAnchor,constant: -10),
+            priceLabel.trailingAnchor.constraint(equalTo: reserveButton.leadingAnchor,constant: -5)
         ])
         
+    }
+    
+    private func setupDetailsLabels(){
+        self.titleLabel.text = self.placeDetails.placeName
+        
+        descriptionLabel.text = self.placeDetails.description
+        
+        let locationContentLabel = locationLabel.contentView as! UILabel
+        locationContentLabel.text = "\(self.placeDetails.location.address),\n\(self.placeDetails.location.city),\n\(self.placeDetails.location.state), \(self.placeDetails.location.country)."
+        
+        let hostContentLabel = self.hostLabel.contentView as! UILabel
+        hostContentLabel.text = self.placeDetails.hostId
     }
     
     private func setupReserveButton(){
@@ -179,13 +224,16 @@ class PlaceDetailedPageViewController: UIViewController {
             reserveButton.widthAnchor.constraint(equalTo: footerView.widthAnchor, multiplier: 0.3)
         ])
         
-        reserveButton.addTarget(self, action: #selector(reserveButtonOnTapAction), for: .touchDown)
+        reserveButton.addTarget(self, action: #selector(reserveButtonOnTapActionDisabled), for: .touchDown)
     }
     
     @objc private func reserveButtonOnTapAction(){
-        self.navigationController?.pushViewController(ReservationViewController(), animated: true)
+        self.navigationController?.pushViewController(ReservationViewController(fromDate: fromDate, toDate: toDate, placeDetail: placeDetails), animated: true)
     }
-
+    
+    @objc private func reserveButtonOnTapActionDisabled(){
+        UIUtils.showAlertMessage(message: "choose your dates", viewController: self, durationInSeconds: 1.2)
+    }
     
     private func setupScrollView(){
         
@@ -232,13 +280,16 @@ class PlaceDetailedPageViewController: UIViewController {
     }
     
     private func setupAvailabilityView(){
-        availabiltiyView.setupTapAction(currentViewController: self, viewControllerToPresentOnTap: AvailabilityCalenderViewController(districtName: districtName, pricePerDay: pricePerDay, currencyCode: currencyCode){[weak self](fromDate,toDate) in
+        availabiltiyView.setupTapAction(currentViewController: self, viewControllerToPresentOnTap: AvailabilityCalenderViewController(districtName: placeDetails.location.city,
+            pricePerDay: placeDetails.price.pricePerDay,
+            currencyCode: placeDetails.price.currencyCode){[weak self](fromDate,toDate) in
             self?.fromDate = fromDate
             self?.toDate = toDate
         })
         
         availabiltiyView.contentLabel.text = "choose your dates"
-        availabiltiyView.contentLabel.font = .systemFont(ofSize: 15, weight: .light)
+        availabiltiyView.contentLabel.configSecondaryStyle()
+        availabiltiyView.contentLabel.underline()
        
     }
 
@@ -256,6 +307,48 @@ class PlaceDetailedPageViewController: UIViewController {
     }
     func setupSafetyAndPropertyView(){
         safetyAndPropertyView.setViewTapAction(referenceViewController: self, viewControllerToPresent: SafetyAndPropertyViewController())
+    }
+    
+    private func setupWishItem(){
+        
+        
+        if self.placeDetails.isWishListed{
+            wishListItem.action  = #selector(wishListButtonOnTapActionRemoveFromWishList)
+            wishListItem.target = self
+            wishListItem.image = UIImage(systemName: "heart.fill")
+        }else{
+         
+            wishListItem.action  = #selector(wishListButtonOnTapActionAddToWishList)
+            wishListItem.target = self
+            wishListItem.image = UIImage(systemName: "heart")
+        }
+    }
+    
+    @objc private func wishListButtonOnTapActionAddToWishList(){
+        let placeId = placeDetails.placeId
+        
+        databaseController.addToWishList(placeId: placeId)
+        
+        wishListItem.image = UIImage(systemName: "heart.fill")
+        
+        placeDetails.isWishListed = true
+        wishListButtonClosure()
+        
+        wishListItem.action = #selector(wishListButtonOnTapActionRemoveFromWishList)
+       
+    }
+    
+    @objc private func wishListButtonOnTapActionRemoveFromWishList(){
+        
+        let placeId = placeDetails.placeId
+        
+        databaseController.removeFromWishList(placeId: placeId)
+    
+        wishListItem.image = UIImage(systemName: "heart")
+        placeDetails.isWishListed = false
+        wishListButtonClosure()
+        
+        wishListItem.action = #selector(wishListButtonOnTapActionAddToWishList)
     }
 
 }

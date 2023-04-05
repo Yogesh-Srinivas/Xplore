@@ -80,7 +80,8 @@ class AvailabilityCalenderViewController: UIViewController {
            
             calendarView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             calendarView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            calendarView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor,multiplier: 0.8)
+            calendarView.topAnchor.constraint(equalTo: headerLabel.bottomAnchor),
+            calendarView.bottomAnchor.constraint(equalTo: footerView.topAnchor)
         
         ])
         
@@ -235,7 +236,6 @@ extension AvailabilityCalenderViewController : UICalendarViewDelegate,UICalendar
     }
     
     func dateSelection(_ selection: UICalendarSelectionSingleDate, didSelectDate dateComponents: DateComponents?) {
-        print("\(String(describing: dateComponents?.date))")
     }
     
     

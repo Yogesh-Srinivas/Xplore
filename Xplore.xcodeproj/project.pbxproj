@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F0BDAB529DC414300F6638B /* DBFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BDAB429DC414300F6638B /* DBFactory.swift */; };
+		3F0BDAB829DC456900F6638B /* ExploreDBController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BDAB729DC456900F6638B /* ExploreDBController.swift */; };
+		3F0BDABA29DD3DD700F6638B /* PricePresentationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BDAB929DD3DD700F6638B /* PricePresentationViewController.swift */; };
+		3F0BDABE29DD659300F6638B /* ControlCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BDABD29DD659300F6638B /* ControlCenter.swift */; };
+		3F0BDAC029DD921800F6638B /* ReviewPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BDABF29DD921800F6638B /* ReviewPageViewController.swift */; };
+		3F0BDAC229DD978900F6638B /* ReviewTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BDAC129DD978900F6638B /* ReviewTableCell.swift */; };
+		3F0BDAC429DD9AC100F6638B /* UIView+Separator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BDAC329DD9AC100F6638B /* UIView+Separator.swift */; };
 		3F50BAAF29CAFFB900E0D6D4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BAAE29CAFFB900E0D6D4 /* AppDelegate.swift */; };
 		3F50BAB129CAFFB900E0D6D4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BAB029CAFFB900E0D6D4 /* SceneDelegate.swift */; };
 		3F50BAB329CAFFB900E0D6D4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BAB229CAFFB900E0D6D4 /* ViewController.swift */; };
@@ -49,7 +56,7 @@
 		3F50BB3729D4647F00E0D6D4 /* UIUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB3629D4647F00E0D6D4 /* UIUtils.swift */; };
 		3F50BB3929D4657600E0D6D4 /* ImageWithLabelViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB3829D4657600E0D6D4 /* ImageWithLabelViewTableViewCell.swift */; };
 		3F50BB3B29D465AD00E0D6D4 /* LabelWithButtonViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB3A29D465AD00E0D6D4 /* LabelWithButtonViewTableViewCell.swift */; };
-		3F50BB3D29D53F1700E0D6D4 /* ExploreMainPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB3C29D53F1700E0D6D4 /* ExploreMainPageViewController.swift */; };
+		3F50BB3D29D53F1700E0D6D4 /* ExplorePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB3C29D53F1700E0D6D4 /* ExplorePageViewController.swift */; };
 		3F50BB3F29D53FF200E0D6D4 /* ImagesDisplayCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB3E29D53FF200E0D6D4 /* ImagesDisplayCollectionView.swift */; };
 		3F50BB4129D543B300E0D6D4 /* PlaceDetailCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB4029D543B300E0D6D4 /* PlaceDetailCardView.swift */; };
 		3F50BB4329D55CC600E0D6D4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB4229D55CC600E0D6D4 /* Constants.swift */; };
@@ -67,6 +74,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3F0BDAB429DC414300F6638B /* DBFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBFactory.swift; sourceTree = "<group>"; };
+		3F0BDAB729DC456900F6638B /* ExploreDBController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreDBController.swift; sourceTree = "<group>"; };
+		3F0BDAB929DD3DD700F6638B /* PricePresentationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PricePresentationViewController.swift; sourceTree = "<group>"; };
+		3F0BDABD29DD659300F6638B /* ControlCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlCenter.swift; sourceTree = "<group>"; };
+		3F0BDABF29DD921800F6638B /* ReviewPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewPageViewController.swift; sourceTree = "<group>"; };
+		3F0BDAC129DD978900F6638B /* ReviewTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewTableCell.swift; sourceTree = "<group>"; };
+		3F0BDAC329DD9AC100F6638B /* UIView+Separator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Separator.swift"; sourceTree = "<group>"; };
 		3F50BAAB29CAFFB900E0D6D4 /* Xplore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Xplore.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F50BAAE29CAFFB900E0D6D4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3F50BAB029CAFFB900E0D6D4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -111,7 +125,7 @@
 		3F50BB3629D4647F00E0D6D4 /* UIUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIUtils.swift; sourceTree = "<group>"; };
 		3F50BB3829D4657600E0D6D4 /* ImageWithLabelViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageWithLabelViewTableViewCell.swift; sourceTree = "<group>"; };
 		3F50BB3A29D465AD00E0D6D4 /* LabelWithButtonViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelWithButtonViewTableViewCell.swift; sourceTree = "<group>"; };
-		3F50BB3C29D53F1700E0D6D4 /* ExploreMainPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreMainPageViewController.swift; sourceTree = "<group>"; };
+		3F50BB3C29D53F1700E0D6D4 /* ExplorePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplorePageViewController.swift; sourceTree = "<group>"; };
 		3F50BB3E29D53FF200E0D6D4 /* ImagesDisplayCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesDisplayCollectionView.swift; sourceTree = "<group>"; };
 		3F50BB4029D543B300E0D6D4 /* PlaceDetailCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetailCardView.swift; sourceTree = "<group>"; };
 		3F50BB4229D55CC600E0D6D4 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -139,6 +153,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3F0BDAB629DC454100F6638B /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				3F50BACC29CB2DEE00E0D6D4 /* DatabaseOperationDelegate.swift */,
+				3F0BDAB729DC456900F6638B /* ExploreDBController.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
 		3F50BAA229CAFFB900E0D6D4 = {
 			isa = PBXGroup;
 			children = (
@@ -198,11 +221,12 @@
 		3F50BAC329CB012400E0D6D4 /* DatabaseControl */ = {
 			isa = PBXGroup;
 			children = (
-				3F50BACC29CB2DEE00E0D6D4 /* DatabaseOperationDelegate.swift */,
+				3F0BDAB629DC454100F6638B /* Protocols */,
 				3F50BAC829CB2B9900E0D6D4 /* DatabaseController.swift */,
 				3F50BACA29CB2BB400E0D6D4 /* DatabaseOperation.swift */,
 				3F50BACE29CC46E500E0D6D4 /* DataHold.swift */,
 				3F50BB5129D696B900E0D6D4 /* SqliteWrapper.swift */,
+				3F0BDAB429DC414300F6638B /* DBFactory.swift */,
 			);
 			path = DatabaseControl;
 			sourceTree = "<group>";
@@ -213,6 +237,7 @@
 				3F50BAE429CD210500E0D6D4 /* GeneralUtils.swift */,
 				3F50BB3629D4647F00E0D6D4 /* UIUtils.swift */,
 				3F50BB4229D55CC600E0D6D4 /* Constants.swift */,
+				3F0BDABD29DD659300F6638B /* ControlCenter.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -278,6 +303,7 @@
 				3F50BB1B29D19BDE00E0D6D4 /* AmenitiesViewController.swift */,
 				3F50BB0429CDD37400E0D6D4 /* PlaceDetailedPageViewController.swift */,
 				3F50BB2129D1B04400E0D6D4 /* SafetyAndPropertyViewController.swift */,
+				3F0BDABF29DD921800F6638B /* ReviewPageViewController.swift */,
 			);
 			path = "Place Details View";
 			sourceTree = "<group>";
@@ -285,7 +311,8 @@
 		3F50BB3529D4639800E0D6D4 /* Explore Page */ = {
 			isa = PBXGroup;
 			children = (
-				3F50BB3C29D53F1700E0D6D4 /* ExploreMainPageViewController.swift */,
+				3F50BB3C29D53F1700E0D6D4 /* ExplorePageViewController.swift */,
+				3F0BDAB929DD3DD700F6638B /* PricePresentationViewController.swift */,
 			);
 			path = "Explore Page";
 			sourceTree = "<group>";
@@ -307,6 +334,7 @@
 				3F50BB4B29D59FC600E0D6D4 /* UILabel+fontConfig.swift */,
 				3F50BB4D29D5B3A300E0D6D4 /* UITextView+fontConfig.swift */,
 				3F50BB4F29D6945700E0D6D4 /* UIView+configCustomTheme.swift */,
+				3F0BDAC329DD9AC100F6638B /* UIView+Separator.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -320,6 +348,7 @@
 				3F50BB1729D159BD00E0D6D4 /* ReviewCard.swift */,
 				3F50BB1929D1736000E0D6D4 /* AmenitiesView.swift */,
 				3F50BB0A29D03F4C00E0D6D4 /* AvailabilityDetailView.swift */,
+				3F0BDAC129DD978900F6638B /* ReviewTableCell.swift */,
 			);
 			path = PlaceDetailsView;
 			sourceTree = "<group>";
@@ -394,6 +423,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F0BDAC429DD9AC100F6638B /* UIView+Separator.swift in Sources */,
 				3F50BB0529CDD37400E0D6D4 /* PlaceDetailedPageViewController.swift in Sources */,
 				3F50BB4129D543B300E0D6D4 /* PlaceDetailCardView.swift in Sources */,
 				3F50BAC929CB2B9900E0D6D4 /* DatabaseController.swift in Sources */,
@@ -412,18 +442,21 @@
 				3F50BACB29CB2BB400E0D6D4 /* DatabaseOperation.swift in Sources */,
 				3F50BACF29CC46E500E0D6D4 /* DataHold.swift in Sources */,
 				3F50BB1E29D1B02300E0D6D4 /* CancellationPolicyViewController.swift in Sources */,
+				3F0BDABE29DD659300F6638B /* ControlCenter.swift in Sources */,
 				3F50BB5229D696BA00E0D6D4 /* SqliteWrapper.swift in Sources */,
 				3F50BB0329CDBBDA00E0D6D4 /* ProfileViewController.swift in Sources */,
 				3F50BB2029D1B03000E0D6D4 /* HouseRulesViewController.swift in Sources */,
 				3F50BB1829D159BD00E0D6D4 /* ReviewCard.swift in Sources */,
 				3F50BB1629D0A36600E0D6D4 /* RatingView.swift in Sources */,
 				3F50BB2C29D406C300E0D6D4 /* StackViewWithCornorLabels.swift in Sources */,
+				3F0BDAB529DC414300F6638B /* DBFactory.swift in Sources */,
 				3F50BB5829D6A42500E0D6D4 /* FieldWithValue.swift in Sources */,
 				3F50BB5629D69D8A00E0D6D4 /* FieldType.swift in Sources */,
 				3F50BB0E29D09FA500E0D6D4 /* ReviewView.swift in Sources */,
 				3F50BAFF29CDB99000E0D6D4 /* WishListViewController.swift in Sources */,
 				3F50BAD929CC4A4800E0D6D4 /* Price.swift in Sources */,
 				3F50BADF29CC4E3600E0D6D4 /* Currency.swift in Sources */,
+				3F0BDAC029DD921800F6638B /* ReviewPageViewController.swift in Sources */,
 				3F50BB5029D6945700E0D6D4 /* UIView+configCustomTheme.swift in Sources */,
 				3F50BB2429D1D27300E0D6D4 /* SectionView.swift in Sources */,
 				3F50BB1C29D19BDE00E0D6D4 /* AmenitiesViewController.swift in Sources */,
@@ -437,17 +470,20 @@
 				3F50BB4C29D59FC600E0D6D4 /* UILabel+fontConfig.swift in Sources */,
 				3F50BB3F29D53FF200E0D6D4 /* ImagesDisplayCollectionView.swift in Sources */,
 				3F50BB4729D597DF00E0D6D4 /* UIButton+underline.swift in Sources */,
+				3F0BDABA29DD3DD700F6638B /* PricePresentationViewController.swift in Sources */,
 				3F50BAD129CC487C00E0D6D4 /* UserDetail.swift in Sources */,
 				3F50BB0929CF767F00E0D6D4 /* AvailabilityCalenderViewController.swift in Sources */,
 				3F50BB0129CDBBCC00E0D6D4 /* MyTripViewController.swift in Sources */,
 				3F50BB4929D598B400E0D6D4 /* UILabel+underline.swift in Sources */,
 				3F50BAAF29CAFFB900E0D6D4 /* AppDelegate.swift in Sources */,
+				3F0BDAB829DC456900F6638B /* ExploreDBController.swift in Sources */,
 				3F50BAD329CC48AE00E0D6D4 /* TravelPlaceDetail.swift in Sources */,
-				3F50BB3D29D53F1700E0D6D4 /* ExploreMainPageViewController.swift in Sources */,
+				3F50BB3D29D53F1700E0D6D4 /* ExplorePageViewController.swift in Sources */,
 				3F50BB5C29D6A53500E0D6D4 /* EqualityOperator.swift in Sources */,
 				3F50BB3729D4647F00E0D6D4 /* UIUtils.swift in Sources */,
 				3F50BAB129CAFFB900E0D6D4 /* SceneDelegate.swift in Sources */,
 				3F50BB5A29D6A4D900E0D6D4 /* QueryCondition.swift in Sources */,
+				3F0BDAC229DD978900F6638B /* ReviewTableCell.swift in Sources */,
 				3F50BAE929CD673300E0D6D4 /* MainTabViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

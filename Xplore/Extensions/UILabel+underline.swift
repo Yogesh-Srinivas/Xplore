@@ -9,17 +9,12 @@ extension UILabel {
             attributedString.addAttribute(
                 NSAttributedString.Key.underlineStyle,
                 value: NSUnderlineStyle.single.rawValue,
-                range: NSRange(location: 0, length: attributedString.length - 1)
+                range: NSRange(location: 0, length: attributedString.length)
             )
             
             attributedString.addAttribute(            NSAttributedString.Key.underlineColor,
                 value: underLineColor,
-                range: NSRange(location: 0, length: attributedString.length - 1)
-            )
-            
-            attributedString.addAttribute(
-                NSAttributedString.Key.backgroundColor,
-                value: UIColor.label, range: NSRange(location: 0, length: attributedString.length - 1)
+                range: NSRange(location: 0, length: attributedString.length)
             )
             
             attributedText = attributedString

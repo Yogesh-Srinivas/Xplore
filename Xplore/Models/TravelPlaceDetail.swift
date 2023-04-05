@@ -27,6 +27,6 @@ struct TravelPlaceDetail {
     var amenities : [Amenity]
     let location : Location
     var images : [String]
-    
+    var isWishListed : Bool
 }
 

@@ -16,6 +16,7 @@ class PlaceDetailCardView: UITableViewCell {
         button.contentHorizontalAlignment = .fill
         return button
     }()
+    
         
     let titleCardView = UILabel()
     let locationCardView = UILabel()

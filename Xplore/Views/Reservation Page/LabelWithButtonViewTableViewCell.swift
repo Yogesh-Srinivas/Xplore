@@ -1,10 +1,3 @@
-//
-//  LabelWithButtonViewTableViewCell.swift
-//  Xplore
-//
-//  Created by yogesh-pt6219 on 29/03/23.
-//
-
 import UIKit
 
 class LabelWithButtonViewTableViewCell: UITableViewCell {

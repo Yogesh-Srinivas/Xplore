@@ -187,7 +187,7 @@ final class DatabaseOperation : DatabaseOperationDelegate{
         for userDetail in userDetails {
             xploreSqliteWrapper.insert(into: "UserDetail", values: [
                 FieldWithValue(fieldName: "userId", fieldType: .TEXT, fieldValue: userDetail.userId),
-                FieldWithValue(fieldName: "userName", fieldType: .TEXT, fieldValue: userDetail.userId),
+                FieldWithValue(fieldName: "userName", fieldType: .TEXT, fieldValue: userDetail.userName),
                 FieldWithValue(fieldName: "email", fieldType: .TEXT, fieldValue: userDetail.email),
                 FieldWithValue(fieldName: "mobile", fieldType: .TEXT, fieldValue: userDetail.mobile),
                 FieldWithValue(fieldName: "password", fieldType: .TEXT, fieldValue: userDetail.password)
@@ -275,19 +275,6 @@ final class DatabaseOperation : DatabaseOperationDelegate{
             FieldWithValue(fieldName: "currencyCode", fieldType: .TEXT, fieldValue: price.currencyCode)
         ])
        
-        
-        let result = xploreSqliteWrapper.select(
-            fields: nil,
-            from: "Rating",
-            where: [
-                QueryCondition(
-                    lhs: "placeId",
-                    condition: .EQUAL_TO,
-                    rhs: "PD1101",
-                    rhsType: .TEXT)
-            ]
-        )
-//        print(result)
        
     }
     
@@ -313,6 +300,8 @@ final class DatabaseOperation : DatabaseOperationDelegate{
             let placeId = parsedPlaceDetail["placeId"] as! String
             let price = getPriceDetail(placeId: placeId)
             let location = getLocationDetail(placeId: placeId)
+            let isWishListed = isPlaceWishListed(placeId: placeId, userId: GeneralUtils.getUserId())
+            let amenities = getAmenitiesDetail(placeId: placeId)
             
             travelPlaceDetails.append(TravelPlaceDetail(
                 placeId: placeId,
@@ -326,12 +315,14 @@ final class DatabaseOperation : DatabaseOperationDelegate{
                 noOfPeopleAccomodate: numberOfPeopleAccomodate,
                 isAvailable: isPlaceAvailable,
                 price: price,
-                reviewDetail: [],
-                ratingDetail: [],
-                amenities: [],
+                reviewDetail: getReviewDetail(placeId: placeId),
+                ratingDetail: getRatingDetail(placeId: placeId),
+                amenities: amenities,
                 location: location,
-                images: []
+                images: [],
+                isWishListed: isWishListed
             ))
+            
         }
         return travelPlaceDetails
     }
@@ -347,6 +338,7 @@ final class DatabaseOperation : DatabaseOperationDelegate{
         
         return Price(pricePerDay: pricePerDay, taxPercentage: taxPercentage, currencyCode: currencyCode)
     }
+    
     func getLocationDetail(placeId : String) -> Location{
         let loactionDetailsResult = resultParser(
             fields: xploreSqliteWrapper.select(fields : nil, from: "Location", where: [QueryCondition(lhs: "placeId", condition: .EQUAL_TO, rhs: placeId, rhsType: .TEXT)])[0]
@@ -360,12 +352,107 @@ final class DatabaseOperation : DatabaseOperationDelegate{
         return Location(city: city, state: state, country: country, address: address)
     }
     
+    func getAmenitiesDetail(placeId : String) -> [Amenity]{
+        var amenitiesList : [Amenity] = []
+        
+        let amenitiesDetailsResult = xploreSqliteWrapper.select(fields : nil, from: "PlaceAmenities", where: [QueryCondition(lhs: "placeId", condition: .EQUAL_TO, rhs: placeId, rhsType: .TEXT)])
+            
+        
+        for row in amenitiesDetailsResult{
+            
+            let parsedRow = resultParser(fields: row)
+            
+            let amenity = parsedRow["amenity"] as! String
+            
+            if let amenity = Amenity.fromRawValue(rawValue: amenity){
+                amenitiesList.append(amenity)
+            }
+        }
+        
+        return amenitiesList
+    }
+    
+    func getReviewDetail(placeId : String) -> [Review]{
+        var reviewList : [Review] = []
+        
+        let reviewsDetailsResult = xploreSqliteWrapper.select(fields : nil, from: "Review", where: [QueryCondition(lhs: "placeId", condition: .EQUAL_TO, rhs: placeId, rhsType: .TEXT)])
+            
+        
+        for row in reviewsDetailsResult{
+            
+            let parsedRow = resultParser(fields: row)
+            
+            let userId = parsedRow["userId"] as! String
+            let review = parsedRow["review"] as! String
+            
+            if let userName = getUserName(userId: userId){
+                reviewList.append(Review(userID: userId, userName: userName, review: review))
+            }
+        }
+        
+        return reviewList
+    }
+    
+    func getUserName(userId : String) -> String?{
+        let queriedRow = xploreSqliteWrapper.select(fields: ["userName"], from: "UserDetail", where: [QueryCondition(lhs: "userId", condition: .EQUAL_TO, rhs: userId, rhsType: .TEXT)])
+        
+        if queriedRow.count == 0{
+            return nil
+        }
+        
+        let result = resultParser(fields: queriedRow[0])
+        
+        return result["userName"] as? String
+    }
+    
+    func getRatingDetail(placeId : String) -> [Rating]{
+        var ratingList : [Rating] = []
+
+        let ratingDetailsResult = xploreSqliteWrapper.select(fields : nil, from: "Rating", where: [QueryCondition(lhs: "placeId", condition: .EQUAL_TO, rhs: placeId, rhsType: .TEXT)])
+
+
+        for row in ratingDetailsResult{
+
+            let parsedRow = resultParser(fields: row)
+            
+            let rating = parsedRow["rating"] as! Double
+            let userId = parsedRow["userId"] as! String
+            
+            ratingList.append(
+                Rating(
+                    userID: userId,
+                    rating: rating
+                )
+            )
+           
+        }
+
+        return ratingList
+    }
+    
     private func resultParser(fields : [FieldWithValue<Any>]) -> [String : Any]{
         var resultDict : [String : Any] = [:]
         for field in fields{
             resultDict[field.fieldName] = field.fieldValue
         }
         return resultDict
+    }
+    
+    private func isPlaceWishListed(placeId : String,userId : String) -> Bool {
+        let result = xploreSqliteWrapper.select(fields : nil, from: "WishList", where: [QueryCondition(lhs: "placeId", condition: .EQUAL_TO, rhs: placeId, rhsType: .TEXT),QueryCondition(lhs: "userId", condition: .EQUAL_TO, rhs: userId, rhsType: .TEXT)
+            ])
+                                                
+        return result.count > 0
+    }
+    
+    func addToWishList(placeId : String, userId : String){
+        xploreSqliteWrapper.insert(into: "WishList", values: [FieldWithValue<String>(fieldName: "placeId", fieldType: .TEXT, fieldValue: placeId),
+            FieldWithValue<String>(fieldName: "userId", fieldType: .TEXT, fieldValue: userId)])
+    }
+    
+    func removeFromWishList(placeId : String, userId : String){
+        xploreSqliteWrapper.delete(from: "WishList", where: [QueryCondition(lhs: "placeId", condition: .EQUAL_TO, rhs: placeId, rhsType: .TEXT),
+            QueryCondition(lhs: "userId", condition: .EQUAL_TO, rhs: userId, rhsType: .TEXT)])
     }
 
 //    private func loadImageDetail(placeId : String , imageDirPath : String){

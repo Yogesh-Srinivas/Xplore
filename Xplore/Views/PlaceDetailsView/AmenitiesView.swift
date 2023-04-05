@@ -9,7 +9,7 @@ class AmenitiesView: UIView {
     }()
     lazy var showAllAmenitiesButton = {
         let uiButton = UIButton()
-        uiButton.setTitle("Show All Amenties", for: .normal)
+        uiButton.setTitle("Show All Amenities", for: .normal)
         uiButton.setTitleColor(.label, for: .normal)
         uiButton.layer.cornerRadius = 10
         uiButton.underline()

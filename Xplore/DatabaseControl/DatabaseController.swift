@@ -1,6 +1,7 @@
 import Foundation
+import UIKit
 
-final class DatabaseController{
+final class DatabaseController : ExploreDBController{
     let databaseOperationDelegate : DatabaseOperationDelegate
     
     init(){
@@ -19,4 +20,40 @@ final class DatabaseController{
     func getAllPlaceDetail() -> [TravelPlaceDetail]{
         databaseOperationDelegate.getAllPlacesDetails()
     }
+    
+    
+    func addToWishList(placeId : String){
+        databaseOperationDelegate.addToWishList(placeId: placeId, userId: GeneralUtils.getUserId())
+    }
+    
+    func removeFromWishList(placeId : String){
+        databaseOperationDelegate.removeFromWishList(placeId: placeId, userId: GeneralUtils.getUserId())
+    }
+    
+//    func getImages(placeId : String) -> [UIImage]{
+//        var imagesList : [UIImage] = []
+//        
+//        if let imageUrls = DataHold.getImagesList(placeId: placeId){
+//        }
+//        
+//        return []
+//    }
+//    
+//    func getImageFromUrl(){
+//        DispatchQueue.global().async { [placeId] in
+//            for url in imageUrls{
+//                if let imageUrl = URL(string: url){
+//                    if let imageData = try? Data(contentsOf: imageUrl){
+//                        let uniqueImageName = GeneralUtils.generateRandomImageName()
+//                        let docDir = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+//                        let imageDirURL = docDir.appendingPathComponent("\(uniqueImageName).png")
+//                        try! imageData.write(to: imageDirURL)
+//                        
+//                        let imageDirPath = imageDirURL.path
+//                    }
+//                    
+//                }
+//            }
+//        }
+//    }
 }
