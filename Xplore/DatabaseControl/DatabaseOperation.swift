@@ -9,9 +9,10 @@ final class DatabaseOperation : DatabaseOperationDelegate{
     
     private init(){
         xploreSqliteWrapper = SqliteWrapper(for: "Xplore.sqlite")
+        initializeDatabase()
     }
     
-    func initializeDatabase(){
+    private func initializeDatabase(){
         createUserDetailTable()
         createTravelPlaceDetailTable()
         createPlaceAmenitiesTable()
@@ -174,10 +175,9 @@ final class DatabaseOperation : DatabaseOperationDelegate{
     private func createPlaceImagesTable(){
 
         xploreSqliteWrapper.create(tabel: "PlaceImages", values: [
-            FieldDetail(fieldName: "placeId", fieldType: .TEXT, isUnique: false, isNotNull: false, defaultValue: nil),
             FieldDetail(fieldName: "imageUrl", fieldType: .TEXT, isUnique: false, isNotNull: true, defaultValue: nil)
             ],
-            primaryKeys: ["placeId","imageUrl"]
+            primaryKeys: ["imageUrl"]
         )
 
     }
@@ -454,46 +454,22 @@ final class DatabaseOperation : DatabaseOperationDelegate{
         xploreSqliteWrapper.delete(from: "WishList", where: [QueryCondition(lhs: "placeId", condition: .EQUAL_TO, rhs: placeId, rhsType: .TEXT),
             QueryCondition(lhs: "userId", condition: .EQUAL_TO, rhs: userId, rhsType: .TEXT)])
     }
+    
+    func getImageLocalUrl(imageUrl : String) -> Bool{
+        let localUrlRows = xploreSqliteWrapper.select(fields: ["imageUrl"], from: "PlaceImages", where: [QueryCondition(lhs: "imageUrl", condition: .EQUAL_TO, rhs: imageUrl, rhsType: .TEXT)])
+        if localUrlRows.count == 0{
+            return false
+        }
+        return true
+    }
+    
+    func addImageUrl(imageUrl : String){
+        xploreSqliteWrapper.insert(into: "PlaceImages", values: [
+            FieldWithValue<String>(fieldName: "imageUrl", fieldType: .TEXT, fieldValue: imageUrl)
+        ])
+    }
+    
 
-//    private func loadImageDetail(placeId : String , imageDirPath : String){
-//        let insertStatementString = "INSERT INTO PlaceImages(placeId,imageUrl) VALUES (?,?);"
-//
-//        var insertStatement: OpaquePointer? = nil
-//
-//        if sqlite3_prepare_v2(database, insertStatementString, -1, &insertStatement, nil) == SQLITE_OK {
-//            sqlite3_bind_text(insertStatement, 1, (placeId as NSString).utf8String, -1, nil)
-//            sqlite3_bind_text(insertStatement, 2, (imageDirPath as NSString).utf8String, -1, nil)
-//            let result = sqlite3_step(insertStatement)
-//            if result != SQLITE_DONE {
-//                print("Could not insert a row : stmt[ \(insertStatementString) ]")
-//            }
-//        } else {
-//            print("INSERT statement could not be prepared.")
-//        }
-//        sqlite3_finalize(insertStatement)
-//
-//    }
-//
-//    private func getImagesFromUrl(placeId : String ,imageUrls : [String]){
-//        DispatchQueue.global().async { [placeId] in
-//            for url in imageUrls{
-//                if let imageUrl = URL(string: url){
-//                    if let imageData = try? Data(contentsOf: imageUrl){
-//                        let uniqueImageName = GeneralUtils.generateRandomImageName()
-//                        let docDir = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-//                        let imageDirURL = docDir.appendingPathComponent("\(uniqueImageName).png")
-//                        try! imageData.write(to: imageDirURL)
-//
-//                        let imageDirPath = imageDirURL.path
-//
-//                        weak var weakSelf = self
-//                        weakSelf?.loadImageDetail(placeId: placeId, imageDirPath: imageDirPath)
-//
-//                    }
-//                }
-//            }
-//        }
-//    }
 }
 
 

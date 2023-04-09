@@ -1,43 +1,42 @@
 import UIKit
 
-extension UILabel{
-    func configTitleStyle(){
+extension UIListContentConfiguration.TextProperties{
+    mutating func configTitleStyle(){
         self.font = .systemFont(ofSize: 22 + ControlCenter.fontConstant, weight: .bold)
-        self.textColor = .label
     }
     
-    func configPrimaryStyle(){
+    mutating func configPrimaryStyle(){
         self.font = .systemFont(ofSize: 20 + ControlCenter.fontConstant, weight: .bold)
-        self.textColor = .label
+        
     }
     
-    func configPrimaryRegularStyle(){
+    mutating func configPrimaryRegularStyle(){
         self.font = .systemFont(ofSize: 20 + ControlCenter.fontConstant, weight: .medium)
-        self.textColor = .label
+        
     }
     
-    func configSemiPrimary(){
+    mutating func configSemiPrimary(){
         self.font = .systemFont(ofSize: 17 + ControlCenter.fontConstant ,weight: .medium)
-        self.textColor = .label
+        
     }
     
-    func configSecondaryStyle(){
+    mutating func configSecondaryStyle(){
         self.font = .systemFont(ofSize: 15 + ControlCenter.fontConstant, weight: .medium)
-        self.textColor = .label
+        
     }
     
-    func configSecondaryRegularStyle(){
+    mutating func configSecondaryRegularStyle(){
         self.font = .systemFont(ofSize: 15 + ControlCenter.fontConstant, weight: .regular)
-        self.textColor = .label
+        
     }
     
-    func configTertiaryStyle(){
+    mutating func configTertiaryStyle(){
         self.font = .systemFont(ofSize: 12 + ControlCenter.fontConstant, weight: .light)
-        self.textColor = .label
+        
     }
     
-    func configSecondaryFadedStyle(){
+    mutating func configSecondaryFadedStyle(){
         self.font = .systemFont(ofSize: 15 + ControlCenter.fontConstant, weight: .light)
-        self.textColor = .label
+        
     }
 }

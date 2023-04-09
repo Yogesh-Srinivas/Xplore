@@ -4,20 +4,6 @@ import UIKit
 class PricePresentationViewController: UIViewController {
     
     let priceDetails : Price
-    lazy var containerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .systemBackground
-        view.layer.cornerRadius = 16
-        return view
-    }()
-    
-    lazy var dimmedView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .clear
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dimmedViewOnTapAction)))
-        
-        return view
-    }()
     
     lazy var contentStackView = {
         
@@ -39,46 +25,22 @@ class PricePresentationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .clear
-        
-        setupConstraints()
+        view.backgroundColor = .systemBackground
+        view.layer.cornerRadius = 16
         setupStackView()
-    }
-    
-    private func setupConstraints() {
-        
-        view.addSubview(dimmedView)
-        view.addSubview(containerView)
-        
-        dimmedView.translatesAutoresizingMaskIntoConstraints = false
-        containerView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            dimmedView.topAnchor.constraint(equalTo: view.topAnchor),
-            dimmedView.bottomAnchor.constraint(equalTo: containerView.topAnchor),
-            dimmedView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            dimmedView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
-        
-        
-        NSLayoutConstraint.activate([
-            containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-             containerView.widthAnchor.constraint(equalTo: view.widthAnchor)
-        ])
-        
     }
     
     private func setupStackView(){
         
-        containerView.addSubview(contentStackView)
+        view.addSubview(contentStackView)
         
         contentStackView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            contentStackView.topAnchor.constraint(equalTo: containerView.topAnchor,constant:20),
-            contentStackView.bottomAnchor.constraint(equalTo: containerView.safeAreaLayoutGuide.bottomAnchor,constant: -10),
-            contentStackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor,constant: 10),
-            contentStackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor,constant: -10)
+            contentStackView.topAnchor.constraint(equalTo: view.topAnchor,constant:20),
+            contentStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -10),
+            contentStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 10),
+            contentStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -10)
         ])
         
         let currencyCodeView = StackViewWithCornorLabels(frame: .zero)

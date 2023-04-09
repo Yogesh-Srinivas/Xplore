@@ -116,7 +116,15 @@ class DataHold{
                             Amenity.Smoke_Alarm
                            ],
                 location: Location(city: "Chennai", state: "TN", country: "India", address: "23/24 big map street"),
-                images: ["https://cdn.pixabay.com/photo/2020/04/17/12/28/pool-5055009_1280.jpg","https://cdn.pixabay.com/photo/2020/04/17/12/28/pool-5055009_1280.jpg"],
+                images: [
+                    "https://cdn.pixabay.com/photo/2020/04/17/12/28/pool-5055009_1280.jpg",
+                    "https://cdn.pixabay.com/photo/2016/04/15/11/45/hotel-1330841__480.jpg",
+                    "https://cdn.pixabay.com/photo/2013/10/12/18/05/villa-194671__480.jpg",
+                    "https://cdn.pixabay.com/photo/2017/03/30/00/24/villa-2186906__480.jpg",
+                    "https://cdn.pixabay.com/photo/2019/10/17/02/39/villa-4555818__480.jpg",
+                    "https://cdn.pixabay.com/photo/2016/03/05/09/51/home-1237469__480.jpg",
+                    "https://cdn.pixabay.com/photo/2017/04/18/12/57/residence-2238987__480.jpg"
+                ],
                 isWishListed: true
             )
         )
@@ -138,7 +146,15 @@ class DataHold{
                 ratingDetail : [Rating(userID: "1102", rating: 5.0)],
                 amenities: [Amenity.Air_Conditioning,Amenity.CarbonMonoxide_Alarm,Amenity.First_Aid_Kit],
                 location: Location(city: "Chennai", state: "Kerala", country: "India", address: "475, Raily watson street, Vadakalaur"),
-                images: ["https://cdn.pixabay.com/photo/2020/04/17/12/28/pool-5055009_1280.jpg","https://cdn.pixabay.com/photo/2020/04/17/12/28/pool-5055009_1280.jpg"],
+                images: [
+                    "https://cdn.pixabay.com/photo/2016/09/18/03/28/travel-1677347__480.jpg",
+                    "https://cdn.pixabay.com/photo/2020/03/21/20/03/real-estate-4955087__480.jpg",
+                    "https://cdn.pixabay.com/photo/2020/03/21/20/03/real-estate-4955086__480.jpg",
+                    "https://cdn.pixabay.com/photo/2015/01/15/10/55/villa-600176__480.jpg",
+                    "https://cdn.pixabay.com/photo/2017/01/07/17/48/interior-1961070__480.jpg",
+                    "https://cdn.pixabay.com/photo/2016/08/26/15/06/home-1622401__480.jpg",
+                    "https://cdn.pixabay.com/photo/2014/08/11/21/40/bedroom-416062__480.jpg"
+                ],
                 isWishListed: true
             )
         )

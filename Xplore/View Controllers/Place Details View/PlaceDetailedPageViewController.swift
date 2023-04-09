@@ -4,7 +4,7 @@ class PlaceDetailedPageViewController: UIViewController {
 
     let databaseController : ExploreDBController
     
-    var placeImagesCollectionView : UICollectionView
+    var placeImagesCollectionView  = ImagesDisplayCollectionView()
     
     lazy var availabiltiyView = AvailabilityDetailView()
     
@@ -112,13 +112,16 @@ class PlaceDetailedPageViewController: UIViewController {
 
     let wishListButtonClosure : ()->()
     
-    init(imageList : [UIImage],placeDetails :  TravelPlaceDetail,databaseController : ExploreDBController,wishListButtonClosure : @escaping ()->()){
-        self.placeImagesCollectionView = ImagesDisplayCollectionView(imagesList: imageList)
+    init(placeDetails :  TravelPlaceDetail,databaseController : ExploreDBController,wishListButtonClosure : @escaping ()->()){
+
+        
         self.wishListButtonClosure = wishListButtonClosure
         self.placeDetails = placeDetails
-        
         self.databaseController = databaseController
+        
         super.init(nibName: nil, bundle: nil)
+        
+        self.placeImagesCollectionView.imageUrls = placeDetails.images
     }
     
     required init?(coder: NSCoder) {
@@ -225,6 +228,7 @@ class PlaceDetailedPageViewController: UIViewController {
         ])
         
         reserveButton.addTarget(self, action: #selector(reserveButtonOnTapActionDisabled), for: .touchDown)
+    
     }
     
     @objc private func reserveButtonOnTapAction(){

@@ -161,7 +161,7 @@ extension ReservationViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let defaultCell = tableView.dequeueReusableCell(withIdentifier: "ReservationDetailCell", for: indexPath)
-        var config = UIListContentConfiguration.subtitleCell()
+        var config = UIListContentConfiguration.valueCell()
         
         switch indexPath.section{
             case 0:

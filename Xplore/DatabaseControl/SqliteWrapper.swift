@@ -92,7 +92,7 @@ final class SqliteWrapper{
         var insertStatement: OpaquePointer? = nil
         
         let prepareResult = sqlite3_prepare_v2(dbReference, queryString, -1, &insertStatement, nil)
-        
+    
         if prepareResult != SQLITE_OK{
             print("INSERT statement could not be prepared.")
             return

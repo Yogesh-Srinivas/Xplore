@@ -201,7 +201,7 @@ extension AvailabilityCalenderViewController : UICalendarViewDelegate,UICalendar
                         selection.setSelectedDates([], animated: true)
                         
                         self.selectedDates = []
-                        UIUtils.showAlertMessage(message:  "Some Dates are already Booked ", viewController: self, durationInSeconds: 3)
+                        UIUtils.showAlertMessage(message:  "Some Dates are already Booked ", viewController: self, durationInSeconds: 1.5)
                         
                         return
                     }

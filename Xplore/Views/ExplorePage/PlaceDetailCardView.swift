@@ -25,7 +25,7 @@ class PlaceDetailCardView: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         
-        self.imagesCollectionView = ImagesDisplayCollectionView(imagesList: [])
+        self.imagesCollectionView = ImagesDisplayCollectionView()
         
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -42,8 +42,8 @@ class PlaceDetailCardView: UITableViewCell {
     }
     
     
-    func addImages(imagesList : [UIImage]){
-        self.imagesCollectionView.imagesList = imagesList
+    func addImages(imageUrls : [String]){
+        self.imagesCollectionView.imageUrls = imageUrls
     }
     
     required init?(coder: NSCoder) {

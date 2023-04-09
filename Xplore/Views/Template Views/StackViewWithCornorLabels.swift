@@ -29,19 +29,12 @@ class StackViewWithCornorLabels: UIStackView {
         self.axis = .horizontal
         self.distribution = .equalCentering
         
+        leadingLabel.numberOfLines = 0
+        trailingLabel.numberOfLines = 0
+        
         trailingLabel.textAlignment = .right
+
     }
     
-    func setStackViewContent(leadingLabelText : String,leadingLabelFontSize : CGFloat,leadingLabelFontWeight : UIFont.Weight, trailingLabelText : String,trailingLabelFontSize : CGFloat,trailingLabelFontWeight : UIFont.Weight)-> UIStackView{
-        let stackView = StackViewWithCornorLabels(frame: .zero)
-        
-        stackView.leadingLabel.text = leadingLabelText
-        stackView.leadingLabel.font = .systemFont(ofSize : leadingLabelFontSize  ,weight: leadingLabelFontWeight)
-        
-        stackView.trailingLabel.text = trailingLabelText
-        stackView.trailingLabel.font = .systemFont(ofSize: trailingLabelFontSize,weight: trailingLabelFontWeight)
-        
-        return self
-    }
 
 }

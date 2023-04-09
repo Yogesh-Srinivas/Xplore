@@ -25,11 +25,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         
         let mainTabBarController = MainTabBarController()
-        
+        mainTabBarController.selectedIndex = 2
         window?.rootViewController = mainTabBarController
-        
-        DatabaseController()
-        
         
     }
 

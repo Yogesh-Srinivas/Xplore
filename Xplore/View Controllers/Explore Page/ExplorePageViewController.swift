@@ -5,12 +5,6 @@ final class ExplorePageViewController: UITableViewController {
     let databaseController : ExploreDBController
     
     var placeDetailsList : [TravelPlaceDetail] = []
-        
-    let imagesList : [[UIImage]] = [[
-        UIImage(named: "test")!, UIImage(named: "test2")!, UIImage(named: "test2")!, UIImage(named: "test")!
-        ],[
-            UIImage(named: "test2")!, UIImage(named: "test2")!, UIImage(named: "test")!, UIImage(named: "test")!
-            ]]
     
     let isWishListedPage : Bool
     
@@ -48,7 +42,8 @@ final class ExplorePageViewController: UITableViewController {
     }
     
     private func configTabelCell(cell : inout PlaceDetailCardView,row : Int){
-        cell.addImages(imagesList: imagesList[row])
+        
+        cell.addImages(imageUrls: placeDetailsList[row].images)
         
         let priceAmount = "\(placeDetailsList[row].price.currencyCode) \(placeDetailsList[row].price.pricePerDay)"
         
@@ -92,10 +87,11 @@ final class ExplorePageViewController: UITableViewController {
     }
     
     @objc private func priceButtonOnTapAction(_ sender: UIButton){
-        
-        self.modalPresentationStyle = .fullScreen
-        let priceVC = PricePresentationViewController(priceDetails: placeDetailsList[sender.tag].price)
-        self.present(priceVC, animated: true)
+ 
+        let nav = UINavigationController(rootViewController: PricePresentationViewController(priceDetails: placeDetailsList[sender.tag].price))
+        nav.modalPresentationStyle = .formSheet
+        nav.sheetPresentationController?.detents = [.custom(resolver: { _ in 200 })]
+        present(nav, animated: true)
     }
     
     @objc private func wishListButtonOnTapActionAddToWishList(_ sender: UIButton){
@@ -123,6 +119,7 @@ final class ExplorePageViewController: UITableViewController {
         if isWishListedPage{
             placeDetailsList.remove(at: sender.tag)
             tableView.deleteRows(at: [IndexPath(row: sender.tag, section: 0)], with: .fade)
+            tableView.reloadData()
             return
         }
     
@@ -169,7 +166,6 @@ extension ExplorePageViewController {
         
         self.navigationController?.pushViewController(
             PlaceDetailedPageViewController(
-                imageList: imagesList[indexPath.row],
                 placeDetails: placeDetailsList[indexPath.row],
                 databaseController: databaseController,wishListButtonClosure : wishListButtonClosure),
                 animated: true)
