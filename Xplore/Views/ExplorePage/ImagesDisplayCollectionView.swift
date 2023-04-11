@@ -2,8 +2,12 @@ import UIKit
 
 class ImagesDisplayCollectionView: UICollectionView {
         
-    var imageUrls : [String]  = []
-    var images : [UIImage?] = []
+    var imageUrls : [String]  = []{
+        didSet{
+            self.reloadData()
+        }
+    }
+    private var images : [UIImage?] = []
     var databaseController : FetchableImage!
     
     init() {

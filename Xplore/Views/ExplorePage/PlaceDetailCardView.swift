@@ -4,7 +4,7 @@ class PlaceDetailCardView: UITableViewCell {
     
     static let reuseIdentifier = "PlaceDetailCardView"
     
-    var imagesCollectionView : ImagesDisplayCollectionView
+    private var imagesCollectionView : ImagesDisplayCollectionView
     
     let wishListButton = {
        
@@ -39,12 +39,16 @@ class PlaceDetailCardView: UITableViewCell {
         
         contentView.addSubview(wishListButton)
         setupWishButton()
+        
+        
     }
     
     
     func addImages(imageUrls : [String]){
         self.imagesCollectionView.imageUrls = imageUrls
     }
+    
+    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

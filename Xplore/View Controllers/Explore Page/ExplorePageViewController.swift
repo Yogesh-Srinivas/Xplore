@@ -1,17 +1,16 @@
 import UIKit
 
-final class ExplorePageViewController: UITableViewController {
+class ExplorePageViewController: UITableViewController {
     
-    let databaseController : ExploreDBController
+    let databaseController : PlaceDBController
     
     var placeDetailsList : [TravelPlaceDetail] = []
-    
-    let isWishListedPage : Bool
-    
-    init(databaseController : ExploreDBController,isWishListPage : Bool){
+        
+    init(databaseController : PlaceDBController){
         
         self.databaseController = databaseController
-        self.isWishListedPage = isWishListPage
+        self.placeDetailsList = databaseController.getAllPlaceDetail()
+
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -30,12 +29,6 @@ final class ExplorePageViewController: UITableViewController {
         self.tabBarController?.tabBar.isHidden = false
         
         self.placeDetailsList = databaseController.getAllPlaceDetail()
-        
-        if self.isWishListedPage{
-            self.placeDetailsList.removeAll{
-                placeDetail in !placeDetail.isWishListed
-            }
-        }
         
         self.tableView.reloadData()
 
@@ -110,18 +103,11 @@ final class ExplorePageViewController: UITableViewController {
        
     }
     
-    @objc private func wishListButtonOnTapActionRemoveFromWishList(_ sender: UIButton){
+    @objc func wishListButtonOnTapActionRemoveFromWishList(_ sender: UIButton){
         
         
         let placeId = placeDetailsList[sender.tag].placeId
         databaseController.removeFromWishList(placeId: placeId)
-        
-        if isWishListedPage{
-            placeDetailsList.remove(at: sender.tag)
-            tableView.deleteRows(at: [IndexPath(row: sender.tag, section: 0)], with: .fade)
-            tableView.reloadData()
-            return
-        }
     
         sender.setImage(UIImage(systemName: "heart"), for: .normal)
         placeDetailsList[sender.tag].isWishListed = false
@@ -130,7 +116,6 @@ final class ExplorePageViewController: UITableViewController {
         sender.removeTarget(self, action: #selector(wishListButtonOnTapActionRemoveFromWishList(_:)), for: .touchUpInside)
         
         sender.addTarget(self, action: #selector(wishListButtonOnTapActionAddToWishList(_:)), for: .touchUpInside)
-        
         
     }
     
@@ -164,14 +149,15 @@ extension ExplorePageViewController {
 
         }
         
+        let placeDetailedPageViewController =  UnreservedPlaceDetailsViewController(
+            placeDetails: placeDetailsList[indexPath.row],
+            databaseController: databaseController,wishListButtonClosure : wishListButtonClosure)
+                
         self.navigationController?.pushViewController(
-            PlaceDetailedPageViewController(
-                placeDetails: placeDetailsList[indexPath.row],
-                databaseController: databaseController,wishListButtonClosure : wishListButtonClosure),
+           placeDetailedPageViewController,
                 animated: true)
         
         tableView.deselectRow(at: indexPath, animated: true)
-
     }
     
 }

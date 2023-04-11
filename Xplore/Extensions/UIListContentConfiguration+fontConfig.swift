@@ -1,7 +1,13 @@
 import UIKit
 
 extension UIListContentConfiguration.TextProperties{
+    
     mutating func configTitleStyle(){
+        self.font = .systemFont(ofSize: 25 + ControlCenter.fontConstant, weight: .bold)
+        
+    }
+    
+    mutating func configHeadingStyle(){
         self.font = .systemFont(ofSize: 22 + ControlCenter.fontConstant, weight: .bold)
     }
     

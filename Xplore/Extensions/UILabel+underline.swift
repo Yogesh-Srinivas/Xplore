@@ -20,4 +20,19 @@ extension UILabel {
             attributedText = attributedString
         }
     }
+    
+    func removeUnderline(){
+        if let textString = self.text {
+
+            let attributedString = NSMutableAttributedString(string: textString)
+            
+            attributedString.addAttribute(
+                NSAttributedString.Key.underlineStyle,
+                value: 0,
+                range: NSRange(location: 0, length: attributedString.length)
+            )
+            
+            attributedText = attributedString
+        }
+    }
 }

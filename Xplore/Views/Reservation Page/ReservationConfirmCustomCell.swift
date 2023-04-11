@@ -9,7 +9,7 @@ class ReservationConfirmCustomCell: UITableViewCell {
     
     lazy var primaryLabel = {
         let label = UILabel()
-        label.configTitleStyle()
+        label.configHeadingStyle()
         label.numberOfLines = 0
         return label
     }()

@@ -1,7 +1,7 @@
 import UIKit
 
 final class DBFactory{
-    static func getExploreDatabaseController() -> ExploreDBController{
+    static func getPlaceDatabaseController() -> PlaceDBController{
         return DatabaseController.shared
     }
     

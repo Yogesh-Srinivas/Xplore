@@ -51,7 +51,9 @@ class AvailabilityDetailView: UIView {
     func setupTapAction(currentViewController : UIViewController , viewControllerToPresentOnTap : UIViewController){
         self.viewControllerToPresentOnTap = viewControllerToPresentOnTap
         self.referenceViewControllerToPresent = currentViewController
-        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(viewOnTap)))
+        
+        self.contentLabel.isUserInteractionEnabled = true
+        self.contentLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(viewOnTap)))
     }
     
     @objc private func viewOnTap(){

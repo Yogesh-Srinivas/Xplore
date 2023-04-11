@@ -3,8 +3,8 @@ import Foundation
 struct BookedTrip{
     let userId : String
     let placeId : String
-    let BookedDateFrom : Date
-    let BookedDateTo : Date
+    let BookedDateFrom : DateComponents
+    let BookedDateTo : DateComponents?
     let pricePerNight : Int
     let taxPercentage : Double
     let currencyCode : String

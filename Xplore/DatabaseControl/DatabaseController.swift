@@ -2,7 +2,7 @@ import Foundation
 import UIKit
 import SystemConfiguration
 
-final class DatabaseController : ExploreDBController,FetchableImage{
+final class DatabaseController : PlaceDBController,FetchableImage{
     
     let databaseOperationDelegate : DatabaseOperationDelegate
     

@@ -10,10 +10,10 @@ final class ReservationConfirmationViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-    
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3){
-            
-        }
+        self.navigationController?.navigationBar.isHidden = true
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 3){
+//
+//        }
         self.view.setCustomBackground()
         
         tableView.dataSource = self
@@ -101,6 +101,11 @@ final class ReservationConfirmationViewController: UITableViewController {
             cheersButton.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor,constant: -10)
         ])
         
+        cheersButton.addTarget(self, action: #selector(cheersButtonOnTapAction), for: .touchDown)
+    }
+    
+    @objc private func cheersButtonOnTapAction(){
+        self.navigationController?.popToRootViewController(animated: true)
     }
 }
 
@@ -146,8 +151,7 @@ extension ReservationConfirmationViewController {
     override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         nil
     }
-    
-//    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        UITableView.automaticDimension
-//    }
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        UITableView.automaticDimension
+    }
 }

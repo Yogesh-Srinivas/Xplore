@@ -132,13 +132,23 @@ final class ReservationViewController : UITableViewController {
         config.textProperties.font = .systemFont(ofSize: 19)
     }
     private func configFooterCell(_ footerCell : inout LabelWithButtonViewTableViewCell){
+        
         footerCell.contentLabel.text = "By selecting the below button I agree to the Host's House Rules,Ground rules for guest and I'm responsible for the damage."
         
         footerCell.bottomButton.setTitle("Confirm and Reserve", for: .normal)
         
+        footerCell.bottomButton.addTarget(self, action: #selector(reserveBottonOnTapAction), for: .touchDown)
+        
         //sample coloring
         footerCell.bottomButton.backgroundColor = .systemPink
+        
+        footerCell.isUserInteractionEnabled = true
     }
+    
+    @objc private func reserveBottonOnTapAction(){
+        self.navigationController?.pushViewController(ReservationConfirmationViewController(), animated: true)
+    }
+    
 
     
 }
@@ -202,7 +212,7 @@ extension ReservationViewController {
     override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         nil
     }
-    
+
     
 }
 

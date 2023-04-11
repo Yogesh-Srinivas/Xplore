@@ -4,6 +4,44 @@ class DataHold{
     static let userDetails : [UserDetail] = getUserDetail()
     static let travelPlaceDetails : [TravelPlaceDetail] = getTravelPlaceDetails()
     
+    
+    static let bookedTrips = getBookedTrips()
+    
+    static private func getBookedTrips() -> [BookedTrip]{
+        var bookedTrips : [BookedTrip] = []
+        
+        let fromDate = DateComponents(calendar: .current,timeZone: .current,era: 1,year: 2023,month: 4, day: 12)
+        let toDate = DateComponents(calendar: .current,timeZone: .current,era: 1,year: 2023,month: 5, day: 10)
+        
+        bookedTrips.append(
+            BookedTrip(
+                userId: GeneralUtils.getUserId(),
+                placeId: "PD1101",
+                BookedDateFrom: fromDate,
+                BookedDateTo: toDate,
+                pricePerNight: 14500,
+                taxPercentage: 12.5,
+                currencyCode: "INR",
+                isVisited: true
+            )
+        )
+        
+        bookedTrips.append(
+            BookedTrip(
+                userId: GeneralUtils.getUserId(),
+                placeId: "PD1102",
+                BookedDateFrom: fromDate,
+                BookedDateTo: toDate,
+                pricePerNight: 14500,
+                taxPercentage: 12.5,
+                currencyCode: "INR",
+                isVisited: false
+            )
+        )
+        
+        return bookedTrips
+    }
+    
     static private func getUserDetail() -> [UserDetail]{
         var userDetails : [UserDetail] = []
         

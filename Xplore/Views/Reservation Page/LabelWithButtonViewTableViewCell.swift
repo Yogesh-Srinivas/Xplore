@@ -16,23 +16,23 @@ class LabelWithButtonViewTableViewCell: UITableViewCell {
     }
     
     private func setupCell(){
-        self.addSubview(bottomButton)
-        self.addSubview(contentLabel)
+        self.contentView.addSubview(bottomButton)
+        self.contentView.addSubview(contentLabel)
         
         contentLabel.numberOfLines = 0
         contentLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            contentLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor,constant: -15),
-            contentLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor,constant: 15),
-            contentLabel.topAnchor.constraint(equalTo: self.topAnchor,constant: 20),
+            contentLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor,constant: -15),
+            contentLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor,constant: 15),
+            contentLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor,constant: 20),
             contentLabel.bottomAnchor.constraint(equalTo: bottomButton.topAnchor,constant: -15)
         ])
         
         bottomButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            bottomButton.trailingAnchor.constraint(equalTo: self.trailingAnchor,constant: -15),
-            bottomButton.leadingAnchor.constraint(equalTo: self.leadingAnchor,constant: 15),
-            bottomButton.bottomAnchor.constraint(equalTo: self.bottomAnchor,constant: -15),
+            bottomButton.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor,constant: -15),
+            bottomButton.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor,constant: 15),
+            bottomButton.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor,constant: -15),
             bottomButton.heightAnchor.constraint(equalToConstant: 60)
         ])
         bottomButton.layer.cornerRadius = 10

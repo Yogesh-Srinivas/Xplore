@@ -3,9 +3,9 @@ import UIKit
 class MainTabBarController: UITabBarController {
     lazy var exploreViewController = {
         
-        let exploreDBController = DBFactory.getExploreDatabaseController()
+        let placeDBController = DBFactory.getPlaceDatabaseController()
         
-        let viewController =  ExplorePageViewController(databaseController: exploreDBController, isWishListPage: false)
+        let viewController =  ExplorePageViewController(databaseController: placeDBController)
         
         viewController.tabBarItem = UITabBarItem(
             title: "Explore",
@@ -15,9 +15,9 @@ class MainTabBarController: UITabBarController {
     }()
     
     lazy var wishListViewController = {
-        let exploreDBController = DBFactory.getExploreDatabaseController()
+        let placeDBController = DBFactory.getPlaceDatabaseController()
         
-        let viewController =  ExplorePageViewController(databaseController: exploreDBController, isWishListPage: true)
+        let viewController =  WishListViewController(databaseController: placeDBController)
         
         viewController.tabBarItem = UITabBarItem(
             title: "WishList",
@@ -28,7 +28,9 @@ class MainTabBarController: UITabBarController {
     }()
     
     lazy var myTripViewController = {
-        let viewController =  MyTripViewController()
+        let placeDBController = DBFactory.getPlaceDatabaseController()
+        
+        let viewController =  MyTripViewController(databaseController: placeDBController)
         viewController.tabBarItem = UITabBarItem(
             title: "My Trip",
             image: UIImage(systemName: "briefcase"),
@@ -56,8 +58,8 @@ class MainTabBarController: UITabBarController {
         self.viewControllers = [
             UINavigationController(rootViewController: exploreViewController) ,
             UINavigationController(rootViewController: wishListViewController),
-//            myTripViewController,
-            ReservationConfirmationViewController(),
+            UINavigationController(rootViewController: myTripViewController),
+            
             profileViewController]
         
         self.tabBar.tintColor = .systemPink
