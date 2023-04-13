@@ -25,7 +25,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         
         let mainTabBarController = MainTabBarController()
-        mainTabBarController.selectedIndex = 2
+        mainTabBarController.selectedIndex = 3
         
         window?.rootViewController = mainTabBarController
 //        window?.rootViewController = UINavigationController(rootViewController: getLoginScreen())

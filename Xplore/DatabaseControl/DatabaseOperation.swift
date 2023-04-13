@@ -129,7 +129,7 @@ final class DatabaseOperation : DatabaseOperationDelegate{
             FieldDetail(fieldName: "placeId", fieldType: .TEXT, isUnique: false, isNotNull: false, defaultValue: nil),
             FieldDetail(fieldName: "bookedDate", fieldType: .TEXT, isUnique: false, isNotNull: true, defaultValue: nil)
             ],
-            primaryKeys: ["placeId"]
+            primaryKeys: ["placeId","bookedDate"]
         )
     }
 
@@ -143,9 +143,12 @@ final class DatabaseOperation : DatabaseOperationDelegate{
             FieldDetail(fieldName: "pricePerDay", fieldType: .INTEGER, isUnique: false, isNotNull: true, defaultValue: nil),
             FieldDetail(fieldName: "taxPercentage", fieldType: .REAL, isUnique: false, isNotNull: true, defaultValue: nil),
             FieldDetail(fieldName: "currencyCode", fieldType: .TEXT, isUnique: false, isNotNull: true, defaultValue: nil),
+            FieldDetail(fieldName: "cleaningFee", fieldType: .INTEGER, isUnique: false, isNotNull: true, defaultValue: nil),
+            FieldDetail(fieldName: "serviceFee", fieldType: .INTEGER, isUnique: false, isNotNull: true, defaultValue: nil),
+            FieldDetail(fieldName: "numberOfGuests", fieldType: .INTEGER, isUnique: false, isNotNull: true, defaultValue: nil),
             FieldDetail(fieldName: "isVisited", fieldType: .INTEGER, isUnique: false, isNotNull: true, defaultValue: "0")
             ],
-            primaryKeys: ["placeId","userId"]
+            primaryKeys: ["placeId","userId","bookedDateFrom","bookedDateTo"]
         )
 
     }
@@ -327,6 +330,103 @@ final class DatabaseOperation : DatabaseOperationDelegate{
         return travelPlaceDetails
     }
     
+    func getBookedTripDetails(userId : String) -> [BookedTrip]{
+        var bookedTrips : [BookedTrip] = []
+        
+        let resultBookedTrip = xploreSqliteWrapper.select(fields: nil, from: "BookedTrips", where: [QueryCondition(lhs: "userId", condition: .EQUAL_TO, rhs: userId, rhsType: .TEXT)])
+        
+        for trip in resultBookedTrip {
+            let parsedResult = resultParser(fields: trip)
+            
+            let placeId = parsedResult["placeId"] as! String
+            let bookedDateFromString = parsedResult["bookedDateFrom"] as! String
+            let bookedDateToString = parsedResult["bookedDateTo"] as! String
+            let numberOfGuests = parsedResult["numberOfGuests"] as! Int
+            let isVisited = parsedResult["isVisited"] as! Int == 0 ? false : true
+            let pricePerDay = parsedResult["pricePerDay"] as! Int
+            let taxPercentage = parsedResult["taxPercentage"] as! Double
+            let currencyCode = parsedResult["currencyCode"] as! String
+            let cleaningFee = parsedResult["cleaningFee"] as! Int
+            let serviceFee = parsedResult["serviceFee"] as! Int
+            
+            if let bookedDateFromCompontent = GeneralUtils.convertDateStringToComponent(dateString: bookedDateFromString) {
+                
+                var bookedDateToComponent : DateComponents?
+                
+                if  bookedDateFromString == bookedDateToString {
+                    bookedDateToComponent = nil
+                }
+                
+                if let bookedDateTo = GeneralUtils.convertDateStringToComponent(dateString: bookedDateToString)  {
+                    bookedDateToComponent = bookedDateTo
+                }
+                
+                bookedTrips.append(
+                    BookedTrip(
+                        userId: userId,
+                        placeId: placeId,
+                        BookedDateFrom: bookedDateFromCompontent,
+                        BookedDateTo: bookedDateToComponent,
+                        pricePerDay: pricePerDay,
+                        taxPercentage: taxPercentage,
+                        currencyCode: currencyCode,
+                        isVisited: isVisited,
+                        numberOfGuests: numberOfGuests,
+                        cleaningFee: cleaningFee,
+                        serviceFee: serviceFee
+                    )
+                )
+            }
+        }
+        return bookedTrips
+    }
+    
+    func getTravelPlaceDetail(placeId : String) -> TravelPlaceDetail?{
+        let resultPlaceDetail = xploreSqliteWrapper.select(fields : nil, from: "TravelPlaceDetail", where: [QueryCondition(lhs: "placeId", condition: .EQUAL_TO, rhs: placeId, rhsType: .TEXT)])
+        
+        if resultPlaceDetail.count > 0 {
+            
+            let parsedPlaceDetail = resultParser(fields: resultPlaceDetail[0])
+            
+            let hostId = parsedPlaceDetail["hostId"] as! String
+            let isPlaceAvailable = parsedPlaceDetail["isPlaceAvailable"] as! Int == 0 ? false : true
+            let description = parsedPlaceDetail["description"] as! String
+            let numberOfRooms = parsedPlaceDetail["numberOfRooms"] as! Int
+            let numberOfBeds = parsedPlaceDetail["numberOfBeds"] as! Int
+            let numberOfBedrooms = parsedPlaceDetail["numberOfBedrooms"] as! Int
+            let numberOfBathrooms = parsedPlaceDetail["numberOfBathrooms"] as! Int
+            let numberOfPeopleAccomodate = parsedPlaceDetail["numberOfPeopleAccomodate"] as! Int
+            let placeName = parsedPlaceDetail["placeName"] as! String
+            let placeId = parsedPlaceDetail["placeId"] as! String
+            let price = getPriceDetail(placeId: placeId)
+            let location = getLocationDetail(placeId: placeId)
+            let isWishListed = isPlaceWishListed(placeId: placeId, userId: GeneralUtils.getUserId())
+            let amenities = getAmenitiesDetail(placeId: placeId)
+            
+            return TravelPlaceDetail(
+                placeId: placeId,
+                placeName: placeName,
+                description: description,
+                hostId: hostId,
+                noOfRooms: numberOfRooms,
+                noOfBedRooms: numberOfBedrooms,
+                noOfBathRooms: numberOfBathrooms,
+                noOfBeds: numberOfBeds,
+                noOfPeopleAccomodate: numberOfPeopleAccomodate,
+                isAvailable: isPlaceAvailable,
+                price: price,
+                reviewDetail: getReviewDetail(placeId: placeId),
+                ratingDetail: getRatingDetail(placeId: placeId),
+                amenities: amenities,
+                location: location,
+                images: [],
+                isWishListed: isWishListed
+            )
+        }
+        
+        return nil
+    }
+    
     func getPriceDetail(placeId : String) -> Price {
         let priceDetailsResult = resultParser(
             fields: xploreSqliteWrapper.select(fields : nil, from: "Pricing", where: [QueryCondition(lhs: "placeId", condition: .EQUAL_TO, rhs: placeId, rhsType: .TEXT)])[0]
@@ -469,6 +569,55 @@ final class DatabaseOperation : DatabaseOperationDelegate{
         ])
     }
     
+    func reservePlace(placeId : String,userId : String, fromDate : DateComponents,toDate : DateComponents?,pricePerDay : Int,tax : Double, currencyCode : String,cleaningFee : Int, serviceFee : Int,numberOfGuests : Int){
+        
+        let toDate = toDate ?? fromDate
+        if let fromDateString = fromDate.date?.description,
+           let toDateString = toDate.date?.description {
+            
+            xploreSqliteWrapper.insert(into: "BookedTrips", values: [
+                FieldWithValue(fieldName: "placeId", fieldType: .TEXT, fieldValue: placeId),
+                FieldWithValue(fieldName: "userId", fieldType: .TEXT, fieldValue: userId),
+                FieldWithValue(fieldName: "bookedDateFrom", fieldType: .TEXT, fieldValue: fromDateString),
+                FieldWithValue(fieldName: "bookedDateTo", fieldType: .TEXT, fieldValue: toDateString),
+                FieldWithValue(fieldName: "pricePerDay", fieldType: .INTEGER, fieldValue: String(pricePerDay)),
+                FieldWithValue(fieldName: "taxPercentage", fieldType: .REAL, fieldValue: String(tax)),
+                FieldWithValue(fieldName: "currencyCode", fieldType: .TEXT, fieldValue: currencyCode),
+                FieldWithValue(fieldName: "cleaningFee", fieldType: .TEXT, fieldValue: String(cleaningFee)),
+                FieldWithValue(fieldName: "ServiceFee", fieldType: .TEXT, fieldValue: String(serviceFee)),
+                FieldWithValue(fieldName: "numberOfGuests", fieldType: .TEXT, fieldValue: String(numberOfGuests)),
+                FieldWithValue(fieldName: "isVisited", fieldType: .INTEGER, fieldValue: String(0))
+            ])
+        }
+    }
+    
+    func bookDates(placeId : String,datesToBook : [Date]){
+        for date in datesToBook{
+            xploreSqliteWrapper.insert(into: "PlaceAvailability", values: [
+                FieldWithValue(fieldName: "placeId", fieldType: .TEXT, fieldValue: placeId),
+                FieldWithValue(fieldName: "bookedDate", fieldType: .TEXT, fieldValue: date.description),
+            ])
+        }
+        
+    }
+    
+    func getBookedDates(of placeId : String) -> [DateComponents]{
+        var bookedDates : [DateComponents] = []
+        let resultDates = xploreSqliteWrapper.select(
+            fields: ["bookedDate"],
+            from: "PlaceAvailability",
+            where: [QueryCondition(lhs: "placeId", condition: .EQUAL_TO, rhs: placeId, rhsType: .TEXT)])
+        for resultDate in resultDates{
+            let parsedResult = resultParser(fields: resultDate)
+            
+            if let bookedDateString = parsedResult["bookedDate"] as? String,
+                let bookedDate = GeneralUtils.convertDateStringToComponent(dateString: bookedDateString) {
+                
+                    bookedDates.append(bookedDate)
+            }
+        }
+        return bookedDates
+    }
 
 }
 

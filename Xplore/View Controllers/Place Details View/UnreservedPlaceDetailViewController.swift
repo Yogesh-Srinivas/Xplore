@@ -137,7 +137,7 @@ class UnreservedPlaceDetailsViewController: UnvisitedPlaceDetailViewController {
     }
     
     @objc private func reserveButtonOnTapAction(){
-        self.navigationController?.pushViewController(ReservationViewController(fromDate: fromDate, toDate: toDate, placeDetail: placeDetails), animated: true)
+        self.navigationController?.pushViewController(ReservationViewController(fromDate: fromDate, toDate: toDate, placeDetail: placeDetails,databaseController: databaseController), animated: true)
     }
     
     @objc private func reserveButtonOnTapActionDisabled(){

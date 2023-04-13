@@ -1,10 +1,3 @@
-//
-//  CancellationPolicyViewController.swift
-//  Xplore
-//
-//  Created by yogesh-pt6219 on 27/03/23.
-//
-
 import UIKit
 
 class CancellationPolicyViewController: UIViewController {
@@ -57,7 +50,7 @@ class CancellationPolicyViewController: UIViewController {
         
         ])
         
-        policyContentView.text = "Lorem ipsum dolor sit amet. Et illo ipsam qui illo consectetur aut obcaecati iure nam consequuntur fugit eum blanditiis laborum qui commodi galisum sit earum eligendi. Ad dolor nobis est omnis repellat et voluptatem dolor. In dolore nobis est voluptatem totam et enim eius.\nUt unde quia eos quam voluptatem a rerum velit et maxime consequatur ut autem quia. Et consequatur voluptatem et consequatur pariatur et itaque earum est voluptatum voluptas vel officiis dignissimos. Eos dolor aliquid in laboriosam perspiciatis aut possimus porro.\nEum maxime rerum eum laboriosam labore id quasi rerum. Ut nesciunt iusto sed nihil voluptatibus et rerum voluptatum qui maiores similique quo consequuntur ipsa. Et praesentium minima qui deserunt nulla et iusto alias aut adipisci iste eum nobis vitae non velit sunt!"
+        policyContentView.text = "Lorem ipsum dolor sit amet. Et illo ipsam qui illo consectetur aut obcaecati iure nam consequuntur fugit eum blanditiis laborum qui commodi galisum sit earum eligendi. Ad dolor nobis est omnis repellat et voluptatem dolor. In dolore nobis est voluptatem totam et enim eius.\n\nUt unde quia eos quam voluptatem a rerum velit et maxime consequatur ut autem quia. Et consequatur voluptatem et consequatur pariatur et itaque earum est voluptatum voluptas vel officiis dignissimos. Eos dolor aliquid in laboriosam perspiciatis aut possimus porro.\n\nEum maxime rerum eum laboriosam labore id quasi rerum. Ut nesciunt iusto sed nihil voluptatibus et rerum voluptatum qui maiores similique quo consequuntur ipsa. Et praesentium minima qui deserunt nulla et iusto alias aut adipisci iste eum nobis vitae non velit sunt!"
 
         policyContentView.numberOfLines = 0
         policyContentView.textAlignment = .justified

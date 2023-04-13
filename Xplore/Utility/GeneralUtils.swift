@@ -18,6 +18,35 @@ struct GeneralUtils{
             let numberOfDays = Calendar.current.dateComponents([.day], from: fromDate, to: toDate).day
             return numberOfDays
         }
+        
         return nil
     }
+    
+    static func getDatesBetween(startDate: Date?, endDate: Date?) -> [Date] {
+        var dates : [Date] = []
+        
+        if let startDate = startDate,let endDate = endDate{
+            var currentDate = startDate
+            
+            while currentDate <= endDate {
+                dates.append(currentDate)
+                currentDate = Calendar.current.date(byAdding: .day, value: 1, to: currentDate)!
+            }
+        }
+        return dates
+    }
+    
+    static func convertDateStringToComponent(dateString : String) -> DateComponents?{
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
+        
+        if let date = dateFormatter.date(from: dateString) {
+            let calendar = Calendar.current
+            let components = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+            return components
+        }
+        return nil
+    }
+
 }

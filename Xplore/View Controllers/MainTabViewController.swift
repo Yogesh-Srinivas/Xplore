@@ -60,7 +60,9 @@ class MainTabBarController: UITabBarController {
             UINavigationController(rootViewController: wishListViewController),
             UINavigationController(rootViewController: myTripViewController),
             
-            profileViewController]
+//            profileViewController
+            RatingAndReviewViewController()
+        ]
         
         self.tabBar.tintColor = .systemPink
         

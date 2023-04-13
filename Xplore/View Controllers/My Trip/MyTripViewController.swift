@@ -15,11 +15,11 @@ class MyTripViewController: UIViewController {
     
     lazy var commonTableView = UITableView()
     
-    var reservedList : [BookedTrip] = DataHold.bookedTrips
-    var reservedListPlaceDetails : [TravelPlaceDetail] = DataHold.travelPlaceDetails
+    var reservedList : [BookedTrip] = []
+    var reservedListPlaceDetails : [TravelPlaceDetail] = []
     
-    var visitedList : [BookedTrip] = DataHold.bookedTrips
-    var visitedListPlaceDetails : [TravelPlaceDetail] = DataHold.travelPlaceDetails
+    var visitedList : [BookedTrip] = []
+    var visitedListPlaceDetails : [TravelPlaceDetail] = []
     
     lazy var primaryBookedTripDataSource = reservedList
     lazy var primaryPlaceDetailDataSource = reservedListPlaceDetails
@@ -33,6 +33,30 @@ class MyTripViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private func getTripDetails(){
+        let tripDetails = databaseController.getbookedTripDetail()
+        
+        visitedList = []
+        visitedListPlaceDetails = []
+        reservedList = []
+        reservedListPlaceDetails = []
+        
+        for tripDetail in tripDetails {
+            if let placeDetail = databaseController.getPlaceDetail(placeId: tripDetail.placeId){
+                if tripDetail.isVisited{
+                    visitedList.append(tripDetail)
+                    visitedListPlaceDetails.append(placeDetail)
+                }else{
+                    reservedList.append(tripDetail)
+                    reservedListPlaceDetails.append(placeDetail)
+                }
+            }
+            
+        }
+        
+        commonTableView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.setCustomBackground()
@@ -40,15 +64,16 @@ class MyTripViewController: UIViewController {
         view.addSubview(segmentedControl)
         view.addSubview(commonTableView)
         
-        visitedList.remove(at: 0)
         setupSegmentedControl()
         setupCommonTableView()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
         self.tabBarController?.tabBar.backgroundColor = .systemBackground
         self.navigationController?.navigationBar.isHidden = true
+        getTripDetails()
     }
     
     @objc private func segmentedControlAction(){
@@ -92,12 +117,11 @@ class MyTripViewController: UIViewController {
         let fromDate = primaryBookedTripDataSource[row].BookedDateFrom
         let toDate = primaryBookedTripDataSource[row].BookedDateTo
         
-        
         if let toDate = toDate,let numberOfDays = GeneralUtils.getNumberOfDays(from: fromDate, to: toDate){
             
-            let pricePerDay = primaryBookedTripDataSource[row].pricePerNight
+            let totalPrice = primaryBookedTripDataSource[row].totalPrice + ControlCenter.serviceFee + ControlCenter.cleaningFee
             
-            let priceAmount = "\(numberOfDays) Days x \(pricePerDay) = \(primaryPlaceDetailDataSource[row].price.currencyCode) \(pricePerDay * numberOfDays)"
+            let priceAmount = "\(primaryPlaceDetailDataSource[row].price.currencyCode) \(totalPrice)  (\(numberOfDays) Days)"
             
             cell.priceLabelButton.setTitle(priceAmount, for: .normal)
             cell.priceLabelButton.titleLabel?.configSecondaryStyle()

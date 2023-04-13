@@ -41,6 +41,7 @@ class ExplorePageViewController: UITableViewController {
         let priceAmount = "\(placeDetailsList[row].price.currencyCode) \(placeDetailsList[row].price.pricePerDay)"
         
         cell.priceLabelButton.setTitle(priceAmount, for: .normal)
+        cell.priceLabelButton.setTitleColor(.label, for: .normal)
         cell.priceLabelButton.underline()
         cell.priceLabelButton.addTarget(self, action: #selector(priceButtonOnTapAction(_:)), for: .touchDown)
         cell.priceLabelButton.tag = row

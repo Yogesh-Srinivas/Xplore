@@ -19,10 +19,13 @@ class DataHold{
                 placeId: "PD1101",
                 BookedDateFrom: fromDate,
                 BookedDateTo: toDate,
-                pricePerNight: 14500,
+                pricePerDay: 14500,
                 taxPercentage: 12.5,
                 currencyCode: "INR",
-                isVisited: true
+                isVisited: true,
+                numberOfGuests: 5,
+                cleaningFee: 550,
+                serviceFee: 1000
             )
         )
         
@@ -32,10 +35,13 @@ class DataHold{
                 placeId: "PD1102",
                 BookedDateFrom: fromDate,
                 BookedDateTo: toDate,
-                pricePerNight: 14500,
+                pricePerDay: 14500,
                 taxPercentage: 12.5,
                 currencyCode: "INR",
-                isVisited: false
+                isVisited: false,
+                numberOfGuests: 5,
+                cleaningFee: 550,
+                serviceFee: 1000
             )
         )
         

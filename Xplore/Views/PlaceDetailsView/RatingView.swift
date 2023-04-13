@@ -58,15 +58,15 @@ class RatingView: UIView {
         
         for i in 1...5 {
             if rating >= Double(i) {
-                if let tintedStar = fullStarImage?.withTintColor(.systemYellow) {
+                if let tintedStar = fullStarImage{
                     ratingView.addArrangedSubview(UIImageView(image: tintedStar))
                 }
             } else if rating > Double(i) - 1 {
-                if let tintedHalfStar = halfStarImage?.withTintColor(.systemYellow) {
+                if let tintedHalfStar = halfStarImage {
                     ratingView.addArrangedSubview(UIImageView(image: tintedHalfStar))
                 }
             } else {
-                if let tintedEmptyStar = emptyStarImage?.withTintColor(.systemYellow) {
+                if let tintedEmptyStar = emptyStarImage{
                     ratingView.addArrangedSubview(UIImageView(image: tintedEmptyStar))
                 }
             }

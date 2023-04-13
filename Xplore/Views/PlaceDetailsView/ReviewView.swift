@@ -9,9 +9,7 @@ final class ReviewView: UIView {
         button.setTitle("Show All \(reviewList.count) reviews", for: .normal)
         button.underline()
         button.setTitleColor(.label, for: .normal)
-        button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.label.cgColor
-        button.layer.cornerRadius = 7
+        button.addBorder()
         
         button.addTarget(self, action: #selector(showAllReviewAction), for: .touchDown)
         return button

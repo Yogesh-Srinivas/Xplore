@@ -10,7 +10,7 @@ class ReservedPlaceDetailViewController: UnvisitedPlaceDetailViewController {
         button.titleLabel?.configSecondaryStyle()
         button.setTitleColor(.red, for: .normal)
         button.underline()
-
+        button.addTarget(self, action: #selector(cancelReservationButtonOnTapAction), for: .touchDown)
         return button
     }()
     
@@ -27,6 +27,7 @@ class ReservedPlaceDetailViewController: UnvisitedPlaceDetailViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         super.contentScrollView.addSubview(cancelReservationButton)
+        super.contentScrollView.insertSubview(PriceDetails(frame: .zero, tripDetails: tripDetails), belowSubview: amenitiesView)
         setupTripDates()
         setupScrollView()
     }
@@ -34,7 +35,7 @@ class ReservedPlaceDetailViewController: UnvisitedPlaceDetailViewController {
     private func setupTripDates(){
         if let numberOfDays = GeneralUtils.getNumberOfDays(from: tripDetails.BookedDateFrom, to: tripDetails.BookedDateTo){
             
-            super.priceLabel.text = "Trip Cost : \(tripDetails.pricePerNight * numberOfDays) \(tripDetails.currencyCode)"
+            super.priceLabel.text = "Trip Cost : \(tripDetails.pricePerDay * numberOfDays) \(tripDetails.currencyCode)"
         }
         
         
@@ -52,6 +53,10 @@ class ReservedPlaceDetailViewController: UnvisitedPlaceDetailViewController {
         super.availabiltiyView.contentLabel.text = dateText
         super.availabiltiyView.contentLabel.removeUnderline()
         super.availabiltiyView.contentLabel.isUserInteractionEnabled = false
+    }
+    
+    @objc private func cancelReservationButtonOnTapAction(){
+        self.navigationController?.pushViewController(CancelReservationPageViewController(), animated: true)
     }
     
 

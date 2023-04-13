@@ -18,6 +18,22 @@ final class DatabaseController : PlaceDBController,FetchableImage{
         
         databaseOperationDelegate.loadUserDetailData(DataHold.userDetails)
         databaseOperationDelegate.loadTravelPlaceDetailData(DataHold.travelPlaceDetails)
+        
+        for bookedDates in DataHold.bookedTrips{
+            bookPlace(
+                placeId: bookedDates.placeId,
+                fromDate: bookedDates.BookedDateFrom,
+                toDate: bookedDates.BookedDateTo)
+            reservePlace(
+                placeId: bookedDates.placeId,
+                fromDate: bookedDates.BookedDateFrom,
+                toDate: bookedDates.BookedDateTo,
+                pricePerDay: bookedDates.pricePerDay,
+                tax: bookedDates.taxPercentage,
+                currencyCode: bookedDates.currencyCode,
+                numberOfGuests: bookedDates.numberOfGuests)
+        }
+        
     }
     
     func getAllPlaceDetail() -> [TravelPlaceDetail]{
@@ -49,6 +65,49 @@ final class DatabaseController : PlaceDBController,FetchableImage{
     
     func addImageUrl(imageUrl : String){
         databaseOperationDelegate.addImageUrl(imageUrl : imageUrl)
+    }
+    
+    func reservePlace(placeId : String,fromDate : DateComponents,toDate : DateComponents?,pricePerDay : Int,tax : Double, currencyCode : String,numberOfGuests : Int){
+        databaseOperationDelegate.reservePlace(
+            placeId: placeId,
+            userId: GeneralUtils.getUserId(),
+            fromDate: fromDate,
+            toDate: toDate,
+            pricePerDay: pricePerDay,
+            tax: tax,
+            currencyCode: currencyCode,
+            cleaningFee: ControlCenter.cleaningFee,
+            serviceFee: ControlCenter.serviceFee,
+            numberOfGuests : numberOfGuests)
+        
+        bookPlace(placeId: placeId, fromDate: fromDate, toDate: toDate)
+    }
+    
+    func bookPlace(placeId : String,fromDate : DateComponents,toDate : DateComponents?){
+        
+        var datesToBook : [Date] = []
+        
+        if let toDate = toDate{
+            datesToBook = GeneralUtils.getDatesBetween(startDate: fromDate.date, endDate: toDate.date)
+        }
+        
+        databaseOperationDelegate.bookDates(placeId: placeId, datesToBook: datesToBook)
+        
+    }
+    
+    func getbookedTripDetail() -> [BookedTrip]{
+        return databaseOperationDelegate.getBookedTripDetails(userId: GeneralUtils.getUserId())
+    }
+    
+    func getPlaceDetail(placeId : String) -> TravelPlaceDetail?{
+        if var placeDetail =  databaseOperationDelegate.getTravelPlaceDetail(placeId: placeId),let images = DataHold.getImagesList(placeId: placeId){
+
+            placeDetail.images = images
+            return placeDetail
+            
+        }
+        return nil
+        
     }
     
     func fetchImage(

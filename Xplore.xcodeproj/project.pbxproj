@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3F0BDAB529DC414300F6638B /* DBFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BDAB429DC414300F6638B /* DBFactory.swift */; };
-		3F0BDAB829DC456900F6638B /* ExploreDBController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BDAB729DC456900F6638B /* ExploreDBController.swift */; };
+		3F0BDAB829DC456900F6638B /* PlaceDBController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BDAB729DC456900F6638B /* PlaceDBController.swift */; };
 		3F0BDABA29DD3DD700F6638B /* PricePresentationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BDAB929DD3DD700F6638B /* PricePresentationViewController.swift */; };
 		3F0BDABE29DD659300F6638B /* ControlCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BDABD29DD659300F6638B /* ControlCenter.swift */; };
 		3F0BDAC029DD921800F6638B /* ReviewPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BDABF29DD921800F6638B /* ReviewPageViewController.swift */; };
@@ -69,7 +69,7 @@
 		3F50BB2229D1B04400E0D6D4 /* SafetyAndPropertyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB2129D1B04400E0D6D4 /* SafetyAndPropertyViewController.swift */; };
 		3F50BB2429D1D27300E0D6D4 /* SectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB2329D1D27300E0D6D4 /* SectionView.swift */; };
 		3F50BB2629D2A61000E0D6D4 /* IconedLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB2529D2A61000E0D6D4 /* IconedLabelView.swift */; };
-		3F50BB2829D2F18400E0D6D4 /* ReservationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB2729D2F18400E0D6D4 /* ReservationVC.swift */; };
+		3F50BB2829D2F18400E0D6D4 /* ReservationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB2729D2F18400E0D6D4 /* ReservationViewController.swift */; };
 		3F50BB2C29D406C300E0D6D4 /* StackViewWithCornorLabels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB2B29D406C300E0D6D4 /* StackViewWithCornorLabels.swift */; };
 		3F50BB3729D4647F00E0D6D4 /* UIUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB3629D4647F00E0D6D4 /* UIUtils.swift */; };
 		3F50BB3929D4657600E0D6D4 /* ImageWithLabelViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB3829D4657600E0D6D4 /* ImageWithLabelViewTableViewCell.swift */; };
@@ -89,11 +89,14 @@
 		3F50BB5829D6A42500E0D6D4 /* FieldWithValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB5729D6A42500E0D6D4 /* FieldWithValue.swift */; };
 		3F50BB5A29D6A4D900E0D6D4 /* QueryCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB5929D6A4D900E0D6D4 /* QueryCondition.swift */; };
 		3F50BB5C29D6A53500E0D6D4 /* EqualityOperator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB5B29D6A53500E0D6D4 /* EqualityOperator.swift */; };
+		3F531C1F29E5A0DD0043185C /* PriceDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F531C1E29E5A0DD0043185C /* PriceDetails.swift */; };
+		3F531C2129E5B8170043185C /* UIButton+addBorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F531C2029E5B8170043185C /* UIButton+addBorder.swift */; };
+		3F531C2329E5C4490043185C /* RatingAndReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F531C2229E5C4490043185C /* RatingAndReviewViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		3F0BDAB429DC414300F6638B /* DBFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBFactory.swift; sourceTree = "<group>"; };
-		3F0BDAB729DC456900F6638B /* ExploreDBController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreDBController.swift; sourceTree = "<group>"; };
+		3F0BDAB729DC456900F6638B /* PlaceDBController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDBController.swift; sourceTree = "<group>"; };
 		3F0BDAB929DD3DD700F6638B /* PricePresentationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PricePresentationViewController.swift; sourceTree = "<group>"; };
 		3F0BDABD29DD659300F6638B /* ControlCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlCenter.swift; sourceTree = "<group>"; };
 		3F0BDABF29DD921800F6638B /* ReviewPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewPageViewController.swift; sourceTree = "<group>"; };
@@ -156,7 +159,7 @@
 		3F50BB2129D1B04400E0D6D4 /* SafetyAndPropertyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafetyAndPropertyViewController.swift; sourceTree = "<group>"; };
 		3F50BB2329D1D27300E0D6D4 /* SectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionView.swift; sourceTree = "<group>"; };
 		3F50BB2529D2A61000E0D6D4 /* IconedLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconedLabelView.swift; sourceTree = "<group>"; };
-		3F50BB2729D2F18400E0D6D4 /* ReservationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservationVC.swift; sourceTree = "<group>"; };
+		3F50BB2729D2F18400E0D6D4 /* ReservationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservationViewController.swift; sourceTree = "<group>"; };
 		3F50BB2B29D406C300E0D6D4 /* StackViewWithCornorLabels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackViewWithCornorLabels.swift; sourceTree = "<group>"; };
 		3F50BB3629D4647F00E0D6D4 /* UIUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIUtils.swift; sourceTree = "<group>"; };
 		3F50BB3829D4657600E0D6D4 /* ImageWithLabelViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageWithLabelViewTableViewCell.swift; sourceTree = "<group>"; };
@@ -176,6 +179,9 @@
 		3F50BB5729D6A42500E0D6D4 /* FieldWithValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldWithValue.swift; sourceTree = "<group>"; };
 		3F50BB5929D6A4D900E0D6D4 /* QueryCondition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryCondition.swift; sourceTree = "<group>"; };
 		3F50BB5B29D6A53500E0D6D4 /* EqualityOperator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EqualityOperator.swift; sourceTree = "<group>"; };
+		3F531C1E29E5A0DD0043185C /* PriceDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceDetails.swift; sourceTree = "<group>"; };
+		3F531C2029E5B8170043185C /* UIButton+addBorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+addBorder.swift"; sourceTree = "<group>"; };
+		3F531C2229E5C4490043185C /* RatingAndReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingAndReviewViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -193,7 +199,7 @@
 			isa = PBXGroup;
 			children = (
 				3F50BACC29CB2DEE00E0D6D4 /* DatabaseOperationDelegate.swift */,
-				3F0BDAB729DC456900F6638B /* ExploreDBController.swift */,
+				3F0BDAB729DC456900F6638B /* PlaceDBController.swift */,
 				3F0BDAC529DE9E1200F6638B /* FetchableImage.swift */,
 			);
 			path = Protocols;
@@ -223,6 +229,7 @@
 				3F17E8DA29E3E39B0030CC02 /* MyTripViewController.swift */,
 				3F17E8DE29E406820030CC02 /* VisitedPlaceDetailViewController.swift */,
 				3F17E8E029E440E40030CC02 /* CancelReservationPageViewController.swift */,
+				3F531C2229E5C4490043185C /* RatingAndReviewViewController.swift */,
 			);
 			path = "My Trip";
 			sourceTree = "<group>";
@@ -348,6 +355,7 @@
 		3F50BB0C29D03F5800E0D6D4 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				3F531C2429E5C9F30043185C /* Rating */,
 				3F17E8CF29E2EAB00030CC02 /* Login */,
 				3F50BB4A29D59DAB00E0D6D4 /* PlaceDetailsView */,
 				3F50BB4429D57FD100E0D6D4 /* ExplorePage */,
@@ -360,7 +368,7 @@
 		3F50BB3129D462FE00E0D6D4 /* Reservation Page */ = {
 			isa = PBXGroup;
 			children = (
-				3F50BB2729D2F18400E0D6D4 /* ReservationVC.swift */,
+				3F50BB2729D2F18400E0D6D4 /* ReservationViewController.swift */,
 				3F0BDACF29E0338F00F6638B /* ReservationConfirmationViewController.swift */,
 			);
 			path = "Reservation Page";
@@ -429,6 +437,7 @@
 				3F0BDAC329DD9AC100F6638B /* UIView+Separator.swift */,
 				3F0BDAD329E0557F00F6638B /* UIListContentConfiguration+fontConfig.swift */,
 				3F0BDAD529E061F200F6638B /* UIView+Theme.swift */,
+				3F531C2029E5B8170043185C /* UIButton+addBorder.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -443,8 +452,16 @@
 				3F50BB1929D1736000E0D6D4 /* AmenitiesView.swift */,
 				3F50BB0A29D03F4C00E0D6D4 /* AvailabilityDetailView.swift */,
 				3F0BDAC129DD978900F6638B /* ReviewTableCell.swift */,
+				3F531C1E29E5A0DD0043185C /* PriceDetails.swift */,
 			);
 			path = PlaceDetailsView;
+			sourceTree = "<group>";
+		};
+		3F531C2429E5C9F30043185C /* Rating */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Rating;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -528,7 +545,7 @@
 				3F50BAD729CC4A2600E0D6D4 /* Location.swift in Sources */,
 				3F0BDAC629DE9E1200F6638B /* FetchableImage.swift in Sources */,
 				3F17E8DB29E3E39B0030CC02 /* MyTripViewController.swift in Sources */,
-				3F50BB2829D2F18400E0D6D4 /* ReservationVC.swift in Sources */,
+				3F50BB2829D2F18400E0D6D4 /* ReservationViewController.swift in Sources */,
 				3F50BB0B29D03F4C00E0D6D4 /* AvailabilityDetailView.swift in Sources */,
 				3F50BAE329CC7A2200E0D6D4 /* Rating.swift in Sources */,
 				3F50BB3B29D465AD00E0D6D4 /* LabelWithButtonViewTableViewCell.swift in Sources */,
@@ -536,6 +553,7 @@
 				3F50BB4E29D5B3A300E0D6D4 /* UITextView+fontConfig.swift in Sources */,
 				3F0BDACA29DEF0DD00F6638B /* CustomCollectionViewCell.swift in Sources */,
 				3F50BAB329CAFFB900E0D6D4 /* ViewController.swift in Sources */,
+				3F531C2129E5B8170043185C /* UIButton+addBorder.swift in Sources */,
 				3F0BDAD029E0338F00F6638B /* ReservationConfirmationViewController.swift in Sources */,
 				3F50BACB29CB2BB400E0D6D4 /* DatabaseOperation.swift in Sources */,
 				3F50BACF29CC46E500E0D6D4 /* DataHold.swift in Sources */,
@@ -575,7 +593,9 @@
 				3F50BADB29CC4AC800E0D6D4 /* Review.swift in Sources */,
 				3F50BB4C29D59FC600E0D6D4 /* UILabel+fontConfig.swift in Sources */,
 				3F50BB3F29D53FF200E0D6D4 /* ImagesDisplayCollectionView.swift in Sources */,
+				3F531C1F29E5A0DD0043185C /* PriceDetails.swift in Sources */,
 				3F0BDACC29DFFB4200F6638B /* TestViewController.swift in Sources */,
+				3F531C2329E5C4490043185C /* RatingAndReviewViewController.swift in Sources */,
 				3F50BB4729D597DF00E0D6D4 /* UIButton+underline.swift in Sources */,
 				3F0BDABA29DD3DD700F6638B /* PricePresentationViewController.swift in Sources */,
 				3F50BAD129CC487C00E0D6D4 /* UserDetail.swift in Sources */,
@@ -584,7 +604,7 @@
 				3F17E8D629E2F37A0030CC02 /* CustomPasswordTextField.swift in Sources */,
 				3F50BAAF29CAFFB900E0D6D4 /* AppDelegate.swift in Sources */,
 				3F0BDAC829DE9FF600F6638B /* FetchableImageHelper.swift in Sources */,
-				3F0BDAB829DC456900F6638B /* ExploreDBController.swift in Sources */,
+				3F0BDAB829DC456900F6638B /* PlaceDBController.swift in Sources */,
 				3F50BAD329CC48AE00E0D6D4 /* TravelPlaceDetail.swift in Sources */,
 				3F17E8EB29E4E9C70030CC02 /* WishListViewController.swift in Sources */,
 				3F50BB3D29D53F1700E0D6D4 /* ExplorePageViewController.swift in Sources */,

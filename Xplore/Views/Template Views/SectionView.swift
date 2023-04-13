@@ -8,9 +8,13 @@
 import UIKit
 
 class SectionView: UIView {
-    var titleView = UILabel()
+    lazy var titleView = UILabel()
     var contentView : UIView
-    var titleText : String
+    var titleText : String{
+        didSet{
+            titleView.text = titleText
+        }
+    }
     
     init(frame: CGRect,contentView : UIView,titleText : String) {
         self.titleText = titleText
@@ -38,6 +42,7 @@ class SectionView: UIView {
         ])
         titleView.text = titleText
         titleView.configPrimaryStyle()
+//        titleView.setc
     }
     
     func setupContentView(){

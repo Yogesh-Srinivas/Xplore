@@ -2,7 +2,10 @@ import UIKit
 
 final class ReservationViewController : UITableViewController {
     private struct TripDetails{
+        let placeId : String
         let placeName : String
+        let fromDate : DateComponents
+        let toDate : DateComponents?
         let dates : String
         let numberOfGuestes : Int
         let rating : Double
@@ -33,8 +36,9 @@ final class ReservationViewController : UITableViewController {
     
     private let tripDetails : TripDetails
     private let priceDetails : PriceDetails
+    private let databaseController : PlaceDBController
     
-    init(fromDate : DateComponents,toDate : DateComponents?,placeDetail : TravelPlaceDetail){
+    init(fromDate : DateComponents,toDate : DateComponents?,placeDetail : TravelPlaceDetail,databaseController : PlaceDBController){
         
         
         var dates = "\(fromDate.day!) \(GeneralUtils.getMonthInString(month: fromDate.month!))"
@@ -51,7 +55,10 @@ final class ReservationViewController : UITableViewController {
         
         
         self.tripDetails = TripDetails(
+            placeId : placeDetail.placeId,
             placeName: placeDetail.placeName,
+            fromDate: fromDate,
+            toDate: toDate,
             dates: dates,
             numberOfGuestes: 4,
             rating: placeDetail.placeRating,
@@ -64,6 +71,8 @@ final class ReservationViewController : UITableViewController {
             taxPercentage: placeDetail.price.taxPercentage,
             numberOfDays: numberOfDays,
             currencyCode: placeDetail.price.currencyCode)
+        
+        self.databaseController = databaseController
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -146,6 +155,17 @@ final class ReservationViewController : UITableViewController {
     }
     
     @objc private func reserveBottonOnTapAction(){
+        
+        databaseController.reservePlace(
+            placeId: tripDetails.placeId,
+            fromDate: tripDetails.fromDate,
+            toDate: tripDetails.toDate,
+            pricePerDay: priceDetails.pricePerDay,
+            tax: priceDetails.taxPercentage,
+            currencyCode: priceDetails.currencyCode,
+            numberOfGuests: tripDetails.numberOfGuestes
+        )
+        
         self.navigationController?.pushViewController(ReservationConfirmationViewController(), animated: true)
     }
     
