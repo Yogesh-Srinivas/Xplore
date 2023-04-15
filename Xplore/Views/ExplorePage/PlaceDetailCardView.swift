@@ -8,10 +8,7 @@ class PlaceDetailCardView: UITableViewCell {
     
     let wishListButton = {
        
-        let button = UIButton(type: .custom)
-        let image = UIImage(systemName: "heart")?.withRenderingMode(.alwaysTemplate)
-        button.setImage(image, for: .normal)
-        button.tintColor = .systemPink
+        let button = UIButton()
         button.contentVerticalAlignment = .fill
         button.contentHorizontalAlignment = .fill
         return button
@@ -30,10 +27,11 @@ class PlaceDetailCardView: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         contentView.addSubview(imagesCollectionView)
-        contentView.addSubview(ratingCard)
         contentView.addSubview(titleCardView)
         contentView.addSubview(locationCardView)
         contentView.addSubview(priceLabelButton)
+        contentView.addSubview(ratingCard)
+
         
         setupCellView()
         
@@ -69,11 +67,19 @@ class PlaceDetailCardView: UITableViewCell {
 
                 ])
 
-            case contentView.subviews.count - 1:
+            case contentView.subviews.count - 2:
                 NSLayoutConstraint.activate([
-                    contentView.subviews[childIndex].topAnchor.constraint(equalTo: contentView.subviews[childIndex-1].bottomAnchor,constant: 10),
+                    contentView.subviews[childIndex].topAnchor.constraint(equalTo: contentView.subviews[childIndex-1].bottomAnchor,constant: 15),
                 contentView.subviews[childIndex].bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -10),
                 contentView.subviews[childIndex].leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 20)
+              
+                ])
+                
+            case contentView.subviews.count - 1:
+                NSLayoutConstraint.activate([
+                    contentView.subviews[childIndex].topAnchor.constraint(equalTo: contentView.subviews[childIndex-2].bottomAnchor,constant: 15),
+                contentView.subviews[childIndex].bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -10),
+                contentView.subviews[childIndex].trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -20)
               
                 ])
                 
@@ -97,8 +103,8 @@ class PlaceDetailCardView: UITableViewCell {
         NSLayoutConstraint.activate([
             wishListButton.topAnchor.constraint(equalTo: contentView.topAnchor,constant: 15),
             wishListButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -25),
-            wishListButton.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.08),
-            wishListButton.heightAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.06),
+            wishListButton.widthAnchor.constraint(equalToConstant: 35),
+            wishListButton.heightAnchor.constraint(equalToConstant: 30),
      
         ])
     }

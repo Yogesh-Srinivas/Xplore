@@ -14,9 +14,13 @@ struct GeneralUtils{
         return monthList[month-1]
     }
     static func getNumberOfDays(from fromDateComponent : DateComponents,to toDateComponent : DateComponents?) -> Int?{
-        if let fromDate = fromDateComponent.date,let toDateComponent = toDateComponent,let toDate = toDateComponent.date{
+        
+        
+        
+        if let fromDate =  Calendar.current.date(from: fromDateComponent),let toDateComponent = toDateComponent,let toDate =  Calendar.current.date(from: toDateComponent){
             let numberOfDays = Calendar.current.dateComponents([.day], from: fromDate, to: toDate).day
             return numberOfDays
+            
         }
         
         return nil
@@ -48,5 +52,16 @@ struct GeneralUtils{
         }
         return nil
     }
+    static func generateReservationUniqueID() -> String {
+      
+        let uuid = UUID().uuidString.replacingOccurrences(of: "-", with: "")
+        let randomIndex = Int(arc4random_uniform(UInt32(uuid.count - 10)))
+        let startIndex = uuid.index(uuid.startIndex, offsetBy: randomIndex)
+        let endIndex = uuid.index(startIndex, offsetBy: 10)
+        
+        return String(uuid[startIndex..<endIndex]).uppercased()
+
+    }
+
 
 }

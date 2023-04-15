@@ -1,10 +1,3 @@
-//
-//  WishListViewController.swift
-//  Xplore
-//
-//  Created by yogesh-pt6219 on 11/04/23.
-//
-
 import UIKit
 
 final class WishListViewController: ExplorePageViewController {
@@ -21,6 +14,11 @@ final class WishListViewController: ExplorePageViewController {
     
     override func viewWillAppear(_ animated: Bool){
         super.viewWillAppear(true)
+
+        self.navigationController?.navigationBar.isHidden = false
+        self.navigationItem.title = "Your WishList"
+        self.navigationItem.rightBarButtonItem = nil
+        
         super.placeDetailsList.removeAll{
             placeDetail in !placeDetail.isWishListed
         }

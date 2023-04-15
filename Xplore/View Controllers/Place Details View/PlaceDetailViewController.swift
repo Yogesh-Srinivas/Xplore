@@ -12,9 +12,14 @@ class PlaceDetailViewController: UIViewController {
         
     lazy var ratingView = RatingView(frame: CGRect.zero, rating: placeDetails.placeRating)
     
-    lazy var titleLabel = {
+    lazy var titleView = {
+        let sectionedView = SectionView(frame: .zero, contentView: descriptionLabel, titleText: "")
+        return sectionedView
+    }()
+    
+    lazy var descriptionLabel = {
         let label = UILabel()
-        label.configPrimaryStyle()
+        label.configSecondaryRegularStyle()
         label.numberOfLines = 0
         return label
     }()
@@ -37,12 +42,7 @@ class PlaceDetailViewController: UIViewController {
         return sectionedView
     }()
     
-    lazy var descriptionLabel = {
-        let label = UILabel()
-        label.configSemiPrimary()
-        label.numberOfLines = 0
-        return label
-    }()
+   
     
     lazy var priceLabel = UILabel()
     lazy var reserveButton = UIButton()
@@ -51,7 +51,6 @@ class PlaceDetailViewController: UIViewController {
     
     lazy var reviewView = ReviewView(frame: CGRect.zero, reviewList: placeDetails.reviewDetail,referenceViewController: self)
    
-    
     var placeDetails : TravelPlaceDetail
 
     
@@ -87,25 +86,26 @@ class PlaceDetailViewController: UIViewController {
         
         view.addSubview(contentScrollView)
         contentScrollView.addSubview(placeImagesCollectionView)
-        contentScrollView.addSubview(titleLabel)
-        contentScrollView.addSubview(descriptionLabel)
+        contentScrollView.addSubview(titleView)
+        contentScrollView.addSubview(UIUtils.getSeparator(size: 1))
         contentScrollView.addSubview(locationLabel)
+        contentScrollView.addSubview(UIUtils.getSeparator(size: 1))
         contentScrollView.addSubview(hostLabel)
+        contentScrollView.addSubview(UIUtils.getSeparator(size: 1))
         contentScrollView.addSubview(ratingView)
+        contentScrollView.addSubview(UIUtils.getSeparator(size: 1))
         contentScrollView.addSubview(reviewView)
+        contentScrollView.addSubview(UIUtils.getSeparator(size: 1))
         contentScrollView.addSubview(availabiltiyView)
+        contentScrollView.addSubview(UIUtils.getSeparator(size: 1))
 
-
-//        setupScrollView()
         setupDetailsLabels()
-       
-
+    
     }
 
-   
-    
     private func setupDetailsLabels(){
-        self.titleLabel.text = self.placeDetails.placeName
+        self.titleView.titleText = self.placeDetails.placeName
+        self.titleView.titleView.numberOfLines = 0
         
         descriptionLabel.text = self.placeDetails.description
         
@@ -116,7 +116,6 @@ class PlaceDetailViewController: UIViewController {
         hostContentLabel.text = self.placeDetails.hostId
     }
     
-   
     
     func setupScrollView(){
         

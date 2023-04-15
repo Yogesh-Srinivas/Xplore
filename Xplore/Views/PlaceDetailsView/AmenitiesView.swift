@@ -13,6 +13,7 @@ class AmenitiesView: UIView {
         uiButton.setTitleColor(.label, for: .normal)
         uiButton.layer.cornerRadius = 10
         uiButton.underline()
+        uiButton.addBorder()
         return uiButton
     }()
     
@@ -86,8 +87,8 @@ class AmenitiesView: UIView {
         
         NSLayoutConstraint.activate([
             showAllAmenitiesButton.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            showAllAmenitiesButton.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            showAllAmenitiesButton.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            showAllAmenitiesButton.leadingAnchor.constraint(equalTo: self.leadingAnchor,constant: 20),
+            showAllAmenitiesButton.trailingAnchor.constraint(equalTo: self.trailingAnchor,constant: -20),
             showAllAmenitiesButton.heightAnchor.constraint(equalToConstant: 40),
             showAllAmenitiesButton.topAnchor.constraint(equalTo: amenityStackView.bottomAnchor)
             

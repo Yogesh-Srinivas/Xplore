@@ -6,7 +6,6 @@ class UnreservedPlaceDetailsViewController: UnvisitedPlaceDetailViewController {
     
     lazy var wishListItem = {
         let barButtonItem = UIBarButtonItem()
-        barButtonItem.tintColor = .systemPink
         return barButtonItem
     }()
     
@@ -22,7 +21,7 @@ class UnreservedPlaceDetailsViewController: UnvisitedPlaceDetailViewController {
     
     var fromDate : DateComponents = DateComponents(){
         didSet{
-            availabiltiyView.contentLabel.text = "\(fromDate.day!)-\(fromDate.month!) '\(fromDate.year! % 100)"
+            availabiltiyView.contentLabel.text = "on \(fromDate.day!) \(GeneralUtils.getMonthInString(month: fromDate.month!) )"
             
             availabiltiyView.contentLabel.configSecondaryStyle()
             
@@ -44,7 +43,7 @@ class UnreservedPlaceDetailsViewController: UnvisitedPlaceDetailViewController {
         didSet{
             if let toDate = toDate{
                 
-                availabiltiyView.contentLabel.text = "\(fromDate.day!)-\(fromDate.month!) '\(fromDate.year! % 100) to \(toDate.day!)-\(toDate.month!) '\(toDate.year! % 100)"
+                availabiltiyView.contentLabel.text = "\(fromDate.day!) \(GeneralUtils.getMonthInString(month: fromDate.month!))  to  \(toDate.day!) \(GeneralUtils.getMonthInString(month: toDate.month!))"
                 
                 if let numberOfDays = GeneralUtils.getNumberOfDays(from: fromDate, to: toDate){
                     let pricePerDay = placeDetails.price.pricePerDay
@@ -149,21 +148,23 @@ class UnreservedPlaceDetailsViewController: UnvisitedPlaceDetailViewController {
         if self.placeDetails.isWishListed{
             wishListItem.action  = #selector(wishListButtonOnTapActionRemoveFromWishList)
             wishListItem.target = self
+            wishListItem.tintColor = .systemPink
             wishListItem.image = UIImage(systemName: "heart.fill")
         }else{
          
             wishListItem.action  = #selector(wishListButtonOnTapActionAddToWishList)
             wishListItem.target = self
             wishListItem.image = UIImage(systemName: "heart")
+            wishListItem.tintColor = .label
         }
     }
     
     private func setupAvailabilityView(){
         availabiltiyView.setupTapAction(currentViewController: self, viewControllerToPresentOnTap: AvailabilityCalenderViewController(districtName: placeDetails.location.city,
             pricePerDay: placeDetails.price.pricePerDay,
-            currencyCode: placeDetails.price.currencyCode){[weak self](fromDate,toDate) in
-            self?.fromDate = fromDate
-            self?.toDate = toDate
+            currencyCode: placeDetails.price.currencyCode){[unowned self](fromDate,toDate) in
+            self.fromDate = fromDate
+            self.toDate = toDate
         })
         
         availabiltiyView.contentLabel.text = "choose your dates"
@@ -178,6 +179,7 @@ class UnreservedPlaceDetailsViewController: UnvisitedPlaceDetailViewController {
         databaseController.addToWishList(placeId: placeId)
         
         wishListItem.image = UIImage(systemName: "heart.fill")
+        wishListItem.tintColor = .systemPink
         
         placeDetails.isWishListed = true
         wishListButtonClosure?()
@@ -193,6 +195,8 @@ class UnreservedPlaceDetailsViewController: UnvisitedPlaceDetailViewController {
         databaseController.removeFromWishList(placeId: placeId)
     
         wishListItem.image = UIImage(systemName: "heart")
+        wishListItem.tintColor = .label
+        
         placeDetails.isWishListed = false
         wishListButtonClosure?()
         

@@ -20,18 +20,7 @@ final class DatabaseController : PlaceDBController,FetchableImage{
         databaseOperationDelegate.loadTravelPlaceDetailData(DataHold.travelPlaceDetails)
         
         for bookedDates in DataHold.bookedTrips{
-            bookPlace(
-                placeId: bookedDates.placeId,
-                fromDate: bookedDates.BookedDateFrom,
-                toDate: bookedDates.BookedDateTo)
-            reservePlace(
-                placeId: bookedDates.placeId,
-                fromDate: bookedDates.BookedDateFrom,
-                toDate: bookedDates.BookedDateTo,
-                pricePerDay: bookedDates.pricePerDay,
-                tax: bookedDates.taxPercentage,
-                currencyCode: bookedDates.currencyCode,
-                numberOfGuests: bookedDates.numberOfGuests)
+            reservePlace(tripDetails: bookedDates)
         }
         
     }
@@ -67,23 +56,18 @@ final class DatabaseController : PlaceDBController,FetchableImage{
         databaseOperationDelegate.addImageUrl(imageUrl : imageUrl)
     }
     
-    func reservePlace(placeId : String,fromDate : DateComponents,toDate : DateComponents?,pricePerDay : Int,tax : Double, currencyCode : String,numberOfGuests : Int){
-        databaseOperationDelegate.reservePlace(
-            placeId: placeId,
-            userId: GeneralUtils.getUserId(),
-            fromDate: fromDate,
-            toDate: toDate,
-            pricePerDay: pricePerDay,
-            tax: tax,
-            currencyCode: currencyCode,
-            cleaningFee: ControlCenter.cleaningFee,
-            serviceFee: ControlCenter.serviceFee,
-            numberOfGuests : numberOfGuests)
+    func reservePlace(tripDetails : BookedTrip){
+        databaseOperationDelegate.reservePlace(bookedTrip: tripDetails)
         
-        bookPlace(placeId: placeId, fromDate: fromDate, toDate: toDate)
+        bookPlace(reservationId : tripDetails.reservationId, placeId: tripDetails.placeId, fromDate: tripDetails.BookedDateFrom, toDate: tripDetails.BookedDateTo)
     }
     
-    func bookPlace(placeId : String,fromDate : DateComponents,toDate : DateComponents?){
+    func cancelReservation(reservationId : String){
+        databaseOperationDelegate.cancelPlaceAvailabilty(reservationId : reservationId)
+        databaseOperationDelegate.cancelBookedReservation(reservationId: reservationId)
+    }
+    
+    private func bookPlace(reservationId : String, placeId : String,fromDate : DateComponents,toDate : DateComponents?){
         
         var datesToBook : [Date] = []
         
@@ -91,8 +75,7 @@ final class DatabaseController : PlaceDBController,FetchableImage{
             datesToBook = GeneralUtils.getDatesBetween(startDate: fromDate.date, endDate: toDate.date)
         }
         
-        databaseOperationDelegate.bookDates(placeId: placeId, datesToBook: datesToBook)
-        
+        databaseOperationDelegate.bookDates(reservationId: reservationId, placeId: placeId, datesToBook: datesToBook)
     }
     
     func getbookedTripDetail() -> [BookedTrip]{
@@ -109,6 +92,21 @@ final class DatabaseController : PlaceDBController,FetchableImage{
         return nil
         
     }
+    
+    func addRating(placeId : String,rating : Double){
+        databaseOperationDelegate.addRating(userId: GeneralUtils.getUserId(), placeId: placeId, rating: rating)
+    }
+    func addReview(placeId : String,review : String){
+        databaseOperationDelegate.addReview(userId: GeneralUtils.getUserId(), placeId: placeId, review: review)
+    }
+    func isUserRated(placeId : String) -> Bool{
+        databaseOperationDelegate.isUserRated(userId: GeneralUtils.getUserId(), placeId: placeId)
+    }
+    
+    func getReviews(placeId : String) -> [Review]{
+        databaseOperationDelegate.getReviewDetail(placeId: placeId)
+    }
+    
     
     func fetchImage(
         from imageUrl : String,

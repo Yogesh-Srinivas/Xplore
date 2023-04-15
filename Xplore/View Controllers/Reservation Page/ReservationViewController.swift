@@ -155,16 +155,22 @@ final class ReservationViewController : UITableViewController {
     }
     
     @objc private func reserveBottonOnTapAction(){
-        
-        databaseController.reservePlace(
+        let reservedPlaceDetail = BookedTrip(
+            userId: GeneralUtils.getUserId(),
             placeId: tripDetails.placeId,
-            fromDate: tripDetails.fromDate,
-            toDate: tripDetails.toDate,
+            BookedDateFrom: tripDetails.fromDate,
+            BookedDateTo: tripDetails.toDate,
             pricePerDay: priceDetails.pricePerDay,
-            tax: priceDetails.taxPercentage,
+            taxPercentage: priceDetails.taxPercentage,
             currencyCode: priceDetails.currencyCode,
-            numberOfGuests: tripDetails.numberOfGuestes
+            isVisited: false,
+            numberOfGuests: tripDetails.numberOfGuestes,
+            cleaningFee: ControlCenter.cleaningFee,
+            serviceFee: ControlCenter.serviceFee,
+            reservationId: GeneralUtils.generateReservationUniqueID()
         )
+        
+        databaseController.reservePlace(tripDetails : reservedPlaceDetail)
         
         self.navigationController?.pushViewController(ReservationConfirmationViewController(), animated: true)
     }

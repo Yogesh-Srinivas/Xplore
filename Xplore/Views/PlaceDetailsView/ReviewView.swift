@@ -6,8 +6,6 @@ final class ReviewView: UIView {
     
     private lazy var showAllButton = {
         let button = UIButton()
-        button.setTitle("Show All \(reviewList.count) reviews", for: .normal)
-        button.underline()
         button.setTitleColor(.label, for: .normal)
         button.addBorder()
         
@@ -19,11 +17,12 @@ final class ReviewView: UIView {
     private lazy var reviewCollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
+        
         let uiCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         return uiCollectionView
     }()
     
-    private let reviewList : [Review]
+    private var reviewList : [Review]
     
     private let referenceViewController : UIViewController
     
@@ -91,6 +90,8 @@ final class ReviewView: UIView {
             showAllButton.heightAnchor.constraint(equalToConstant: showAllButton.intrinsicContentSize.height + 10)
         ])
         
+        showAllButton.setTitle("Show All \(reviewList.count) Reviews", for: .normal)
+        
     }
     
     private func addShowAllLabelToCell(cell : UICollectionViewCell){
@@ -116,6 +117,14 @@ final class ReviewView: UIView {
             ReviewPageViewController(reviewList: reviewList), animated: true)
     }
     
+    func updateReviewList(updatedReviewList : [Review]){
+        reviewList = updatedReviewList
+        
+        showAllButton.setTitle("Show All \(updatedReviewList.count) reviews", for: .normal)
+        
+        reviewCollectionView.reloadData()
+    }
+    
 }
 
 
@@ -129,19 +138,21 @@ extension ReviewView : UICollectionViewDelegate,UICollectionViewDataSource,UICol
         
         if indexPath.row == min(5,reviewList.count){
             let cell = reviewCollectionView.dequeueReusableCell(withReuseIdentifier: "ShowAllButton", for: indexPath)
+            
             addShowAllLabelToCell(cell: cell)
             
             cell.layer.borderColor = UIColor.lightGray.cgColor
             cell.layer.borderWidth = 1
             cell.layer.cornerRadius = 10
-
+            
             return cell
         }
         
         let cell = reviewCollectionView.dequeueReusableCell(withReuseIdentifier: "ReviewCard", for: indexPath) as! ReviewCard
         
-      
-        cell.reviewerNameLabel.text = reviewList[indexPath.row].userName
+        let reviewerName = reviewList[indexPath.row].userID == GeneralUtils.getUserId() ? "You" : reviewList[indexPath.row].userName
+        
+        cell.reviewerNameLabel.text = reviewerName
         
         cell.reviewLabel.text = reviewList[indexPath.row].review
         

@@ -29,16 +29,33 @@ class VisitedPlaceDetailViewController: PlaceDetailViewController {
         super.viewDidLoad()
         
         super.contentScrollView.addSubview(PriceDetails(frame: .zero, tripDetails: tripDetails))
+        
+
         super.contentScrollView.bringSubviewToFront(ratingView)
+        super.contentScrollView.bringSubviewToFront(super.contentScrollView.subviews[6])
+        
         super.contentScrollView.bringSubviewToFront(reviewView)
-        super.contentScrollView.addSubview(ratingButton)
+        super.contentScrollView.bringSubviewToFront(super.contentScrollView.subviews[6])
+        
+        if !databaseController.isUserRated(placeId: placeDetails.placeId){
+            super.contentScrollView.addSubview(ratingButton)
+        }
        
         setupScrollView()
         
         setupTripDates()
-        
-      
        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if databaseController.isUserRated(placeId: placeDetails.placeId){
+            ratingButton.removeFromSuperview()
+        }
+        setupScrollView()
+        
+        reviewView.updateReviewList(
+            updatedReviewList: databaseController.getReviews(placeId : placeDetails.placeId)
+        )
     }
     
     private func setupTripDates(){
@@ -67,7 +84,7 @@ class VisitedPlaceDetailViewController: PlaceDetailViewController {
     
     @objc private func ratingButtonOnTapAction(){
         self.navigationController?.pushViewController(
-            RatingAndReviewViewController(),
+            RatingAndReviewViewController(databaseController: databaseController, placeId: placeDetails.placeId),
             animated: true
         )
     }

@@ -4,6 +4,8 @@ class ReservedPlaceDetailViewController: UnvisitedPlaceDetailViewController {
 
     let tripDetails : BookedTrip
     
+    lazy var priceDetailsView = PriceDetails(frame: .zero, tripDetails: tripDetails)
+    
     lazy var cancelReservationButton = {
         let button = UIButton()
         button.setTitle("cancel Reservation", for: .normal)
@@ -26,8 +28,10 @@ class ReservedPlaceDetailViewController: UnvisitedPlaceDetailViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        super.contentScrollView.addSubview(UIUtils.getSeparator(size: 1))
         super.contentScrollView.addSubview(cancelReservationButton)
-        super.contentScrollView.insertSubview(PriceDetails(frame: .zero, tripDetails: tripDetails), belowSubview: amenitiesView)
+        super.contentScrollView.insertSubview(priceDetailsView, belowSubview: amenitiesView)
+
         setupTripDates()
         setupScrollView()
     }
@@ -56,7 +60,11 @@ class ReservedPlaceDetailViewController: UnvisitedPlaceDetailViewController {
     }
     
     @objc private func cancelReservationButtonOnTapAction(){
-        self.navigationController?.pushViewController(CancelReservationPageViewController(), animated: true)
+        self.navigationController?.pushViewController(
+            CancelReservationPageViewController(
+            reservationId: tripDetails.reservationId,
+            databaseController: databaseController
+            ), animated: true)
     }
     
 

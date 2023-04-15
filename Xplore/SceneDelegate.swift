@@ -15,13 +15,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.makeKeyAndVisible()
         
         let userDefault = UserDefaults.standard
-        if !userDefault.bool(forKey: "hasAppOpenedBefore"){
-           userDefault.set(true, forKey: "hasAppOpenedBefore")
-            
-            // procedures when app first launches
-            userDefault.set(false, forKey: "isDarkTheme")
-            window?.overrideUserInterfaceStyle = .light
-        }
+        
+//        if !userDefault.bool(forKey: "hasAppOpenedBefore"){
+//           userDefault.set(true, forKey: "hasAppOpenedBefore")
+//
+//            userDefault.set(false, forKey: "isDarkTheme")
+//            window?.overrideUserInterfaceStyle = .light
+//        }
         
         
         let mainTabBarController = MainTabBarController()

@@ -43,6 +43,6 @@ extension UILabel{
     
     func configSecondaryFadedStyle(){
         self.font = .systemFont(ofSize: 15 + ControlCenter.fontConstant, weight: .light)
-        self.textColor = .label
+        self.textColor = .systemGray
     }
 }

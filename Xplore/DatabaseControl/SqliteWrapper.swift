@@ -124,7 +124,9 @@ final class SqliteWrapper{
         let result = sqlite3_step(insertStatement)
             
         if result != SQLITE_DONE{
-            print("Could not insert a row : stmt[ \(queryString) ]")
+            print("Could not insert a row : stmt[ \(queryString) ] ")
+            print("Error : " + String(cString: sqlite3_errmsg(dbReference)!)
+)
         }
                     
         sqlite3_finalize(insertStatement)
@@ -182,9 +184,7 @@ final class SqliteWrapper{
                 queryString += conditionIndex == conditions.count-1 ? " " : " AND "            }
         }
         queryString += ";"
-        
-        print(queryString)
-        
+                
         executeStament(queryString: queryString, tableName: tableName, operation: .DELETE)
     }
     

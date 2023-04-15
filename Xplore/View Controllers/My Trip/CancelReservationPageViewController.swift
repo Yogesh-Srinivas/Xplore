@@ -2,7 +2,10 @@
 import UIKit
 
 class CancelReservationPageViewController: CancellationPolicyViewController {
-
+    
+    let reservationId : String
+    let databaseController : PlaceDBController
+    
     lazy var cancellationButton = {
         let button = UIButton()
         button.setTitle("Confirm & Cancel", for: .normal)
@@ -11,6 +14,16 @@ class CancelReservationPageViewController: CancellationPolicyViewController {
         button.addTarget(self, action: #selector(cancelButtonAction), for: .touchDown)
         return button
     }()
+
+    init(reservationId: String,databaseController : PlaceDBController) {
+        self.reservationId = reservationId
+        self.databaseController = databaseController
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +45,8 @@ class CancelReservationPageViewController: CancellationPolicyViewController {
     }
     
     @objc private func cancelButtonAction(){
+        
+        databaseController.cancelReservation(reservationId: reservationId)
         
         let alertDuration : Double = 2
         

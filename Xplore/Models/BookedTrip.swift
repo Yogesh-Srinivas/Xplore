@@ -12,6 +12,7 @@ struct BookedTrip{
     let numberOfGuests : Int
     let cleaningFee : Int
     let serviceFee : Int
+    let reservationId : String
     var numberOfDays : Int {
         let fromDate = BookedDateFrom
         if let toDate = BookedDateTo,

@@ -119,7 +119,7 @@ extension ReservationConfirmationViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell", for: indexPath)
-                
+        
         switch indexPath.row{
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ReservationConfirmCustomCell", for: indexPath) as! ReservationConfirmCustomCell
@@ -128,6 +128,7 @@ extension ReservationConfirmationViewController {
             cell.placeImage.image = UIImage(named: "test")
             cell.primaryLabel.text = "Your reservation is confirmed."
             cell.secondaryLabel.text = "Hurray! Pack your bags, You're going to \(location)."
+            cell.selectionStyle = .none
             return cell
         
         case 2:
@@ -144,7 +145,7 @@ extension ReservationConfirmationViewController {
             cell.contentConfiguration = config
 
         }
-        
+        cell.selectionStyle = .none
         return cell
     }
 

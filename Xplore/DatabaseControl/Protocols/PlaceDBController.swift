@@ -6,5 +6,10 @@ protocol PlaceDBController{
     func getPlaceDetail(placeId : String) -> TravelPlaceDetail?
     func addToWishList(placeId : String)
     func removeFromWishList(placeId : String)
-    func reservePlace(placeId : String,fromDate : DateComponents,toDate : DateComponents?,pricePerDay : Int,tax : Double, currencyCode : String,numberOfGuests : Int)
+    func reservePlace(tripDetails : BookedTrip)
+    func cancelReservation(reservationId : String)
+    func addRating(placeId : String,rating : Double)
+    func addReview(placeId : String,review : String)
+    func isUserRated(placeId : String) -> Bool
+    func getReviews(placeId : String) -> [Review]
 }

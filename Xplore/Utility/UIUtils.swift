@@ -11,4 +11,17 @@ struct UIUtils{
             alert.dismiss(animated: true)
         }
     }
+    
+    static func getSeparator(size : Double) -> UIView{
+        let separatorView = UIView()
+        
+        separatorView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            separatorView.heightAnchor.constraint(equalToConstant: size)
+        ])
+        
+        separatorView.backgroundColor = .systemGray3
+        return separatorView
+    }
 }

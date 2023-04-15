@@ -15,14 +15,14 @@ class PriceDetails: SectionView {
     lazy var numberOfDaysStayView = {
         let horizontalStackView = StackViewWithCornorLabels()
         horizontalStackView.leadingLabel.configSecondaryStyle()
-        horizontalStackView.trailingLabel.configSecondaryFadedStyle()
+        horizontalStackView.trailingLabel.configSecondaryRegularStyle()
         return horizontalStackView
     }()
     
     
     lazy var pricePerDay = {
         let horizontalStackView = StackViewWithCornorLabels()
-        horizontalStackView.leadingLabel.configSecondaryStyle()
+        horizontalStackView.leadingLabel.configSecondaryFadedStyle()
         horizontalStackView.trailingLabel.configSecondaryFadedStyle()
         return horizontalStackView
     }()
@@ -30,27 +30,27 @@ class PriceDetails: SectionView {
     lazy var actualPrice = {
         let horizontalStackView = StackViewWithCornorLabels()
         horizontalStackView.leadingLabel.configSecondaryStyle()
-        horizontalStackView.trailingLabel.configSecondaryFadedStyle()
+        horizontalStackView.trailingLabel.configSecondaryRegularStyle()
         return horizontalStackView
     }()
     
     lazy var taxes = {
         let horizontalStackView = StackViewWithCornorLabels()
         horizontalStackView.leadingLabel.configSecondaryStyle()
-        horizontalStackView.trailingLabel.configSecondaryFadedStyle()
+        horizontalStackView.trailingLabel.configSecondaryRegularStyle()
         return horizontalStackView
     }()
     
     lazy var serviceFee = {
         let horizontalStackView = StackViewWithCornorLabels()
-        horizontalStackView.leadingLabel.configSecondaryStyle()
+        horizontalStackView.leadingLabel.configSecondaryFadedStyle()
         horizontalStackView.trailingLabel.configSecondaryFadedStyle()
         return horizontalStackView
     }()
     
     lazy var cleaningFee = {
         let horizontalStackView = StackViewWithCornorLabels()
-        horizontalStackView.leadingLabel.configSecondaryStyle()
+        horizontalStackView.leadingLabel.configSecondaryFadedStyle()
         horizontalStackView.trailingLabel.configSecondaryFadedStyle()
         return horizontalStackView
     }()
@@ -80,7 +80,9 @@ class PriceDetails: SectionView {
         self.contentStackView.addArrangedSubview(taxes)
         self.contentStackView.addArrangedSubview(cleaningFee)
         self.contentStackView.addArrangedSubview(serviceFee)
+        self.contentStackView.addArrangedSubview(UIUtils.getSeparator(size: 1.5))
         self.contentStackView.addArrangedSubview(totalPrice)
+        self.contentStackView.addArrangedSubview(UIUtils.getSeparator(size: 1.5))
     }
     
     private func setupPriceDetails(){

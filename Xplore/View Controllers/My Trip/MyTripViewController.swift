@@ -1,19 +1,35 @@
 import UIKit
 
-class MyTripViewController: UIViewController {
+class MyTripViewController: UITableViewController {
     
     let databaseController : PlaceDBController
     
-    lazy var segmentedControl = {
-        let segmentedControl = UISegmentedControl(items: ["Reserved","Visited"])
-        segmentedControl.selectedSegmentTintColor = .systemPink
-        segmentedControl.selectedSegmentIndex = 0
-        segmentedControl.backgroundColor = .systemBackground
-        segmentedControl.addTarget(self, action: #selector(segmentedControlAction), for: .valueChanged)
-        return segmentedControl
+//    lazy var segmentedControl = {
+//        let segmentedControl = UISegmentedControl(items: ["Reserved","Visited"])
+//        segmentedControl.selectedSegmentTintColor = .systemPink
+//        segmentedControl.tintColor = .systemPink
+//        segmentedControl.selectedSegmentIndex = 0
+//        segmentedControl.addTarget(self, action: #selector(segmentedControlAction), for: .valueChanged)
+//
+//        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.selected)
+//
+//        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15, weight: .medium)], for: UIControl.State.normal)
+//
+//
+//        return segmentedControl
+//    }()
+    
+    lazy var swapItem = {
+        let barButtonItem = UIBarButtonItem()
+        barButtonItem.image = UIImage(systemName: "rectangle.2.swap")
+        barButtonItem.tintColor = .label
+        barButtonItem.target = self
+        barButtonItem.action = #selector(self.swapControlAction)
+        barButtonItem.tag = 0
+        return barButtonItem
     }()
     
-    lazy var commonTableView = UITableView()
+//    lazy var commonTableView = UITableView()
     
     var reservedList : [BookedTrip] = []
     var reservedListPlaceDetails : [TravelPlaceDetail] = []
@@ -41,6 +57,8 @@ class MyTripViewController: UIViewController {
         reservedList = []
         reservedListPlaceDetails = []
         
+       
+        
         for tripDetail in tripDetails {
             if let placeDetail = databaseController.getPlaceDetail(placeId: tripDetail.placeId){
                 if tripDetail.isVisited{
@@ -53,79 +71,96 @@ class MyTripViewController: UIViewController {
             }
             
         }
+       
         
-        commonTableView.reloadData()
+       
     }
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.setCustomBackground()
         
-        view.addSubview(segmentedControl)
-        view.addSubview(commonTableView)
+//        view.addSubview(segmentedControl)
+//        view.addSubview(commonTableView)
         
-        setupSegmentedControl()
-        setupCommonTableView()
+//        setupSegmentedControl()
+//        setupCommonTableView()
+        
+        tableView.register(PlaceDetailCardView.self,forCellReuseIdentifier: PlaceDetailCardView.reuseIdentifier)
+        tableView.showsVerticalScrollIndicator = false
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
         self.tabBarController?.tabBar.backgroundColor = .systemBackground
-        self.navigationController?.navigationBar.isHidden = true
+        self.navigationController?.navigationBar.isHidden = false
+        self.navigationItem.rightBarButtonItem = swapItem
+        self.navigationItem.title = "Reserved"
+        
         getTripDetails()
+        updateprimaryDatasource()
+        tableView.reloadData()
     }
     
-    @objc private func segmentedControlAction(){
-        if segmentedControl.selectedSegmentIndex == 1{
-            primaryPlaceDetailDataSource = visitedListPlaceDetails
-        }else{
+    
+    @objc private func swapControlAction(){
+        
+        swapItem.tag = swapItem.tag == 0 ? 1 : 0
+        self.navigationItem.title = swapItem.tag == 0 ? "Reserved" : "Visited"
+        
+        getTripDetails()
+        updateprimaryDatasource()
+        tableView.reloadData()
+    }
+    
+    private func updateprimaryDatasource(){
+        if swapItem.tag == 0 {
+            primaryBookedTripDataSource = reservedList
             primaryPlaceDetailDataSource = reservedListPlaceDetails
+        }else{
+            primaryBookedTripDataSource = visitedList
+            primaryPlaceDetailDataSource = visitedListPlaceDetails
         }
-        commonTableView.reloadData()
     }
-    private func setupSegmentedControl(){
-        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            segmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 5),
-            segmentedControl.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 5),
-            segmentedControl.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -5),
-            segmentedControl.heightAnchor.constraint(equalToConstant: 40)
-        ])
-    }
+//
+//    private func setupSegmentedControl(){
+//        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
+//
+//        NSLayoutConstraint.activate([
+//            segmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 20),
+//            segmentedControl.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 5),
+//            segmentedControl.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -5),
+//            segmentedControl.heightAnchor.constraint(equalToConstant: 50)
+//        ])
+//    }
     
-    private func setupCommonTableView(){
-        commonTableView.delegate = self
-        commonTableView.dataSource = self
-        commonTableView.register(PlaceDetailCardView.self,forCellReuseIdentifier: PlaceDetailCardView.reuseIdentifier)
-        commonTableView.showsVerticalScrollIndicator = false
-        
-        commonTableView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            commonTableView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 10),
-            commonTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 2),
-            commonTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -2),
-            commonTableView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
-        ])
-    }
+//    private func setupCommonTableView(){
+//        commonTableView.delegate = self
+//        commonTableView.dataSource = self
+//
+//
+//        commonTableView.translatesAutoresizingMaskIntoConstraints = false
+//        NSLayoutConstraint.activate([
+//            commonTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 10),
+//            commonTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 2),
+//            commonTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -2),
+//            commonTableView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
+//        ])
+//    }
     
     private func configCell(row : Int,cell : PlaceDetailCardView){
         cell.wishListButton.isHidden = true
         cell.addImages(imageUrls: primaryPlaceDetailDataSource[row].images)
+            
+        let totalPrice = primaryBookedTripDataSource[row].totalPrice + ControlCenter.serviceFee + ControlCenter.cleaningFee
         
-        let fromDate = primaryBookedTripDataSource[row].BookedDateFrom
-        let toDate = primaryBookedTripDataSource[row].BookedDateTo
+        let priceAmount = "\(primaryPlaceDetailDataSource[row].price.currencyCode) \(totalPrice)  (\(primaryBookedTripDataSource[row].numberOfDays) Days)"
         
-        if let toDate = toDate,let numberOfDays = GeneralUtils.getNumberOfDays(from: fromDate, to: toDate){
-            
-            let totalPrice = primaryBookedTripDataSource[row].totalPrice + ControlCenter.serviceFee + ControlCenter.cleaningFee
-            
-            let priceAmount = "\(primaryPlaceDetailDataSource[row].price.currencyCode) \(totalPrice)  (\(numberOfDays) Days)"
-            
-            cell.priceLabelButton.setTitle(priceAmount, for: .normal)
-            cell.priceLabelButton.titleLabel?.configSecondaryStyle()
-        }
+        cell.priceLabelButton.setTitle(priceAmount, for: .normal)
+        cell.priceLabelButton.titleLabel?.configSecondaryStyle()
         
         cell.titleCardView.text = primaryPlaceDetailDataSource[row].placeName
         cell.titleCardView.configSecondaryStyle()
@@ -137,24 +172,24 @@ class MyTripViewController: UIViewController {
     }
 
 }
-extension MyTripViewController : UITableViewDelegate,UITableViewDataSource{
+extension MyTripViewController {
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         primaryPlaceDetailDataSource.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = commonTableView.dequeueReusableCell(withIdentifier: PlaceDetailCardView.reuseIdentifier, for: indexPath) as! PlaceDetailCardView
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: PlaceDetailCardView.reuseIdentifier, for: indexPath) as! PlaceDetailCardView
         
         configCell(row: indexPath.row, cell: cell)
-        
+        cell.selectionStyle = .none
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         
-        if segmentedControl.selectedSegmentIndex == 0 {
+        if swapItem.tag == 0 {
             self.navigationController?.pushViewController(
                 ReservedPlaceDetailViewController(
                     placeDetails: primaryPlaceDetailDataSource[indexPath.row],

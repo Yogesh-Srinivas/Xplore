@@ -8,6 +8,9 @@ class RatingAndReviewViewController: UIViewController {
         case FULL
     }
     
+    private let databaseController : PlaceDBController
+    private let placeId : String
+    
     private let fullStarImage = UIImage(systemName: "star.fill")?.withTintColor(.systemYellow,renderingMode: .alwaysOriginal)
     
     private let halfStarImage = UIImage(systemName: "star.leadinghalf.fill")?.withTintColor(.systemYellow,renderingMode: .alwaysOriginal)
@@ -41,6 +44,7 @@ class RatingAndReviewViewController: UIViewController {
     private var rating : Double = 0 {
         didSet{
             ratingView.titleText = "Your Rating \(Constants.RATING_STAR) \(rating)"
+            submitButton.isHidden = false
         }
     }
     
@@ -63,13 +67,25 @@ class RatingAndReviewViewController: UIViewController {
         button.setTitle("Submit", for: .normal)
         button.setTitleColor(.label, for: .normal)
         button.addBorder()
+        button.addTarget(self, action: #selector(submitButtonOnTapAction), for: .touchDown)
+        button.isHidden = true
         return button
     }()
     
     private lazy var reviewView = {
-        let sectionedView = SectionView(frame: .zero, contentView: reviewTextView, titleText: "Your Review")
+        let sectionedView = SectionView(frame: .zero, contentView: reviewTextView, titleText: "Your Review (Optional)")
         return sectionedView
     }()
+    
+    init(databaseController : PlaceDBController,placeId : String){
+        self.databaseController = databaseController
+        self.placeId = placeId
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -174,5 +190,21 @@ class RatingAndReviewViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    @objc private func submitButtonOnTapAction(){
+        
+        databaseController.addRating(placeId: placeId, rating: rating)
+        
+        if let reviewText = reviewTextView.text {
+            databaseController.addReview(placeId: placeId, review: reviewText)
+        }
+        
+        UIUtils.showAlertMessage(message: "Thank you for taking the time to provide a rating.", viewController: self, durationInSeconds: 1.5)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5){
+            self.navigationController?.popViewController(animated: true)
+        }
+        
     }
 }

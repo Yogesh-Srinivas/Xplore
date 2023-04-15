@@ -5,7 +5,24 @@ class ExplorePageViewController: UITableViewController {
     let databaseController : PlaceDBController
     
     var placeDetailsList : [TravelPlaceDetail] = []
-        
+    
+    lazy var searchItem = {
+        let barButtonItem = UIBarButtonItem()
+        barButtonItem.image = UIImage(systemName:"magnifyingglass")
+        barButtonItem.tintColor = .label
+        return barButtonItem
+    }()
+    
+    private let emptyHeartImage = {
+        let image = UIImage(systemName: "heart")?.withTintColor(.white, renderingMode: .alwaysOriginal)
+        return image
+    }()
+    
+    private let fullHeartImage = {
+        let image = UIImage(systemName: "heart.fill")?.withTintColor(.systemPink, renderingMode: .alwaysOriginal)
+        return image
+    }()
+    
     init(databaseController : PlaceDBController){
         
         self.databaseController = databaseController
@@ -27,6 +44,8 @@ class ExplorePageViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
+        self.navigationItem.rightBarButtonItem = searchItem
+        self.navigationItem.title = "Xplore"
         
         self.placeDetailsList = databaseController.getAllPlaceDetail()
         
@@ -45,12 +64,13 @@ class ExplorePageViewController: UITableViewController {
         cell.priceLabelButton.underline()
         cell.priceLabelButton.addTarget(self, action: #selector(priceButtonOnTapAction(_:)), for: .touchDown)
         cell.priceLabelButton.tag = row
+        cell.priceLabelButton.titleLabel?.configSecondaryRegularStyle()
         
         cell.titleCardView.text = placeDetailsList[row].placeName
-        cell.titleCardView.configSecondaryStyle()
+        cell.titleCardView.configSemiPrimary()
         
         cell.locationCardView.text = "\(placeDetailsList[row].location.city), \(placeDetailsList[row].location.state), \(placeDetailsList[row].location.country)"
-        cell.locationCardView.configSecondaryStyle()
+        cell.locationCardView.configTertiaryStyle()
         
         cell.ratingCard.text = placeDetailsList[row].ratingDetail.count != 0 ? "\(Constants.RATING_STAR)\(Constants.BULLETING_POINT)\(placeDetailsList[row].placeRating) (\(placeDetailsList[row].ratingDetail.count))" : "\(Constants.RATING_STAR) new"
        
@@ -60,7 +80,7 @@ class ExplorePageViewController: UITableViewController {
         
         if placeDetailsList[row].isWishListed {
             
-            cell.wishListButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+            cell.wishListButton.setImage(fullHeartImage, for: .normal)
             
             
             cell.wishListButton.removeTarget(self, action: #selector(wishListButtonOnTapActionAddToWishList(_:)), for: .touchUpInside)
@@ -69,7 +89,7 @@ class ExplorePageViewController: UITableViewController {
                         
         }else{
             
-            cell.wishListButton.setImage(UIImage(systemName: "heart"), for: .normal)
+            cell.wishListButton.setImage(emptyHeartImage, for: .normal)
             
             
             cell.wishListButton.removeTarget(self, action: #selector(wishListButtonOnTapActionRemoveFromWishList(_:)), for: .touchUpInside)
@@ -93,7 +113,7 @@ class ExplorePageViewController: UITableViewController {
         
         databaseController.addToWishList(placeId: placeId)
         
-        sender.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+        sender.setImage(fullHeartImage, for: .normal)
         
         placeDetailsList[sender.tag].isWishListed = true
         
@@ -110,7 +130,8 @@ class ExplorePageViewController: UITableViewController {
         let placeId = placeDetailsList[sender.tag].placeId
         databaseController.removeFromWishList(placeId: placeId)
     
-        sender.setImage(UIImage(systemName: "heart"), for: .normal)
+        sender.setImage(emptyHeartImage, for: .normal)
+        
         placeDetailsList[sender.tag].isWishListed = false
         
         
@@ -130,7 +151,7 @@ extension ExplorePageViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCell(withIdentifier: PlaceDetailCardView.reuseIdentifier, for: indexPath) as! PlaceDetailCardView
         configTabelCell(cell: &cell, row: indexPath.row)
-        
+        cell.selectionStyle = .none
         return cell
     }
     
