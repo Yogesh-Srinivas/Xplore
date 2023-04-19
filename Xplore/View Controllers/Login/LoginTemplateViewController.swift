@@ -5,7 +5,6 @@ class LoginTemplateViewController: UIViewController {
     lazy var topIllustrationImage = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "appLogoWithName")
-//        imageView.image = UIImage(named: "test")
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
@@ -20,7 +19,7 @@ class LoginTemplateViewController: UIViewController {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .equalCentering
-        stackView.spacing = 20
+        stackView.spacing = 30
         return stackView
     }()
     
@@ -73,6 +72,8 @@ class LoginTemplateViewController: UIViewController {
             contentView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             contentView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor)
         ])
+        
+        contentView.bounces = false
     }
     
     private func setupTopIllustrationImage(){
@@ -83,7 +84,7 @@ class LoginTemplateViewController: UIViewController {
             topIllustrationImage.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
             topIllustrationImage.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
             topIllustrationImage.bottomAnchor.constraint(equalTo: titleLabel.topAnchor, constant: -15),
-            topIllustrationImage.heightAnchor.constraint(equalTo:self.view.safeAreaLayoutGuide.heightAnchor,multiplier: 0.2)
+            topIllustrationImage.heightAnchor.constraint(equalTo:self.view.safeAreaLayoutGuide.heightAnchor,multiplier: 0.15)
         ])
     }
     
@@ -91,7 +92,6 @@ class LoginTemplateViewController: UIViewController {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-//            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
             titleLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             titleLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             titleLabel.bottomAnchor.constraint(equalTo: textFieldsView.topAnchor, constant: -10),
@@ -143,9 +143,8 @@ class LoginTemplateViewController: UIViewController {
 
        
         NSLayoutConstraint.activate([
-            fieldView.heightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.1),
             fieldView.leadingAnchor.constraint(equalTo: textFieldsView.leadingAnchor),
-            fieldView.trailingAnchor.constraint(equalTo: textFieldsView.trailingAnchor)
+            fieldView.trailingAnchor.constraint(equalTo: textFieldsView.trailingAnchor),
             
         ])
         

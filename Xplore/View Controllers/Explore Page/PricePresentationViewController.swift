@@ -57,7 +57,7 @@ class PricePresentationViewController: UIViewController {
         taxesPercentageView.trailingLabel.text = "\(priceDetails.taxPercentage) %"
         
         
-        let taxAmount = Int(Double(priceDetails.pricePerDay) * priceDetails.taxPercentage / 100)
+        let taxAmount = (Double(priceDetails.pricePerDay) * priceDetails.taxPercentage / 100).round(to: 2)
         
         let taxesAmountView = StackViewWithCornorLabels(frame: .zero)
         taxesAmountView.leadingLabel.text = "Tax Amount"
@@ -67,7 +67,7 @@ class PricePresentationViewController: UIViewController {
         totalPerDayView.leadingLabel.text = "Total Per Day"
         totalPerDayView.leadingLabel.configSemiPrimary()
         
-        totalPerDayView.trailingLabel.text = "\(priceDetails.pricePerDay + taxAmount)"
+        totalPerDayView.trailingLabel.text = "\((priceDetails.pricePerDay + taxAmount).round(to: 2))"
         totalPerDayView.trailingLabel.configSemiPrimary()
         
         contentStackView.addArrangedSubview(currencyCodeView)

@@ -3,5 +3,5 @@ struct UserDetail {
     let userName : String
     var email : String
     var mobile : String
-    var password : String
+    let password : String?
 }

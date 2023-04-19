@@ -98,8 +98,8 @@ final class ReviewView: UIView {
         
         let viewAllLabel = UILabel()
         viewAllLabel.text = "Show All \(reviewList.count) Reviews"
-        viewAllLabel.underline()
         viewAllLabel.configSecondaryRegularStyle()
+        viewAllLabel.underline()
        
         
         cell.contentView.addSubview(viewAllLabel)

@@ -18,7 +18,12 @@ class PlaceDetailCardView: UITableViewCell {
     let titleCardView = UILabel()
     let locationCardView = UILabel()
     let ratingCard = UILabel()
-    let priceLabelButton = UIButton(type: .system)
+    let priceLabelButton = {
+        let button = UIButton()
+        button.setTitleColor(.label, for: .normal)
+        return button
+    }()
+   
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         
@@ -37,7 +42,6 @@ class PlaceDetailCardView: UITableViewCell {
         
         contentView.addSubview(wishListButton)
         setupWishButton()
-        
         
     }
     
@@ -91,7 +95,6 @@ class PlaceDetailCardView: UITableViewCell {
                 ])
             }
             
-            priceLabelButton.titleLabel?.tintColor = .label
             imagesCollectionView.layer.cornerRadius = 20
         }
         

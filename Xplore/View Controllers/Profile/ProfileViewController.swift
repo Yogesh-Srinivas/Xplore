@@ -2,6 +2,24 @@ import UIKit
 
 class ProfileViewController: UITableViewController {
 
+    let placeDBController : PlaceDBController
+    let sessionDBController : SessionDBController
+    let currencyList : [Currency]
+    
+    let userDetail : UserDetail
+    
+    init(placeDBController: PlaceDBController, sessionDBController: SessionDBController) {
+        self.placeDBController = placeDBController
+        self.sessionDBController = sessionDBController
+        self.currencyList = placeDBController.getCurrencyList()
+        self.userDetail = sessionDBController.getUserDetail()
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,8 +85,8 @@ extension ProfileViewController{
         let profileHeaderView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "ProfileHeader") as! ProfileHeaderView
         
         
-        profileHeaderView.profileIcon.image = UIImage(systemName: "y.circle")
-        profileHeaderView.userLabel.text = "yogdathrynnciscbsium@gmail.com"
+        profileHeaderView.profileIcon.image = UIImage(systemName: "\(userDetail.email.first ?? Character("")).circle")
+        profileHeaderView.userLabel.text = userDetail.email
         
         return profileHeaderView
     }
@@ -82,7 +100,10 @@ extension ProfileViewController{
         
         switch indexPath.row{
         case 0:
-            self.navigationController?.pushViewController(CurrencyViewController(), animated: true)
+            self.navigationController?.pushViewController(
+                CurrencyViewController(
+                       databaseController: placeDBController
+                ), animated: true)
         case 2:
             let termsOfServiceVC = InformationViewController(title: "Terms of Service", content: ControlCenter.TermsOfService)
         
@@ -93,6 +114,9 @@ extension ProfileViewController{
             let privacyPolicyVC = InformationViewController(title: "Privacy Policy", content: ControlCenter.PrivacyPolicy)
         
             self.navigationController?.pushViewController(privacyPolicyVC, animated: true)
+        case 4:
+            UserDefaults.standard.removeObject(forKey: "userId")
+            self.navigationController?.setViewControllers([LoginViewController()], animated: true)
         default:
             break
         }

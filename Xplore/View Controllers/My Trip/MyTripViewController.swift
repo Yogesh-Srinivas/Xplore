@@ -4,21 +4,6 @@ class MyTripViewController: UITableViewController {
     
     let databaseController : PlaceDBController
     
-//    lazy var segmentedControl = {
-//        let segmentedControl = UISegmentedControl(items: ["Reserved","Visited"])
-//        segmentedControl.selectedSegmentTintColor = .systemPink
-//        segmentedControl.tintColor = .systemPink
-//        segmentedControl.selectedSegmentIndex = 0
-//        segmentedControl.addTarget(self, action: #selector(segmentedControlAction), for: .valueChanged)
-//
-//        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.selected)
-//
-//        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15, weight: .medium)], for: UIControl.State.normal)
-//
-//
-//        return segmentedControl
-//    }()
-    
     lazy var swapItem = {
         let barButtonItem = UIBarButtonItem()
         barButtonItem.image = UIImage(systemName: "rectangle.2.swap")
@@ -28,9 +13,7 @@ class MyTripViewController: UITableViewController {
         barButtonItem.tag = 0
         return barButtonItem
     }()
-    
-//    lazy var commonTableView = UITableView()
-    
+        
     var reservedList : [BookedTrip] = []
     var reservedListPlaceDetails : [TravelPlaceDetail] = []
     
@@ -50,44 +33,38 @@ class MyTripViewController: UITableViewController {
     }
     
     private func getTripDetails(){
-        let tripDetails = databaseController.getbookedTripDetail()
+        var tripDetails = databaseController.getbookedTripDetail()
+        
+        let convertedTripDetails = convertBookedTripListToCurrentCurrency(bookedTripList: tripDetails)
         
         visitedList = []
         visitedListPlaceDetails = []
         reservedList = []
         reservedListPlaceDetails = []
         
-       
-        
-        for tripDetail in tripDetails {
+        for tripDetail in convertedTripDetails {
             if let placeDetail = databaseController.getPlaceDetail(placeId: tripDetail.placeId){
+                let convertedPlaceDetail = convertPlaceDetailToCurrenctCurrency(placeDetail: placeDetail)
                 if tripDetail.isVisited{
                     visitedList.append(tripDetail)
-                    visitedListPlaceDetails.append(placeDetail)
+                    visitedListPlaceDetails.append(convertedPlaceDetail)
                 }else{
                     reservedList.append(tripDetail)
-                    reservedListPlaceDetails.append(placeDetail)
+                    reservedListPlaceDetails.append(convertedPlaceDetail)
                 }
             }
             
         }
-       
         
-       
+//        visitedList = convertBookedTripListToCurrentCurrency(bookedTripList: visitedList)
+//        
+//        reservedList = convertBookedTripListToCurrentCurrency(bookedTripList: reservedList)
     }
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.setCustomBackground()
-        
-//        view.addSubview(segmentedControl)
-//        view.addSubview(commonTableView)
-        
-//        setupSegmentedControl()
-//        setupCommonTableView()
-        
+                
         tableView.register(PlaceDetailCardView.self,forCellReuseIdentifier: PlaceDetailCardView.reuseIdentifier)
         tableView.showsVerticalScrollIndicator = false
         
@@ -105,6 +82,43 @@ class MyTripViewController: UITableViewController {
         tableView.reloadData()
     }
     
+    private func convertBookedTripListToCurrentCurrency(bookedTripList : [BookedTrip]) -> [BookedTrip]{
+        var convertedBookedTripList : [BookedTrip] = []
+        for placeDetail in bookedTripList {
+            var placeDetail = placeDetail
+            let currentCurrencyCode =  GeneralUtils.getCurrentCurrency() ?? "USD"
+            placeDetail.pricePerDay = GeneralUtils.convertCurrency(
+                of: placeDetail.pricePerDay,
+                from: placeDetail.currencyCode,
+                to: currentCurrencyCode)
+            placeDetail.serviceFee = GeneralUtils.convertCurrency(
+                of: placeDetail.serviceFee,
+                from: placeDetail.currencyCode,
+                to: currentCurrencyCode)
+            placeDetail.cleaningFee = GeneralUtils.convertCurrency(
+                of: placeDetail.cleaningFee,
+                from: placeDetail.currencyCode,
+                to: currentCurrencyCode)
+            placeDetail.currencyCode = currentCurrencyCode
+            convertedBookedTripList.append(placeDetail)
+        }
+        return convertedBookedTripList
+    }
+    
+    private func convertPlaceDetailToCurrenctCurrency(placeDetail : TravelPlaceDetail) -> TravelPlaceDetail{
+        var placeDetail = placeDetail
+        
+        let currentCurrencyCode =  GeneralUtils.getCurrentCurrency() ?? "USD"
+        
+        placeDetail.price.pricePerDay = GeneralUtils.convertCurrency(
+            of: placeDetail.price.pricePerDay,
+            from: placeDetail.price.currencyCode,
+            to: currentCurrencyCode)
+        
+        placeDetail.price.currencyCode = currentCurrencyCode
+        
+        return placeDetail
+    }
     
     @objc private func swapControlAction(){
         
@@ -125,31 +139,7 @@ class MyTripViewController: UITableViewController {
             primaryPlaceDetailDataSource = visitedListPlaceDetails
         }
     }
-//
-//    private func setupSegmentedControl(){
-//        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
-//
-//        NSLayoutConstraint.activate([
-//            segmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 20),
-//            segmentedControl.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 5),
-//            segmentedControl.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -5),
-//            segmentedControl.heightAnchor.constraint(equalToConstant: 50)
-//        ])
-//    }
-    
-//    private func setupCommonTableView(){
-//        commonTableView.delegate = self
-//        commonTableView.dataSource = self
-//
-//
-//        commonTableView.translatesAutoresizingMaskIntoConstraints = false
-//        NSLayoutConstraint.activate([
-//            commonTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 10),
-//            commonTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 2),
-//            commonTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -2),
-//            commonTableView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
-//        ])
-//    }
+
     
     private func configCell(row : Int,cell : PlaceDetailCardView){
         cell.wishListButton.isHidden = true

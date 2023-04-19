@@ -34,7 +34,10 @@ class CustomStepperView: UIView {
         return label
     }()
     
-    init(frame: CGRect,maxValue : Int,minValue : Int,titleText : String,subTitleText : String) {
+    let completionHandler : (Int)->()
+    
+    init(frame: CGRect,maxValue : Int,minValue : Int,titleText : String,subTitleText : String,completionHandler : @escaping (Int)->()) {
+        self.completionHandler = completionHandler
         super.init(frame: frame)
         
         self.contentStepper.maximumValue = Double(maxValue)
@@ -92,6 +95,7 @@ class CustomStepperView: UIView {
     
     @objc private func stepperAction(){
         stepperValueLabel.text = String(Int(contentStepper.value))
+        completionHandler(Int(contentStepper.value))
     }
     
 }

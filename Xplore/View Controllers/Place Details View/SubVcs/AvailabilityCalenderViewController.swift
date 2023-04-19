@@ -16,7 +16,7 @@ class AvailabilityCalenderViewController: CustomCalenderViewController {
             
             headerLabel.text = "\(selectedDates.count) days in \(districtName)"
             
-            footerLabel.text = "\(currencyCode) \(pricePerDay * selectedDates.count)"
+            footerLabel.text = "\(currencyCode) \((pricePerDay * Double(selectedDates.count)).round(to: 2))"
             
             saveButton.backgroundColor = selectedDates.count > 0 ? .systemPink : .systemGray
             
@@ -24,7 +24,7 @@ class AvailabilityCalenderViewController: CustomCalenderViewController {
     }
     
     let districtName : String
-    let pricePerDay : Int
+    let pricePerDay : Double
     let currencyCode : String
     
     override func viewDidLoad() {
@@ -36,7 +36,7 @@ class AvailabilityCalenderViewController: CustomCalenderViewController {
         setupHeaderLabel()
     }
     
-    init(districtName : String,pricePerDay : Int,currencyCode : String,completionHandler: @escaping (_ fromDate : DateComponents,_ toDate : DateComponents?)->()){
+    init(districtName : String,pricePerDay : Double,currencyCode : String,completionHandler: @escaping (_ fromDate : DateComponents,_ toDate : DateComponents?)->()){
         self.districtName = districtName
         self.pricePerDay = pricePerDay
         self.currencyCode = currencyCode

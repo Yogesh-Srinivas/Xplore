@@ -1,9 +1,7 @@
-
-
 import UIKit
 
 
-class CustomLoginTextField: UITextField {
+class CustomTextField: UITextField {
     
     var textFieldElementsColor = UIColor.systemGray2
     
@@ -62,12 +60,13 @@ class CustomLoginTextField: UITextField {
 
 
     override func draw(_ rect: CGRect) {
-        let leftImageIconWidth = frame.size.height * 0.4
+        let leftImageIconWidth = frame.size.height * 0.5
 
         borderLayer.frame = CGRect(x: leftImageIconWidth + 10, y: frame.size.height - 1, width: frame.size.width - leftImageIconWidth - 10, height: 2)
     }
 
     override func leftViewRect(forBounds bounds: CGRect) -> CGRect {
-        return CGRect(x: 0, y: frame.size.height * 0.3, width: frame.size.height * 0.4, height: frame.size.height * 0.4)
+        return CGRect(x: 0, y: frame.size.height * 0.3, width: frame.size.height * 0.6, height: frame.size.height * 0.6)
     }
+    
 }

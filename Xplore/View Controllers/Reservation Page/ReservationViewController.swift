@@ -16,21 +16,21 @@ final class ReservationViewController : UITableViewController {
     }
     
     private struct PriceDetails{
-        let pricePerDay : Int
-        let cleaningFee : Int
-        let serviceFee : Int
+        let pricePerDay : Double
+        let cleaningFee : Double
+        let serviceFee : Double
         let taxPercentage : Double
         let numberOfDays : Int
         let currencyCode : String
         
-        var totalPrice : Int{
-            return actualPrice + taxes + cleaningFee + serviceFee
+        var totalPrice : Double{
+            return (actualPrice + taxes + cleaningFee + serviceFee).round(to: 2)
         }
-        var taxes : Int{
-            return Int(Double(pricePerDay) * Double(numberOfDays) * taxPercentage) / 100
+        var taxes : Double{
+            return (Double(pricePerDay) * Double(numberOfDays) * taxPercentage / 100).round(to: 2)
         }
-        var actualPrice : Int{
-            return pricePerDay * numberOfDays
+        var actualPrice : Double{
+            return (pricePerDay * Double(numberOfDays)).round(to: 2)
         }
     }
     
@@ -48,9 +48,10 @@ final class ReservationViewController : UITableViewController {
         if let toDate = toDate{
             dates += " - \(toDate.day!) \(GeneralUtils.getMonthInString(month: toDate.month!))"
             
-            let numberOfDaysComponent = Calendar.current.dateComponents([.day], from: fromDate.date!, to: (toDate.date!))
             
-            numberOfDays = numberOfDaysComponent.day!
+            if let convertedNumberOfDates = GeneralUtils.getNumberOfDays(from: fromDate, to: toDate){
+                numberOfDays = convertedNumberOfDates
+            }
         }
         
         

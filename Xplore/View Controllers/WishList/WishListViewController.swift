@@ -22,6 +22,9 @@ final class WishListViewController: ExplorePageViewController {
         super.placeDetailsList.removeAll{
             placeDetail in !placeDetail.isWishListed
         }
+        
+        
+        filteredPlaceList = placeDetailsList
         tableView.reloadData()
     }
 

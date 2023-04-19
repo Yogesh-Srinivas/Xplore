@@ -1,6 +1,6 @@
 struct ControlCenter{
-    static let cleaningFee = 600
-    static let serviceFee = 1500
+    static let cleaningFee : Double = 600
+    static let serviceFee : Double = 1500
     static let fontConstant : Double = 3
     
     static let TermsOfService = """

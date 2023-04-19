@@ -19,7 +19,7 @@ class ImagesDisplayCollectionView: UICollectionView {
         
         super.init(frame: .zero, collectionViewLayout: layout)
         
-        databaseController = DBFactory.getDatabaseController(imageCollectionView: self)
+        databaseController = DatabaseController.shared 
         
         self.dataSource = self
         self.delegate = self

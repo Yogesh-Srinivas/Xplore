@@ -25,6 +25,7 @@ final class DatabaseOperation : DatabaseOperationDelegate{
         createWishListTable()
         createCurrencyTable()
         createPlaceImagesTable()
+        createCurrencyPreferenceTable()
     }
     
     func createUserDetailTable(){
@@ -114,7 +115,7 @@ final class DatabaseOperation : DatabaseOperationDelegate{
 
         xploreSqliteWrapper.create(tabel: "Pricing", values: [
             FieldDetail(fieldName: "placeId", fieldType: .TEXT, isUnique: false, isNotNull: false, defaultValue: nil),
-            FieldDetail(fieldName: "pricePerDay", fieldType: .INTEGER, isUnique: false, isNotNull: true, defaultValue: nil),
+            FieldDetail(fieldName: "pricePerDay", fieldType: .REAL, isUnique: false, isNotNull: true, defaultValue: nil),
             FieldDetail(fieldName: "taxPercentage", fieldType: .REAL, isUnique: false, isNotNull: true, defaultValue: nil),
             FieldDetail(fieldName: "currencyCode", fieldType: .TEXT, isUnique: false, isNotNull: true, defaultValue: nil)
             ],
@@ -142,11 +143,11 @@ final class DatabaseOperation : DatabaseOperationDelegate{
             FieldDetail(fieldName: "userId", fieldType: .TEXT, isUnique: false, isNotNull: false, defaultValue: nil),
             FieldDetail(fieldName: "bookedDateFrom", fieldType: .TEXT, isUnique: false, isNotNull: true, defaultValue: nil),
             FieldDetail(fieldName: "bookedDateTo", fieldType: .TEXT, isUnique: false, isNotNull: true, defaultValue: nil),
-            FieldDetail(fieldName: "pricePerDay", fieldType: .INTEGER, isUnique: false, isNotNull: true, defaultValue: nil),
+            FieldDetail(fieldName: "pricePerDay", fieldType: .REAL, isUnique: false, isNotNull: true, defaultValue: nil),
             FieldDetail(fieldName: "taxPercentage", fieldType: .REAL, isUnique: false, isNotNull: true, defaultValue: nil),
             FieldDetail(fieldName: "currencyCode", fieldType: .TEXT, isUnique: false, isNotNull: true, defaultValue: nil),
-            FieldDetail(fieldName: "cleaningFee", fieldType: .INTEGER, isUnique: false, isNotNull: true, defaultValue: nil),
-            FieldDetail(fieldName: "serviceFee", fieldType: .INTEGER, isUnique: false, isNotNull: true, defaultValue: nil),
+            FieldDetail(fieldName: "cleaningFee", fieldType: .REAL, isUnique: false, isNotNull: true, defaultValue: nil),
+            FieldDetail(fieldName: "serviceFee", fieldType: .REAL, isUnique: false, isNotNull: true, defaultValue: nil),
             FieldDetail(fieldName: "numberOfGuests", fieldType: .INTEGER, isUnique: false, isNotNull: true, defaultValue: nil),
             FieldDetail(fieldName: "isVisited", fieldType: .INTEGER, isUnique: false, isNotNull: true, defaultValue: "0")
             ],
@@ -186,6 +187,15 @@ final class DatabaseOperation : DatabaseOperationDelegate{
         )
 
     }
+    
+    private func createCurrencyPreferenceTable(){
+        xploreSqliteWrapper.create(tabel: "CurrencyPreference", values: [
+            FieldDetail(fieldName: "userId", fieldType: .TEXT, isUnique: false, isNotNull: true, defaultValue: nil),
+            FieldDetail(fieldName: "currencyCode", fieldType: .TEXT, isUnique: false, isNotNull: true, defaultValue: nil)
+            ],
+            primaryKeys: ["userId"]
+        )
+    }
 
     func loadUserDetailData(_ userDetails : [UserDetail]) {
         
@@ -195,7 +205,27 @@ final class DatabaseOperation : DatabaseOperationDelegate{
                 FieldWithValue(fieldName: "userName", fieldType: .TEXT, fieldValue: userDetail.userName),
                 FieldWithValue(fieldName: "email", fieldType: .TEXT, fieldValue: userDetail.email),
                 FieldWithValue(fieldName: "mobile", fieldType: .TEXT, fieldValue: userDetail.mobile),
-                FieldWithValue(fieldName: "password", fieldType: .TEXT, fieldValue: userDetail.password)
+                FieldWithValue(fieldName: "password", fieldType: .TEXT, fieldValue: userDetail.password ?? "")
+            ]
+            )
+            
+        }
+    }
+    
+    
+    func loadCurrencyPreference(currencyPreferences : [(String,String)]){
+        for currencyPreference in currencyPreferences {
+            let userId = currencyPreference.0
+            let currencyCode = currencyPreference.1
+            self.setCurrencyPreference(userId: userId, currencyCode: currencyCode)
+        }
+    }
+    func loadCurrencyDetails(_ currencyList : [Currency]){
+        for currency in currencyList {
+            xploreSqliteWrapper.insert(into: "Currency", values: [
+                FieldWithValue(fieldName: "currencyName", fieldType: .TEXT, fieldValue: currency.currencyName),
+                FieldWithValue(fieldName: "currencyCode", fieldType: .TEXT, fieldValue: currency.currencyCode),
+                FieldWithValue(fieldName: "currencyValue", fieldType: .REAL, fieldValue: String(currency.currencyValue))
             ]
             )
         }
@@ -275,7 +305,7 @@ final class DatabaseOperation : DatabaseOperationDelegate{
         
         xploreSqliteWrapper.insert(into: "Pricing", values: [
             FieldWithValue(fieldName: "placeId", fieldType: .TEXT, fieldValue: placeId),
-            FieldWithValue(fieldName: "pricePerDay", fieldType: .INTEGER, fieldValue: String(price.pricePerDay)),
+            FieldWithValue(fieldName: "pricePerDay", fieldType: .REAL, fieldValue: String(price.pricePerDay)),
             FieldWithValue(fieldName: "taxPercentage", fieldType: .REAL, fieldValue: String(price.taxPercentage)),
             FieldWithValue(fieldName: "currencyCode", fieldType: .TEXT, fieldValue: price.currencyCode)
         ])
@@ -345,11 +375,11 @@ final class DatabaseOperation : DatabaseOperationDelegate{
             let bookedDateToString = parsedResult["bookedDateTo"] as! String
             let numberOfGuests = parsedResult["numberOfGuests"] as! Int
             let isVisited = parsedResult["isVisited"] as! Int == 0 ? false : true
-            let pricePerDay = parsedResult["pricePerDay"] as! Int
+            let pricePerDay = parsedResult["pricePerDay"] as! Double
             let taxPercentage = parsedResult["taxPercentage"] as! Double
             let currencyCode = parsedResult["currencyCode"] as! String
-            let cleaningFee = parsedResult["cleaningFee"] as! Int
-            let serviceFee = parsedResult["serviceFee"] as! Int
+            let cleaningFee = parsedResult["cleaningFee"] as! Double
+            let serviceFee = parsedResult["serviceFee"] as! Double
             let reservationId = parsedResult["reservationId"] as! String
             
             if let bookedDateFromCompontent = GeneralUtils.convertDateStringToComponent(dateString: bookedDateFromString) {
@@ -436,7 +466,7 @@ final class DatabaseOperation : DatabaseOperationDelegate{
             fields: xploreSqliteWrapper.select(fields : nil, from: "Pricing", where: [QueryCondition(lhs: "placeId", condition: .EQUAL_TO, rhs: placeId, rhsType: .TEXT)])[0]
             )
         
-        let pricePerDay = priceDetailsResult["pricePerDay"] as! Int
+        let pricePerDay = priceDetailsResult["pricePerDay"] as! Double
         let taxPercentage = priceDetailsResult["taxPercentage"] as! Double
         let currencyCode = priceDetailsResult["currencyCode"] as! String
         
@@ -584,11 +614,11 @@ final class DatabaseOperation : DatabaseOperationDelegate{
                 FieldWithValue(fieldName: "userId", fieldType: .TEXT, fieldValue: bookedTrip.userId),
                 FieldWithValue(fieldName: "bookedDateFrom", fieldType: .TEXT, fieldValue: fromDateString),
                 FieldWithValue(fieldName: "bookedDateTo", fieldType: .TEXT, fieldValue: toDateString),
-                FieldWithValue(fieldName: "pricePerDay", fieldType: .INTEGER, fieldValue: String(bookedTrip.pricePerDay)),
+                FieldWithValue(fieldName: "pricePerDay", fieldType: .REAL, fieldValue: String(bookedTrip.pricePerDay)),
                 FieldWithValue(fieldName: "taxPercentage", fieldType: .REAL, fieldValue: String(bookedTrip.taxPercentage)),
                 FieldWithValue(fieldName: "currencyCode", fieldType: .TEXT, fieldValue: bookedTrip.currencyCode),
-                FieldWithValue(fieldName: "cleaningFee", fieldType: .INTEGER, fieldValue: String(bookedTrip.cleaningFee)),
-                FieldWithValue(fieldName: "ServiceFee", fieldType: .INTEGER, fieldValue: String(bookedTrip.serviceFee)),
+                FieldWithValue(fieldName: "cleaningFee", fieldType: .REAL, fieldValue: String(bookedTrip.cleaningFee)),
+                FieldWithValue(fieldName: "ServiceFee", fieldType: .REAL, fieldValue: String(bookedTrip.serviceFee)),
                 FieldWithValue(fieldName: "numberOfGuests", fieldType: .INTEGER, fieldValue: String(bookedTrip.numberOfGuests)),
                 FieldWithValue(fieldName: "reservationId", fieldType: .TEXT, fieldValue: bookedTrip.reservationId),
                 FieldWithValue(fieldName: "isVisited", fieldType: .INTEGER, fieldValue: bookedTrip.isVisited ? String(1) : String(0))
@@ -659,7 +689,181 @@ final class DatabaseOperation : DatabaseOperationDelegate{
             FieldWithValue(fieldName: "review", fieldType: .TEXT, fieldValue: review)
         ])
     }
-
+    
+    func isPlaceAvailable(placeId : String,datesToCheck : [Date]) -> Bool{
+        
+        let selectResults = xploreSqliteWrapper.select(fields: ["bookedDate"], from: "PlaceAvailability", where: [QueryCondition(lhs: "placeId", condition: .EQUAL_TO, rhs: placeId, rhsType: .TEXT)])
+        
+        for selectResult in selectResults {
+            let parsedResult = resultParser(fields: selectResult)
+            let dateString = parsedResult["bookedDate"] as! String
+            if let dateCompontent = GeneralUtils.convertDateStringToComponent(dateString: dateString),let date = dateCompontent.date{
+                if datesToCheck.contains(date){
+                    return false
+                }
+            }
+        }
+        return true
+    }
+    
+    func getAvailableLocations() -> [FilteredLocation]{
+        var locationDetails : [FilteredLocation] = []
+        let selectedResult = xploreSqliteWrapper.select(fields: ["city","state","country"], from: "Location", where: nil)
+        for result in selectedResult {
+            let parsedResult = resultParser(fields: result)
+            
+            let city = parsedResult["city"] as! String
+            let state = parsedResult["state"] as! String
+            let country = parsedResult["country"] as! String
+            
+            let location = FilteredLocation(
+                country: country,
+                state: state,
+                city: city
+            )
+            
+            if !isListContains(locationDetail: location, locationList: locationDetails){
+                locationDetails.append(location)
+            }
+        }
+        
+        return locationDetails
+    }
+    
+    func getCurrencyList() -> [Currency]{
+        var currencyDetails : [Currency] = []
+        
+        let selectedResult = xploreSqliteWrapper.select(fields: ["currencyName","currencyCode","currencyValue"], from: "Currency", where: nil)
+        
+        for result in selectedResult {
+            let parsedResult = resultParser(fields: result)
+            
+            let currencyName = parsedResult["currencyName"] as! String
+            let currencyCode = parsedResult["currencyCode"] as! String
+            let currencyValue = parsedResult["currencyValue"] as! Double
+            
+            let currency = Currency(
+                currencyName: currencyName,
+                currencyCode: currencyCode,
+                currencyValue: currencyValue)
+           
+            currencyDetails.append(currency)
+            
+        }
+        
+        return currencyDetails
+    }
+    
+    func getCurrencyValue(currenyCode : String) -> Double{
+        let selectedResult = xploreSqliteWrapper.select(fields: ["currencyValue"], from: "Currency", where: [QueryCondition(lhs: "currencyCode", condition: .EQUAL_TO, rhs: currenyCode, rhsType: .TEXT)])[0]
+        
+        let parsedResult = resultParser(fields: selectedResult)
+        return parsedResult["currencyValue"] as! Double
+    }
+    
+    private func isListContains(locationDetail : FilteredLocation,locationList : [FilteredLocation]) -> Bool{
+        for location in locationList {
+            if location == locationDetail{
+                return true
+            }
+        }
+        return false
+    }
+    
+    
+    func isEmailExist(email : String) -> Bool{
+        let result = xploreSqliteWrapper.select(fields: ["email"], from: "UserDetail", where: [QueryCondition(lhs: "email", condition: .EQUAL_TO, rhs: email, rhsType: .TEXT)])
+        return result.count == 1 ? true : false
+    }
+    
+    func getPassword(for email : String) -> String?{
+        let result = xploreSqliteWrapper.select(fields: ["password"], from: "UserDetail", where: [QueryCondition(lhs: "email", condition: .EQUAL_TO, rhs: email, rhsType: .TEXT)])
+        if result.count == 0 {
+            return nil
+        }
+        let parsedResult = resultParser(fields: result[0])
+        return parsedResult["password"] as? String
+    }
+    
+    func getUserId(for email : String) -> String?{
+        let result = xploreSqliteWrapper.select(fields: ["userId"], from: "UserDetail", where: [QueryCondition(lhs: "email", condition: .EQUAL_TO, rhs: email, rhsType: .TEXT)])
+        if result.count == 0 {
+            return nil
+        }
+        let parsedResult = resultParser(fields: result[0])
+        return parsedResult["userId"] as? String
+    }
+    
+    func getUserDetail(for userId: String) -> UserDetail {
+        let result = xploreSqliteWrapper.select(fields: ["userName","email","mobile"], from: "UserDetail", where: [QueryCondition(lhs: "userId", condition: .EQUAL_TO, rhs: userId, rhsType: .TEXT)])
+       
+        let parsedResult = resultParser(fields: result[0])
+        let name = parsedResult["userName"] as? String ?? ""
+        let email = parsedResult["email"] as? String ?? ""
+        let mobile = parsedResult["mobile"] as? String ?? ""
+            
+        return UserDetail(
+                userId: userId,
+                userName: name,
+                email: email,
+                mobile: mobile,
+                password: nil
+        )
+        
+    }
+    
+    func setCurrencyPreference(userId : String,currencyCode : String){
+        xploreSqliteWrapper.insert(into: "currencyPreference", values: [
+            FieldWithValue(fieldName: "userId", fieldType: .TEXT, fieldValue: userId),
+            FieldWithValue(fieldName: "currencyCode", fieldType: .TEXT, fieldValue: currencyCode),
+        ])
+    }
+    
+    func updateCurrencyPreference(userId : String,currencyCode : String){
+        xploreSqliteWrapper.update(
+            into: "currencyPreference",
+            set: [
+                FieldWithValue(
+                    fieldName: "currencyCode",
+                    fieldType: .TEXT,
+                    fieldValue: currencyCode)
+                ],
+            
+            where: [
+                QueryCondition(
+                    lhs: "userId",
+                    condition: .EQUAL_TO,
+                    rhs: userId,
+                    rhsType: .TEXT)
+            ]
+        )
+    }
+    
+    func getCurrencyPreference(userId : String) -> String{
+        let result = xploreSqliteWrapper.select(fields: ["currencyCode"], from: "currencyPreference", where: [QueryCondition(lhs: "userId", condition: .EQUAL_TO, rhs: userId, rhsType: .TEXT)])
+        let parsedResult = resultParser(fields: result[0])
+        return parsedResult["currencyCode"] as! String
+    }
+    
+    func signUp(accountDetail: UserDetail){
+        if let password = accountDetail.password{
+            xploreSqliteWrapper.insert(into: "UserDetail", values: [
+                FieldWithValue(fieldName: "userId", fieldType: .TEXT, fieldValue: accountDetail.userId),
+                FieldWithValue(fieldName: "userName", fieldType: .TEXT, fieldValue: accountDetail.userName),
+                FieldWithValue(fieldName: "email", fieldType: .TEXT, fieldValue: accountDetail.email),
+                FieldWithValue(fieldName: "mobile", fieldType: .TEXT, fieldValue: accountDetail.mobile),
+                FieldWithValue(fieldName: "password", fieldType: .TEXT, fieldValue: password)
+            ])
+        }
+    }
+    
+    func isUserIdExist(userId : String) -> Bool{
+        let result = xploreSqliteWrapper.select(fields: ["userId"], from: "UserDetail", where: [QueryCondition(lhs: "userId", condition: .EQUAL_TO, rhs: userId, rhsType: .TEXT)])
+        if result.count == 0{
+            return false
+        }
+        return true
+    }
 }
 
 

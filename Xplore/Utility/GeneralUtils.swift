@@ -1,26 +1,40 @@
 import Foundation
 
 struct GeneralUtils{
+    static var utilDBController : UtilDBController = DatabaseController.shared
+    
     static func generateRandomImageName() -> String {
         let uniqueId = UUID().uuidString
         let randomName = "Image_" + uniqueId
         return randomName
     }
+    
     static func getUserId() -> String {
-        return "UD1101"
+        return UserDefaults.standard.string(forKey: "userId") ?? ""
     }
+    
+    static func generateUserId() -> String{
+        var randomNum = "UD"+String(Int.random(in: 1000...9999))
+        while utilDBController.isUserIdExist(userId : randomNum){
+            randomNum = "UD"+String(Int.random(in: 1000...9999))
+        }
+        return randomNum
+    }
+    
+    static func getCurrentCurrency() -> String{
+        return utilDBController.getCurrencyPreference()
+    }
+    
     static func getMonthInString(month : Int) -> String{
         let monthList = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec",]
         return monthList[month-1]
     }
     static func getNumberOfDays(from fromDateComponent : DateComponents,to toDateComponent : DateComponents?) -> Int?{
         
-        
-        
         if let fromDate =  Calendar.current.date(from: fromDateComponent),let toDateComponent = toDateComponent,let toDate =  Calendar.current.date(from: toDateComponent){
-            let numberOfDays = Calendar.current.dateComponents([.day], from: fromDate, to: toDate).day
-            return numberOfDays
-            
+            if let numberOfDays = Calendar.current.dateComponents([.day], from: fromDate, to: toDate).day {
+                return numberOfDays + 1
+            }
         }
         
         return nil
@@ -62,6 +76,11 @@ struct GeneralUtils{
         return String(uuid[startIndex..<endIndex]).uppercased()
 
     }
-
+    
+    static func convertCurrency(of amount: Double,from fromCurrencyCode : String,to toCurrencyCode : String) -> Double{
+        let fromCurrencyValue = utilDBController.getCurrencyValue(currenyCode: fromCurrencyCode)
+        let toCurrencyValue = utilDBController.getCurrencyValue(currenyCode: toCurrencyCode)
+        return ((amount / fromCurrencyValue) * toCurrencyValue).round(to: 2)
+    }
 
 }

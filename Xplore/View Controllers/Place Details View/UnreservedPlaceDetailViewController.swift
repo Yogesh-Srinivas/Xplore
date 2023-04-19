@@ -28,7 +28,7 @@ class UnreservedPlaceDetailsViewController: UnvisitedPlaceDetailViewController {
             let pricePerDay = placeDetails.price.pricePerDay
             let currencyCode = placeDetails.price.currencyCode
             
-            priceLabel.text = "\(pricePerDay) x 1 day(s) = \(pricePerDay) \(currencyCode)"
+            priceLabel.text = "Trip Cost \(pricePerDay) \(currencyCode)"
             
             reserveButton.backgroundColor = .systemPink
             
@@ -48,7 +48,7 @@ class UnreservedPlaceDetailsViewController: UnvisitedPlaceDetailViewController {
                 if let numberOfDays = GeneralUtils.getNumberOfDays(from: fromDate, to: toDate){
                     let pricePerDay = placeDetails.price.pricePerDay
                     let currencyCode = placeDetails.price.currencyCode
-                    priceLabel.text = "\(pricePerDay) x \(numberOfDays + 1) day(s) = \(pricePerDay * (numberOfDays+1)) \(currencyCode)"
+                    priceLabel.text = "Trip Cost \((pricePerDay * Double(numberOfDays)).round(to: 2)) \(currencyCode)"
                 }
             }
         }

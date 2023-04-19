@@ -2,7 +2,8 @@ import Foundation
 import UIKit
 import SystemConfiguration
 
-final class DatabaseController : PlaceDBController,FetchableImage{
+final class DatabaseController : PlaceDBController,FetchableImage,SessionDBController,UtilDBController{
+    
     
     let databaseOperationDelegate : DatabaseOperationDelegate
     
@@ -18,6 +19,8 @@ final class DatabaseController : PlaceDBController,FetchableImage{
         
         databaseOperationDelegate.loadUserDetailData(DataHold.userDetails)
         databaseOperationDelegate.loadTravelPlaceDetailData(DataHold.travelPlaceDetails)
+        databaseOperationDelegate.loadCurrencyDetails(DataHold.currencyList)
+        databaseOperationDelegate.loadCurrencyPreference(currencyPreferences: DataHold.currencyPreference)
         
         for bookedDates in DataHold.bookedTrips{
             reservePlace(tripDetails: bookedDates)
@@ -107,6 +110,34 @@ final class DatabaseController : PlaceDBController,FetchableImage{
         databaseOperationDelegate.getReviewDetail(placeId: placeId)
     }
     
+    func isPlaceAvailable(placeId : String,fromDate : DateComponents,toDate : DateComponents?) -> Bool{
+        
+        var datesToCheck : [Date] = []
+        if let toDate = toDate{
+            datesToCheck.append(contentsOf:
+                            GeneralUtils.getDatesBetween(
+                                startDate: fromDate.date!,
+                                endDate: toDate.date!)
+                                )
+        }else{
+            datesToCheck.append(fromDate.date!)
+        }
+        
+        return databaseOperationDelegate.isPlaceAvailable(placeId: placeId, datesToCheck: datesToCheck)
+    }
+    
+    func getAvailableLocations() -> [FilteredLocation]{
+        return databaseOperationDelegate.getAvailableLocations()
+    }
+    
+    func getCurrencyValue(currenyCode : String) -> Double{
+        return databaseOperationDelegate.getCurrencyValue(currenyCode: currenyCode)
+    }
+    
+    func getCurrencyList() -> [Currency]{
+        return databaseOperationDelegate.getCurrencyList()
+    }
+
     
     func fetchImage(
         from imageUrl : String,
@@ -165,4 +196,57 @@ final class DatabaseController : PlaceDBController,FetchableImage{
         
     }
         
+    
+    func isEmailExist(email: String) -> Bool {
+        databaseOperationDelegate.isEmailExist(email: email)
+    }
+    
+    func validateLogin(email : String,password : String) -> String?{
+        
+        if !databaseOperationDelegate.isEmailExist(email: email){
+            return nil
+        }
+        
+        if let actualPassword = databaseOperationDelegate.getPassword(for: email){
+            if actualPassword == password{
+                return databaseOperationDelegate.getUserId(for: email)
+            }else{
+                return nil
+            }
+        }
+        
+        return nil
+    }
+    
+    func getUserDetail() -> UserDetail {
+        return databaseOperationDelegate.getUserDetail(for : GeneralUtils.getUserId())
+    }
+    
+    func updateCurrencyPreference(currencyCode : String){
+        databaseOperationDelegate.updateCurrencyPreference(userId: GeneralUtils.getUserId(), currencyCode: currencyCode)
+    }
+    
+    func getCurrencyPreference() -> String{
+        return databaseOperationDelegate.getCurrencyPreference(userId: GeneralUtils.getUserId())
+    }
+    
+    func setCurrencyPreference(userId : String,currencyCode : String){
+        databaseOperationDelegate.setCurrencyPreference(userId: userId, currencyCode: currencyCode)
+    }
+    
+    func signUp(userName : String,email : String,mobile : String,password : String) -> String{
+        let userId = GeneralUtils.generateUserId()
+        let userDetail = UserDetail(
+            userId: userId,
+            userName: userName,
+            email: email,
+            mobile: mobile,
+            password: password)
+        databaseOperationDelegate.signUp(accountDetail: userDetail)
+        databaseOperationDelegate.setCurrencyPreference(userId: userId, currencyCode: "USD")
+        return userId
+    }
+    func isUserIdExist(userId : String) -> Bool{
+        return databaseOperationDelegate.isUserIdExist(userId : userId)
+    }
 }

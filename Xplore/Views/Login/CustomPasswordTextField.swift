@@ -1,6 +1,6 @@
 import UIKit
 
-class CustomPasswordTextField: CustomLoginTextField {
+class CustomPasswordTextField: CustomTextField {
     private lazy var eyeButton = {
         let button = UIButton(type: .custom)
         let eyeImage = UIImage(systemName: "eye")
@@ -20,9 +20,9 @@ class CustomPasswordTextField: CustomLoginTextField {
         self.rightView = eyeButton
         self.rightViewMode = .always
         self.isSecureTextEntry = !isPasswordVisible
-        
         setupEyeButton()
     }
+    
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -45,7 +45,7 @@ class CustomPasswordTextField: CustomLoginTextField {
     }
     
     override func rightViewRect(forBounds bounds: CGRect) -> CGRect {
-        return CGRect(x: frame.size.width - frame.size.height * 0.4 - 10, y: frame.size.height * 0.4, width: frame.size.height * 0.4, height: frame.size.height * 0.3)
+        return CGRect(x: frame.size.width - frame.size.height * 0.4 - 10, y: frame.size.height * 0.3, width: frame.size.height * 0.5, height: frame.size.height * 0.5)
     }
     
 }

@@ -3,7 +3,7 @@ import UIKit
 class MainTabBarController: UITabBarController {
     lazy var exploreViewController = {
         
-        let placeDBController = DBFactory.getPlaceDatabaseController()
+        let placeDBController : PlaceDBController = DatabaseController.shared
         
         let viewController =  ExplorePageViewController(databaseController: placeDBController)
         
@@ -15,7 +15,7 @@ class MainTabBarController: UITabBarController {
     }()
     
     lazy var wishListViewController = {
-        let placeDBController = DBFactory.getPlaceDatabaseController()
+        let placeDBController : PlaceDBController = DatabaseController.shared
         
         let viewController =  WishListViewController(databaseController: placeDBController)
         
@@ -28,7 +28,7 @@ class MainTabBarController: UITabBarController {
     }()
     
     lazy var myTripViewController = {
-        let placeDBController = DBFactory.getPlaceDatabaseController()
+        let placeDBController : PlaceDBController = DatabaseController.shared
         
         let viewController =  MyTripViewController(databaseController: placeDBController)
         viewController.tabBarItem = UITabBarItem(
@@ -40,7 +40,12 @@ class MainTabBarController: UITabBarController {
     }()
     
     lazy var profileViewController = {
-        let viewController = ProfileViewController()
+        
+        let placeDBController : PlaceDBController = DatabaseController.shared
+        
+        let sessionDBController : SessionDBController = DatabaseController.shared
+        
+        let viewController = ProfileViewController(placeDBController: placeDBController, sessionDBController: sessionDBController)
         
         viewController.tabBarItem = UITabBarItem(
             title: "Profile",
@@ -59,8 +64,7 @@ class MainTabBarController: UITabBarController {
             UINavigationController(rootViewController: exploreViewController) ,
             UINavigationController(rootViewController: wishListViewController),
             UINavigationController(rootViewController: myTripViewController),
-//            UINavigationController(rootViewController: profileViewController),
-            UINavigationController(rootViewController: SearchViewController()),
+            UINavigationController(rootViewController: profileViewController),
         
         ]
         

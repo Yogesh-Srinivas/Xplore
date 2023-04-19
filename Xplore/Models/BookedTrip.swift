@@ -5,13 +5,13 @@ struct BookedTrip{
     let placeId : String
     let BookedDateFrom : DateComponents
     let BookedDateTo : DateComponents?
-    let pricePerDay : Int
-    let taxPercentage : Double
-    let currencyCode : String
+    var pricePerDay : Double
+    var taxPercentage : Double
+    var currencyCode : String
     var isVisited : Bool
     let numberOfGuests : Int
-    let cleaningFee : Int
-    let serviceFee : Int
+    var cleaningFee : Double
+    var serviceFee : Double
     let reservationId : String
     var numberOfDays : Int {
         let fromDate = BookedDateFrom
@@ -22,14 +22,14 @@ struct BookedTrip{
             return 1
         }
     }
-    var actualPrice : Int {
-        return numberOfDays * pricePerDay
+    var actualPrice : Double {
+        return (Double(numberOfDays) * pricePerDay).round(to: 2)
     }
-    var taxes : Int {
-        return Int(Double(actualPrice) * taxPercentage * 0.01)
+    var taxes : Double {
+        return (Double(actualPrice) * taxPercentage * 0.01).round(to: 2)
     }
-    var totalPrice : Int {
-        return actualPrice + taxes
+    var totalPrice : Double {
+        return (actualPrice + taxes).round(to: 2)
     }
 }
 

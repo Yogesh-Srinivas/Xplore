@@ -1,6 +1,10 @@
 import UIKit
 
-struct TravelPlaceDetail {
+struct TravelPlaceDetail : Equatable {
+    static func == (lhs: TravelPlaceDetail, rhs: TravelPlaceDetail) -> Bool {
+        lhs.placeId == rhs.placeId ? true : false
+    }
+    
     let placeId : String
     var placeName : String
     var description : String

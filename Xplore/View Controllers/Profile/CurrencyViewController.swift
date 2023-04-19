@@ -2,14 +2,38 @@ import UIKit
 
 class CurrencyViewController: UITableViewController {
 
-    var currencyList : [Currency] = [Currency(currencyName: "Rupee1", currencyCode: "INR", currencyValue: 65.5),Currency(currencyName: "Rupee2", currencyCode: "INR", currencyValue: 65.5),Currency(currencyName: "Rupee3", currencyCode: "INR", currencyValue: 65.5),Currency(currencyName: "Rupee4", currencyCode: "INR", currencyValue: 65.5),Currency(currencyName: "Rupee5", currencyCode: "INR", currencyValue: 65.5)]
+    let databaseController : PlaceDBController
+    
+    var currencyList : [Currency]
     
     var selectedIndexPath : IndexPath = IndexPath(row: 0, section: 0)
+    
+    init(databaseController : PlaceDBController){
+       
+        self.databaseController = databaseController
+        self.currencyList = databaseController.getCurrencyList()
+
+        super.init(nibName: nil, bundle: nil)
+        
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(UITableViewCell.self,forCellReuseIdentifier: "CurrencyTableCell")
+        updateSelectedIndex()
     }
+    
+    private func updateSelectedIndex(){
+        let currentCurrencyIndex = currencyList.firstIndex{
+            (currency) in currency.currencyCode == GeneralUtils.getCurrentCurrency() ? true : false
+        }
+        selectedIndexPath = IndexPath(row: currentCurrencyIndex ?? 0, section: 0)
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = false
         self.tabBarController?.tabBar.isHidden = true
@@ -23,7 +47,9 @@ class CurrencyViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CurrencyTableCell", for: indexPath)
         
         var config = UIListContentConfiguration.subtitleCell()
-        config.text = currencyList[indexPath.row].currencyName
+        
+        let currencyText = "\(currencyList[indexPath.row].currencyCode) - \(currencyList[indexPath.row].currencyName)"
+        config.text = currencyText
         cell.contentConfiguration = config
         cell.tintColor = .systemPink
         cell.selectionStyle = .none
@@ -45,11 +71,8 @@ class CurrencyViewController: UITableViewController {
         tableView.cellForRow(at: selectedIndexPath)?.accessoryType = .none
         tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
         selectedIndexPath = indexPath
-
+        
+        databaseController.updateCurrencyPreference(currencyCode: currencyList[indexPath.row].currencyCode)
     }
-    
-    
-    
-    
     
 }

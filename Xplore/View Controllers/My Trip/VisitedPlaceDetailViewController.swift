@@ -61,7 +61,7 @@ class VisitedPlaceDetailViewController: PlaceDetailViewController {
     private func setupTripDates(){
         if let numberOfDays = GeneralUtils.getNumberOfDays(from: tripDetails.BookedDateFrom, to: tripDetails.BookedDateTo){
             
-            super.priceLabel.text = "Trip Cost : \(tripDetails.pricePerDay * numberOfDays) \(tripDetails.currencyCode)"
+            super.priceLabel.text = "Trip Cost : \((tripDetails.pricePerDay * Double(numberOfDays)).round(to: 2)) \(tripDetails.currencyCode)"
         }
         
         

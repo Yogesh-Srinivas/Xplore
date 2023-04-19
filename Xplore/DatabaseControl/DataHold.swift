@@ -4,8 +4,10 @@ class DataHold{
     static let userDetails : [UserDetail] = getUserDetail()
     static let travelPlaceDetails : [TravelPlaceDetail] = getTravelPlaceDetails()
     
-    
+    static let currencyPreference : [(String,String)] = getCurrencyPreference()
     static let bookedTrips = getBookedTrips()
+    
+    static let currencyList = getCurrencyDetail()
     
     static private func getBookedTrips() -> [BookedTrip]{
         var bookedTrips : [BookedTrip] = []
@@ -15,7 +17,7 @@ class DataHold{
         
         bookedTrips.append(
             BookedTrip(
-                userId: GeneralUtils.getUserId(),
+                userId: "UD1101",
                 placeId: "PD1101",
                 BookedDateFrom: fromDate,
                 BookedDateTo: toDate,
@@ -32,7 +34,7 @@ class DataHold{
         
         bookedTrips.append(
             BookedTrip(
-                userId: GeneralUtils.getUserId(),
+                userId: "UD1101",
                 placeId: "PD1102",
                 BookedDateFrom: fromDate,
                 BookedDateTo: toDate,
@@ -93,15 +95,6 @@ class DataHold{
             )
         )
         
-        userDetails.append(
-            UserDetail(
-                userId: "UD1104",
-                userName: "Nithis",
-                email: "natty@gmail.com",
-                mobile: "+91987654324",
-                password: "123"
-            )
-        )
         
         userDetails.append(
             UserDetail(
@@ -662,6 +655,36 @@ class DataHold{
         )
         
         return travelPlaceDetails
+    }
+    
+    static private func getCurrencyDetail() -> [Currency]{
+        var currencyList : [Currency] = []
+        
+        currencyList.append(contentsOf: [
+            Currency(currencyName: "Indian Rupee", currencyCode: "INR", currencyValue: 81.819519),
+            Currency(currencyName: "US dollar", currencyCode: "USD", currencyValue: 1.0),
+            Currency(currencyName: "Euro", currencyCode: "EUR", currencyValue: 0.907997),
+            Currency(currencyName: "British Pound", currencyCode: "GBP", currencyValue: 0.805522),
+            Currency(currencyName: "Japanese Yen", currencyCode: "YEN", currencyValue: 133.793843),
+            Currency(currencyName: "Russian Ruble", currencyCode: "RUB", currencyValue: 82.275405),
+            Currency(currencyName: "Saudi Arabian Riyal", currencyCode: "SAR", currencyValue: 3.750000),
+            Currency(currencyName: "Australian Dollar", currencyCode: "AUD", currencyValue: 1.484417),
+            Currency(currencyName: "Singapore Dollar", currencyCode: "SGD", currencyValue: 1.329990),
+            Currency(currencyName: "Malaysian Ringgit", currencyCode: "MYR", currencyValue: 4.401353),
+        ]
+        )
+            
+        return currencyList
+    }
+    static private func getCurrencyPreference() -> [(String,String)]{
+        return [
+        ("UD1101","USD"),
+        ("UD1102","USD"),
+        ("UD1103","USD"),
+        ("UD1104","USD"),
+        ("UD1105","USD"),
+        ("UD1106","USD"),
+        ]
     }
     
     static func getImagesList(placeId : String) -> [String]?{
