@@ -185,7 +185,6 @@ final class DatabaseController : PlaceDBController,FetchableImage,SessionDBContr
     
     func getImageDirUrl(for imageUrl : String) -> URL? {
         
-
         let docDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
 
         guard let imageName = FetchableImageHelper.getImageName(from: imageUrl) else{return nil}
@@ -195,7 +194,16 @@ final class DatabaseController : PlaceDBController,FetchableImage,SessionDBContr
         return imageDirURL
         
     }
-        
+     
+    func getImageData(for imageUrl : String) -> Data?{
+        if  isImageAvailableLocal(imageUrl: imageUrl),
+            let dirUrl = getImageDirUrl(for: imageUrl){
+            if let data = FetchableImageHelper.loadLocalImage(from: dirUrl.path){
+                return data
+            }
+        }
+        return nil
+    }
     
     func isEmailExist(email: String) -> Bool {
         databaseOperationDelegate.isEmailExist(email: email)
@@ -248,5 +256,16 @@ final class DatabaseController : PlaceDBController,FetchableImage,SessionDBContr
     }
     func isUserIdExist(userId : String) -> Bool{
         return databaseOperationDelegate.isUserIdExist(userId : userId)
+    }
+    
+    func getHostDetail(hostId: String) -> UserDetail {
+        return databaseOperationDelegate.getUserDetail(for: hostId)
+    }
+    
+    func isWishListed(placeId: String) -> Bool {
+        return databaseOperationDelegate.isPlaceWishListed(placeId: placeId, userId: GeneralUtils.getUserId())
+    }
+    func getBookedDates(of placeId : String) -> [DateComponents]{
+        return databaseOperationDelegate.getBookedDates(of: placeId)
     }
 }

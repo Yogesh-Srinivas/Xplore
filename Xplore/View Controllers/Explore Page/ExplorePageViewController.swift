@@ -59,15 +59,29 @@ class ExplorePageViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
+        updateWishListDetails()
         convertFilteredListToCurrentCurrency()
         tableView.reloadData()
+    }
+    
+    private func updateWishListDetails(){
+        for placeDetailIndex in 0..<placeDetailsList.count {
+            let placeId = placeDetailsList[placeDetailIndex].placeId
+            placeDetailsList[placeDetailIndex].isWishListed =  databaseController.isWishListed(placeId : placeId)
+        }
+        
+        for placeDetailIndex in 0..<filteredPlaceList.count {
+            let placeId = filteredPlaceList[placeDetailIndex].placeId
+            filteredPlaceList[placeDetailIndex].isWishListed =  databaseController.isWishListed(placeId : placeId)
+        }
+
     }
     
     private func convertFilteredListToCurrentCurrency(){
         var convertedFilteredList : [TravelPlaceDetail] = []
         for placeDetail in filteredPlaceList {
             var placeDetail = placeDetail
-            let currentCurrencyCode =  GeneralUtils.getCurrentCurrency() 
+            let currentCurrencyCode =  GeneralUtils.getCurrentCurrency()
             placeDetail.price.pricePerDay = GeneralUtils.convertCurrency(
                 of: placeDetail.price.pricePerDay,
                 from: placeDetail.price.currencyCode,
@@ -81,6 +95,7 @@ class ExplorePageViewController: UITableViewController {
     private func configTabelCell(cell : inout PlaceDetailCardView,row : Int){
         
         cell.addImages(imageUrls: filteredPlaceList[row].images)
+        
         
         let priceAmount = "\(filteredPlaceList[row].price.currencyCode) \(filteredPlaceList[row].price.pricePerDay)"
         
@@ -235,6 +250,8 @@ class ExplorePageViewController: UITableViewController {
         self.navigationItem.title = "Xplore"
         self.navigationItem.rightBarButtonItem = searchItem
     }
+    
+    
     
 }
 

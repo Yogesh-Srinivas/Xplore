@@ -48,8 +48,7 @@ class AmenitiesView: UIView {
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: self.topAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            titleLabel.heightAnchor.constraint(equalTo: self.heightAnchor,multiplier : 0.2),
+            titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor)
         ])
         titleLabel.text = "What This Place Offers"
         titleLabel.adjustsFontSizeToFitWidth = true
@@ -79,6 +78,9 @@ class AmenitiesView: UIView {
             amenityStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor)
         ])
         
+        if amenitiesList.count <= 7{
+            amenityStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -3).isActive = true
+        }
         
     }
     

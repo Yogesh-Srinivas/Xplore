@@ -31,7 +31,6 @@
 		3F17E8E429E4DB410030CC02 /* UnreservedPlaceDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F17E8E329E4DB410030CC02 /* UnreservedPlaceDetailViewController.swift */; };
 		3F17E8E629E4DD890030CC02 /* UnvisitedPlaceDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F17E8E529E4DD890030CC02 /* UnvisitedPlaceDetailViewController.swift */; };
 		3F17E8E829E4DDCB0030CC02 /* ReservedPlaceDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F17E8E729E4DDCB0030CC02 /* ReservedPlaceDetailViewController.swift */; };
-		3F17E8EB29E4E9C70030CC02 /* WishListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F17E8EA29E4E9C70030CC02 /* WishListViewController.swift */; };
 		3F4FEDB529EAE00500DB940B /* GuestInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FEDB429EAE00500DB940B /* GuestInfo.swift */; };
 		3F50BAAF29CAFFB900E0D6D4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BAAE29CAFFB900E0D6D4 /* AppDelegate.swift */; };
 		3F50BAB129CAFFB900E0D6D4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BAB029CAFFB900E0D6D4 /* SceneDelegate.swift */; };
@@ -102,6 +101,7 @@
 		3F846FA129EB452F00C3AF36 /* SessionDBController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F846FA029EB452F00C3AF36 /* SessionDBController.swift */; };
 		3F846FA329EDA02C00C3AF36 /* UtilDBController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F846FA229EDA02C00C3AF36 /* UtilDBController.swift */; };
 		3F846FA529EDAA0B00C3AF36 /* Double+round.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F846FA429EDAA0B00C3AF36 /* Double+round.swift */; };
+		3FC7099429EFB8E4000528FB /* WishListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC7099329EFB8E4000528FB /* WishListViewController.swift */; };
 		3FD1414729EE54E4007B97BB /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD1414629EE54E4007B97BB /* LoginViewController.swift */; };
 		3FD1414929EE54F3007B97BB /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD1414829EE54F3007B97BB /* SignUpViewController.swift */; };
 		3FD1414B29EE664C007B97BB /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD1414A29EE664C007B97BB /* CustomTextField.swift */; };
@@ -136,7 +136,6 @@
 		3F17E8E329E4DB410030CC02 /* UnreservedPlaceDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnreservedPlaceDetailViewController.swift; sourceTree = "<group>"; };
 		3F17E8E529E4DD890030CC02 /* UnvisitedPlaceDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnvisitedPlaceDetailViewController.swift; sourceTree = "<group>"; };
 		3F17E8E729E4DDCB0030CC02 /* ReservedPlaceDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservedPlaceDetailViewController.swift; sourceTree = "<group>"; };
-		3F17E8EA29E4E9C70030CC02 /* WishListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishListViewController.swift; sourceTree = "<group>"; };
 		3F4FEDB429EAE00500DB940B /* GuestInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestInfo.swift; sourceTree = "<group>"; };
 		3F50BAAB29CAFFB900E0D6D4 /* Xplore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Xplore.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F50BAAE29CAFFB900E0D6D4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -209,6 +208,7 @@
 		3F846FA029EB452F00C3AF36 /* SessionDBController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDBController.swift; sourceTree = "<group>"; };
 		3F846FA229EDA02C00C3AF36 /* UtilDBController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilDBController.swift; sourceTree = "<group>"; };
 		3F846FA429EDAA0B00C3AF36 /* Double+round.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+round.swift"; sourceTree = "<group>"; };
+		3FC7099329EFB8E4000528FB /* WishListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishListViewController.swift; sourceTree = "<group>"; };
 		3FD1414629EE54E4007B97BB /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		3FD1414829EE54F3007B97BB /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		3FD1414A29EE664C007B97BB /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
@@ -291,7 +291,7 @@
 		3F17E8E929E4E9B50030CC02 /* WishList */ = {
 			isa = PBXGroup;
 			children = (
-				3F17E8EA29E4E9C70030CC02 /* WishListViewController.swift */,
+				3FC7099329EFB8E4000528FB /* WishListViewController.swift */,
 			);
 			path = WishList;
 			sourceTree = "<group>";
@@ -654,6 +654,7 @@
 				3FD1414729EE54E4007B97BB /* LoginViewController.swift in Sources */,
 				3F50BB5629D69D8A00E0D6D4 /* FieldType.swift in Sources */,
 				3F50BB0E29D09FA500E0D6D4 /* ReviewView.swift in Sources */,
+				3FC7099429EFB8E4000528FB /* WishListViewController.swift in Sources */,
 				3F0BDAD629E061F200F6638B /* UIView+Theme.swift in Sources */,
 				3F17E8E629E4DD890030CC02 /* UnvisitedPlaceDetailViewController.swift in Sources */,
 				3F17E8D429E2EB370030CC02 /* LoginTemplateViewController.swift in Sources */,
@@ -694,7 +695,6 @@
 				3F0BDAB829DC456900F6638B /* PlaceDBController.swift in Sources */,
 				3F50BAD329CC48AE00E0D6D4 /* TravelPlaceDetail.swift in Sources */,
 				3F846FA329EDA02C00C3AF36 /* UtilDBController.swift in Sources */,
-				3F17E8EB29E4E9C70030CC02 /* WishListViewController.swift in Sources */,
 				3F531C2E29E9A7C00043185C /* CurrencyViewController.swift in Sources */,
 				3F50BB3D29D53F1700E0D6D4 /* ExplorePageViewController.swift in Sources */,
 				3F50BB5C29D6A53500E0D6D4 /* EqualityOperator.swift in Sources */,

@@ -34,10 +34,11 @@ class PlaceDetailViewController: UIViewController {
     }()
     
     lazy var hostLabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.configSecondaryRegularStyle()
-        let sectionedView = SectionView(frame: .zero, contentView: label, titleText: "Hosted By")
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.distribution = .equalSpacing
+        stackView.spacing = 3
+        let sectionedView = SectionView(frame: .zero, contentView: stackView, titleText: "Hosted By")
         
         return sectionedView
     }()
@@ -45,8 +46,12 @@ class PlaceDetailViewController: UIViewController {
    
     
     lazy var priceLabel = UILabel()
-    lazy var reserveButton = UIButton()
-    
+    lazy var reserveButton = {
+        let button = UIButton()
+        button.tag = 0
+        button.backgroundColor = .systemGray
+        return button
+    }()
     
     
     lazy var reviewView = ReviewView(frame: CGRect.zero, reviewList: placeDetails.reviewDetail,referenceViewController: self)
@@ -79,7 +84,6 @@ class PlaceDetailViewController: UIViewController {
         
 
         //sample coloring
-        reserveButton.backgroundColor = .systemGray
         contentScrollView.backgroundColor = .systemBackground
         view.backgroundColor = .systemBackground
 
@@ -112,8 +116,25 @@ class PlaceDetailViewController: UIViewController {
         let locationContentLabel = locationLabel.contentView as! UILabel
         locationContentLabel.text = "\(self.placeDetails.location.address),\n\(self.placeDetails.location.city),\n\(self.placeDetails.location.state), \(self.placeDetails.location.country)."
         
-        let hostContentLabel = self.hostLabel.contentView as! UILabel
-        hostContentLabel.text = self.placeDetails.hostId
+        let hostContentLabel = self.hostLabel.contentView as! UIStackView
+        let hostDetail = databaseController.getHostDetail(hostId: self.placeDetails.hostId)
+        
+        let hostName = UILabel()
+        hostName.configSecondaryStyle()
+        hostName.text = hostDetail.userName
+        
+        let hostMobile = UILabel()
+        hostMobile.configSecondaryFadedStyle()
+        hostMobile.text = "contact : \(hostDetail.mobile)"
+        
+        let hostEmail = UILabel()
+        hostEmail.configSecondaryFadedStyle()
+        hostEmail.text = "email : \(hostDetail.email)"
+        
+        hostContentLabel.addArrangedSubview(hostName)
+        hostContentLabel.addArrangedSubview(hostMobile)
+        hostContentLabel.addArrangedSubview(hostEmail)
+        
     }
     
     

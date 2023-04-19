@@ -17,7 +17,7 @@ class DataHold{
         
         bookedTrips.append(
             BookedTrip(
-                userId: "UD1101",
+                userId: "UD1102",
                 placeId: "PD1101",
                 BookedDateFrom: fromDate,
                 BookedDateTo: toDate,
@@ -34,7 +34,7 @@ class DataHold{
         
         bookedTrips.append(
             BookedTrip(
-                userId: "UD1101",
+                userId: "UD1102",
                 placeId: "PD1102",
                 BookedDateFrom: fromDate,
                 BookedDateTo: toDate,

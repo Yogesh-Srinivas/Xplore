@@ -572,12 +572,12 @@ final class DatabaseOperation : DatabaseOperationDelegate{
         return resultDict
     }
     
-    private func isPlaceWishListed(placeId : String,userId : String) -> Bool {
-        let result = xploreSqliteWrapper.select(fields : nil, from: "WishList", where: [QueryCondition(lhs: "placeId", condition: .EQUAL_TO, rhs: placeId, rhsType: .TEXT),QueryCondition(lhs: "userId", condition: .EQUAL_TO, rhs: userId, rhsType: .TEXT)
-            ])
-                                                
-        return result.count > 0
-    }
+    func isPlaceWishListed(placeId : String,userId : String) -> Bool {
+    let result = xploreSqliteWrapper.select(fields : nil, from: "WishList", where: [QueryCondition(lhs: "placeId", condition: .EQUAL_TO, rhs: placeId, rhsType: .TEXT),QueryCondition(lhs: "userId", condition: .EQUAL_TO, rhs: userId, rhsType: .TEXT)
+        ])
+                                            
+    return result.count > 0
+}
     
     func addToWishList(placeId : String, userId : String){
         xploreSqliteWrapper.insert(into: "WishList", values: [FieldWithValue<String>(fieldName: "placeId", fieldType: .TEXT, fieldValue: placeId),
@@ -864,6 +864,7 @@ final class DatabaseOperation : DatabaseOperationDelegate{
         }
         return true
     }
+    
 }
 
 

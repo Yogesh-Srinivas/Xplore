@@ -4,6 +4,21 @@ class RatingView: UIView {
     
     let headerLabel = UILabel()
     let contentView = UIView()
+    
+    let fullStarImage = {
+        let image = UIImage(systemName: "star.fill")?.withTintColor(.systemYellow,renderingMode: .alwaysOriginal)
+        return image
+    }()
+    
+    let halfStarImage = {
+        let image = UIImage(systemName: "star.leadinghalf.fill")?.withTintColor(.systemYellow,renderingMode: .alwaysOriginal)
+        return image
+    }()
+    
+    let emptyStarImage = {
+        let image = UIImage(systemName: "star")?.withTintColor(.systemYellow,renderingMode: .alwaysOriginal)
+        return image
+    }()
    
     var rating : Double
     
@@ -46,11 +61,7 @@ class RatingView: UIView {
             contentView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
         
-        let fullStarImage = UIImage(systemName: "star.fill")?.withTintColor(.systemYellow,renderingMode: .alwaysOriginal)
         
-        let halfStarImage = UIImage(systemName: "star.leadinghalf.fill")?.withTintColor(.systemYellow,renderingMode: .alwaysOriginal)
-        
-        let emptyStarImage = UIImage(systemName: "star")?.withTintColor(.systemYellow,renderingMode: .alwaysOriginal)
         
         let ratingView = UIStackView()
         ratingView.axis = .horizontal
@@ -59,7 +70,8 @@ class RatingView: UIView {
         for i in 1...5 {
             if rating >= Double(i) {
                 if let tintedStar = fullStarImage{
-                    ratingView.addArrangedSubview(UIImageView(image: tintedStar))
+                    let fullStarImageView = UIImageView(image: tintedStar)
+                    ratingView.addArrangedSubview(fullStarImageView)
                 }
             } else if rating > Double(i) - 1 {
                 if let tintedHalfStar = halfStarImage {

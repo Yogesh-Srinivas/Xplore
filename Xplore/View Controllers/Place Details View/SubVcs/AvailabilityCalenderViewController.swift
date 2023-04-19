@@ -36,15 +36,27 @@ class AvailabilityCalenderViewController: CustomCalenderViewController {
         setupHeaderLabel()
     }
     
-    init(districtName : String,pricePerDay : Double,currencyCode : String,completionHandler: @escaping (_ fromDate : DateComponents,_ toDate : DateComponents?)->()){
+    init(districtName : String,pricePerDay : Double,currencyCode : String,bookedDates : [DateComponents],completionHandler: @escaping (_ fromDate : DateComponents,_ toDate : DateComponents?)->()){
         self.districtName = districtName
         self.pricePerDay = pricePerDay
         self.currencyCode = currencyCode
         super.init(completionHandler: completionHandler)
+        
+        loadBookedDates(bookedDates: bookedDates)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func loadBookedDates(bookedDates : [DateComponents]){
+        for bookedDate in bookedDates{
+            super.bookedDates.append( DateComponents(
+                era: 1,
+                year: bookedDate.year,
+                month: bookedDate.month,
+                day: bookedDate.day))
+        }
     }
     
     func setupHeaderLabel(){
@@ -68,8 +80,7 @@ class AvailabilityCalenderViewController: CustomCalenderViewController {
         NSLayoutConstraint.activate([
             footerLabel.topAnchor.constraint(equalTo: footerView.topAnchor),
             footerLabel.leadingAnchor.constraint(equalTo: footerView.leadingAnchor,constant: 20),
-            footerLabel.bottomAnchor.constraint(equalTo: footerView.bottomAnchor),
-//            footerLabel.widthAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.widthAnchor,multiplier: 0.6)
+            footerLabel.bottomAnchor.constraint(equalTo: footerView.bottomAnchor)
         ])
         
         footerLabel.configSecondaryStyle()

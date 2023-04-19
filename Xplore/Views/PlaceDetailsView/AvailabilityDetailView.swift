@@ -56,10 +56,9 @@ class AvailabilityDetailView: UIView {
         self.contentLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(viewOnTap)))
     }
     
-    @objc private func viewOnTap(){
+    @objc func viewOnTap(){
         if let viewControllerToPresentOnTap = self.viewControllerToPresentOnTap,let referenceViewControllerToPresent = self.referenceViewControllerToPresent{
             referenceViewControllerToPresent.present(viewControllerToPresentOnTap, animated: true)
-
         }
     }
 

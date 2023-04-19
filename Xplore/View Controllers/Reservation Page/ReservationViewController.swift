@@ -10,6 +10,8 @@ final class ReservationViewController : UITableViewController {
         let numberOfGuestes : Int
         let rating : Double
         let numberOfRating : Int
+        let city : String
+        let imageUrl : String
         var guestes : String {
             return String(numberOfGuestes)+" guests"
         }
@@ -37,10 +39,14 @@ final class ReservationViewController : UITableViewController {
     private let tripDetails : TripDetails
     private let priceDetails : PriceDetails
     private let databaseController : PlaceDBController
+    var headerImage : UIImage?
     
-    init(fromDate : DateComponents,toDate : DateComponents?,placeDetail : TravelPlaceDetail,databaseController : PlaceDBController){
-        
-        
+    init(fromDate : DateComponents,toDate : DateComponents?,placeDetail : TravelPlaceDetail,databaseController : PlaceDBController,headerImage : UIImage?){
+        if let headerImage = headerImage{
+            self.headerImage = headerImage
+        }else{
+            self.headerImage = UIImage(named: "loadingImage")
+        }
         var dates = "\(fromDate.day!) \(GeneralUtils.getMonthInString(month: fromDate.month!))"
         
         var numberOfDays = 1
@@ -63,7 +69,10 @@ final class ReservationViewController : UITableViewController {
             dates: dates,
             numberOfGuestes: 4,
             rating: placeDetail.placeRating,
-            numberOfRating: placeDetail.ratingDetail.count)
+            numberOfRating: placeDetail.ratingDetail.count,
+            city: placeDetail.location.city,
+            imageUrl: placeDetail.images[0]
+        )
         
         self.priceDetails = PriceDetails(
             pricePerDay: placeDetail.price.pricePerDay,
@@ -131,16 +140,21 @@ final class ReservationViewController : UITableViewController {
         config.text = "We ask every guest to rember a few simple things about what makes a great guest.\n\n\(Constants.BULLETING_POINT) Follow the house rules\n\(Constants.BULLETING_POINT) Treat your Host's home like your own"
     }
     private func configHeaderCell(_ config : inout UIListContentConfiguration){
-        config.image = UIImage(named: "test")
+        
+        config.image = headerImage
         config.imageProperties.reservedLayoutSize = CGSize(width: 150, height: 125)
         config.imageProperties.maximumSize = CGSize(width: 170, height: 125)
         config.imageProperties.cornerRadius = 15
+        
         
         config.secondaryText =  tripDetails.numberOfRating != 0 ? "\(Constants.RATING_STAR) \(tripDetails.rating) (\(tripDetails.numberOfRating))" : "\(Constants.RATING_STAR) new"
        
         config.text = tripDetails.placeName
         config.textProperties.font = .systemFont(ofSize: 19)
+        config.textProperties.numberOfLines = 4
+        
     }
+    
     private func configFooterCell(_ footerCell : inout LabelWithButtonViewTableViewCell){
         
         footerCell.contentLabel.text = "By selecting the below button I agree to the Host's House Rules,Ground rules for guest and I'm responsible for the damage."
@@ -156,6 +170,8 @@ final class ReservationViewController : UITableViewController {
     }
     
     @objc private func reserveBottonOnTapAction(){
+        let reservationId = GeneralUtils.generateReservationUniqueID()
+        
         let reservedPlaceDetail = BookedTrip(
             userId: GeneralUtils.getUserId(),
             placeId: tripDetails.placeId,
@@ -168,12 +184,16 @@ final class ReservationViewController : UITableViewController {
             numberOfGuests: tripDetails.numberOfGuestes,
             cleaningFee: ControlCenter.cleaningFee,
             serviceFee: ControlCenter.serviceFee,
-            reservationId: GeneralUtils.generateReservationUniqueID()
+            reservationId: reservationId
         )
         
         databaseController.reservePlace(tripDetails : reservedPlaceDetail)
         
-        self.navigationController?.pushViewController(ReservationConfirmationViewController(), animated: true)
+        self.navigationController?.pushViewController(
+            ReservationConfirmationViewController(
+                location: tripDetails.city,
+                reservationCode: reservationId,
+                imageUrl: tripDetails.imageUrl), animated: true)
     }
     
 

@@ -3,87 +3,44 @@ import UIKit
 
 final class ReservationConfirmationViewController: UITableViewController {
     
-    let location = "Chennai"
+    let reservationCode : String
+    let location : String
+
+    init(location : String,reservationCode : String,imageUrl : String){
+        self.reservationCode = reservationCode
+        self.location = location
+        super.init(nibName: nil, bundle: nil)
+    }
     
-    private let loadingView = UIView()
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.navigationController?.navigationBar.isHidden = true
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 3){
-//
-//        }
+
         self.view.setCustomBackground()
+        self.view.clipsToBounds = true
         
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(UITableViewCell.self,forCellReuseIdentifier: "TableViewCell")
         tableView.register(ReservationConfirmCustomCell.self,forCellReuseIdentifier: "ReservationConfirmCustomCell")
+        tableView.bounces = false
         
-       
+        self.navigationItem.setHidesBackButton(true, animated: false)
     }
-    private func setloadingView(){
-        loadingView.translatesAutoresizingMaskIntoConstraints = false
-        
-    }
-    
-    
-    private func configCell(row : Int, config : inout UIListContentConfiguration){
-        switch row{
-        case 1:
-            config.text = "Host Info"
-            config.textProperties.configSemiPrimary()
-            
-            config.secondaryText = "Host Name : arul\nMobile : 3403450943\nEmail : narul@gmail.com"
-            config.secondaryTextProperties.configSecondaryFadedStyle()
-        case 3:
-            config.text = "Address"
-            config.textProperties.configSemiPrimary()
-            
-            config.secondaryText = "23,dfdsfdsf vdfv,\nchennai,tamil nadu,\nindia"
-            config.secondaryTextProperties.configSecondaryFadedStyle()
-        case 4:
-            config.text = "Guestes"
-            config.textProperties.configSemiPrimary()
-            
-            config.secondaryText = "4"
-            config.secondaryTextProperties.configSecondaryFadedStyle()
-        case 5:
-            config.text = "Amount"
-            config.textProperties.configSemiPrimary()
-            
-            config.secondaryText = "INR 23,4500"
-            config.secondaryTextProperties.configSecondaryFadedStyle()
-        case 6:
-            config.text = "Reservation Code"
-            config.textProperties.configSemiPrimary()
-            
-            config.secondaryText = "SMLVXUI"
-            config.secondaryTextProperties.configSecondaryFadedStyle()
-        default:
-            return
-        }
-    }
-    
-    private func addDatesView(cell : UITableViewCell){
-        let datesView = StackViewWithCornorLabels(frame: .zero)
-        datesView.leadingLabel.text = "Wednesday,\nOCT 29,\n2017"
-        datesView.leadingLabel.configSemiPrimary()
-        datesView.trailingLabel.text = "Wednesday,\nOCT 29,\n2017"
-        datesView.trailingLabel.configSemiPrimary()
 
-        datesView.translatesAutoresizingMaskIntoConstraints = false
+    
+    
+    private func configCell(config : inout UIListContentConfiguration){
+        config.text = "Reservation Code"
+        config.textProperties.configSemiPrimary()
         
-        cell.contentView.addSubview(datesView)
-        
-        NSLayoutConstraint.activate([
-            datesView.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor,constant: 20),
-            datesView.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor,constant: -20),
-            datesView.topAnchor.constraint(equalTo: cell.contentView.topAnchor,constant: 20),
-            datesView.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor,constant: -10)
-        ])
+        config.secondaryText = reservationCode
+        config.secondaryTextProperties.configSecondaryFadedStyle()
     }
+    
     
     private func addCheersButton(cell : UITableViewCell){
         let cheersButton = UIButton()
@@ -98,7 +55,8 @@ final class ReservationConfirmationViewController: UITableViewController {
             cheersButton.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor,constant: 20),
             cheersButton.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor,constant: -20),
             cheersButton.topAnchor.constraint(equalTo: cell.contentView.topAnchor,constant: 10),
-            cheersButton.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor,constant: -10)
+            cheersButton.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor,constant: -10),
+            cheersButton.heightAnchor.constraint(equalToConstant: 50)
         ])
         
         cheersButton.addTarget(self, action: #selector(cheersButtonOnTapAction), for: .touchDown)
@@ -113,7 +71,7 @@ extension ReservationConfirmationViewController {
     
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 8
+        return 3
     }
 
     
@@ -125,24 +83,20 @@ extension ReservationConfirmationViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: "ReservationConfirmCustomCell", for: indexPath) as! ReservationConfirmCustomCell
             
             cell.logoImage.image = UIImage(named: "appLogoWithName")
-            cell.placeImage.image = UIImage(named: "test")
+            cell.placeImage.image = UIImage(named: "confirmImage")
             cell.primaryLabel.text = "Your reservation is confirmed."
             cell.secondaryLabel.text = "Hurray! Pack your bags, You're going to \(location)."
             cell.selectionStyle = .none
             return cell
         
-        case 2:
-            addDatesView(cell: cell)
-        case 1,3:
-            var config = UIListContentConfiguration.subtitleCell()
-            configCell(row: indexPath.row, config: &config)
+        case 1:
+            var config = UIListContentConfiguration.valueCell()
+            configCell(config: &config)
             cell.contentConfiguration = config
-        case 7:
+        case 2:
             addCheersButton(cell : cell)
         default:
-            var config = UIListContentConfiguration.valueCell()
-            configCell(row: indexPath.row, config: &config)
-            cell.contentConfiguration = config
+            break
 
         }
         cell.selectionStyle = .none

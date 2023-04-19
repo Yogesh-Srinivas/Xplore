@@ -28,6 +28,8 @@ class IconedLabelView: UIView {
             iconImageView.topAnchor.constraint(equalTo: self.topAnchor,constant: 10),
             iconImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor,constant: -10),
             iconImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor,constant: 10),
+            iconImageView.heightAnchor.constraint(equalToConstant: 20),
+            iconImageView.widthAnchor.constraint(equalToConstant: 20)
             
         ])
         

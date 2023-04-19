@@ -34,7 +34,7 @@ class ProfileViewController: UITableViewController {
         
     private func configTabelCell(cell : UITableViewCell,row : Int){
         
-        if row != 4 {
+        if row != 3 {
             cell.accessoryView = UIImageView(image: UIImage(systemName: "chevron.right"))
         }
         
@@ -45,13 +45,13 @@ class ProfileViewController: UITableViewController {
         switch row{
         case 0 :
             config.text = "Currency"
+//        case 1 :
+//            config.text = "Security"
         case 1 :
-            config.text = "Security"
-        case 2 :
             config.text = "Terms of Service"
-        case 3 :
+        case 2 :
             config.text = "Privacy Policy"
-        case 4:
+        case 3:
             config.text = "Log Out"
             config.textProperties.color = .systemRed
         default:
@@ -68,7 +68,7 @@ class ProfileViewController: UITableViewController {
 
 extension ProfileViewController{
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return 4
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -104,19 +104,31 @@ extension ProfileViewController{
                 CurrencyViewController(
                        databaseController: placeDBController
                 ), animated: true)
-        case 2:
+        case 1:
             let termsOfServiceVC = InformationViewController(title: "Terms of Service", content: ControlCenter.TermsOfService)
         
             self.navigationController?.pushViewController(termsOfServiceVC, animated: true)
             
             
-        case 3:
+        case 2:
             let privacyPolicyVC = InformationViewController(title: "Privacy Policy", content: ControlCenter.PrivacyPolicy)
         
             self.navigationController?.pushViewController(privacyPolicyVC, animated: true)
-        case 4:
-            UserDefaults.standard.removeObject(forKey: "userId")
-            self.navigationController?.setViewControllers([LoginViewController()], animated: true)
+        case 3:
+            
+            let logoutAlert = UIAlertController(title: "Log Out", message: "Are you sure you want to log out?", preferredStyle: UIAlertController.Style.alert)
+            
+            logoutAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+
+            logoutAlert.addAction(UIAlertAction(title: "Logout", style: .destructive, handler: { (action: UIAlertAction!) in
+                
+                UserDefaults.standard.removeObject(forKey: "userId")
+                self.navigationController?.setViewControllers([LoginViewController()], animated: true)
+            }))
+
+            present(logoutAlert, animated: true, completion: nil)
+
+           
         default:
             break
         }

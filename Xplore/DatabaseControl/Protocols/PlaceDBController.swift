@@ -17,5 +17,8 @@ protocol PlaceDBController{
     func isUserRated(placeId : String) -> Bool
     func isPlaceAvailable(placeId : String,fromDate : DateComponents,toDate : DateComponents?) -> Bool
     func updateCurrencyPreference(currencyCode : String)
-   
+    func getHostDetail(hostId : String) -> UserDetail
+    func isWishListed(placeId : String) -> Bool
+    func getImageData(for imageUrl : String) -> Data?
+    func getBookedDates(of placeId : String) -> [DateComponents]
 }

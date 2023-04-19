@@ -36,4 +36,6 @@ protocol DatabaseOperationDelegate {
     func getCurrencyPreference(userId : String) -> String
     func signUp(accountDetail : UserDetail)
     func isUserIdExist(userId : String) -> Bool
+    func isPlaceWishListed(placeId : String,userId : String) -> Bool
+    func getBookedDates(of placeId : String) -> [DateComponents]
 }

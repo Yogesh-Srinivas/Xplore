@@ -7,7 +7,6 @@ class PlaceDetailCardView: UITableViewCell {
     private var imagesCollectionView : ImagesDisplayCollectionView
     
     let wishListButton = {
-       
         let button = UIButton()
         button.contentVerticalAlignment = .fill
         button.contentHorizontalAlignment = .fill
@@ -106,8 +105,8 @@ class PlaceDetailCardView: UITableViewCell {
         NSLayoutConstraint.activate([
             wishListButton.topAnchor.constraint(equalTo: contentView.topAnchor,constant: 15),
             wishListButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -25),
-            wishListButton.widthAnchor.constraint(equalToConstant: 35),
-            wishListButton.heightAnchor.constraint(equalToConstant: 30),
+            wishListButton.widthAnchor.constraint(equalToConstant: 30),
+            wishListButton.heightAnchor.constraint(equalToConstant: 25),
      
         ])
     }

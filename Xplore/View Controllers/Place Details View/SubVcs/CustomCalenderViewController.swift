@@ -13,12 +13,7 @@ class CustomCalenderViewController: UIViewController {
         }
     }
     
-    var bookedDates : [DateComponents] = [
-        DateComponents(era: 1, year: 2023,month: 4,day: 11),
-        DateComponents(era: 1, year: 2023,month: 4,day: 12),
-        DateComponents(era: 1, year: 2023,month: 4,day: 13),
-
-    ]
+    var bookedDates : [DateComponents] = []
    
     let headerView = UIView()
     

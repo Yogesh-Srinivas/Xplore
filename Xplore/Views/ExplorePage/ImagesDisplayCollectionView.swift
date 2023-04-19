@@ -7,12 +7,11 @@ class ImagesDisplayCollectionView: UICollectionView {
             self.reloadData()
         }
     }
-    private var images : [UIImage?] = []
+    var images : [UIImage?] = []
     var databaseController : FetchableImage!
     
     init() {
       
-        
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 0

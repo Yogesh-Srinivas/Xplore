@@ -31,10 +31,7 @@ class UnreservedPlaceDetailsViewController: UnvisitedPlaceDetailViewController {
             priceLabel.text = "Trip Cost \(pricePerDay) \(currencyCode)"
             
             reserveButton.backgroundColor = .systemPink
-            
-            reserveButton.removeTarget(self, action: #selector(reserveButtonOnTapActionDisabled), for: .touchDown)
-            
-            reserveButton.addTarget(self, action: #selector(reserveButtonOnTapAction), for: .touchDown)
+            reserveButton.tag = 1
             
         }
     }
@@ -104,8 +101,6 @@ class UnreservedPlaceDetailsViewController: UnvisitedPlaceDetailViewController {
         reserveButton.titleLabel?.font = .systemFont(ofSize: 20, weight: .semibold)
         reserveButton.layer.cornerRadius = 10
         
-        
-        priceLabel.text = "\(placeDetails.price.pricePerDay) x 1 day(s)  = \(placeDetails.price.pricePerDay) \(placeDetails.price.currencyCode)"
         priceLabel.adjustsFontSizeToFitWidth = true
         priceLabel.configSecondaryStyle()
     }
@@ -131,16 +126,16 @@ class UnreservedPlaceDetailsViewController: UnvisitedPlaceDetailViewController {
             reserveButton.widthAnchor.constraint(equalTo: footerView.widthAnchor, multiplier: 0.3)
         ])
         
-        reserveButton.addTarget(self, action: #selector(reserveButtonOnTapActionDisabled), for: .touchDown)
+        reserveButton.addTarget(self, action: #selector(reserveButtonOnTapAction), for: .touchDown)
     
     }
     
     @objc private func reserveButtonOnTapAction(){
-        self.navigationController?.pushViewController(ReservationViewController(fromDate: fromDate, toDate: toDate, placeDetail: placeDetails,databaseController: databaseController), animated: true)
-    }
-    
-    @objc private func reserveButtonOnTapActionDisabled(){
-        UIUtils.showAlertMessage(message: "choose your dates", viewController: self, durationInSeconds: 1.2)
+        if reserveButton.tag == 0{
+            availabiltiyView.viewOnTap()
+        }else{
+            self.navigationController?.pushViewController(ReservationViewController(fromDate: fromDate, toDate: toDate, placeDetail: placeDetails,databaseController: databaseController,headerImage: self.placeImagesCollectionView.images[0]), animated: true)
+        }
     }
     
     private func setupWishItem(){
@@ -160,9 +155,14 @@ class UnreservedPlaceDetailsViewController: UnvisitedPlaceDetailViewController {
     }
     
     private func setupAvailabilityView(){
-        availabiltiyView.setupTapAction(currentViewController: self, viewControllerToPresentOnTap: AvailabilityCalenderViewController(districtName: placeDetails.location.city,
+        availabiltiyView.setupTapAction(currentViewController: self, viewControllerToPresentOnTap: AvailabilityCalenderViewController(
+            
+            districtName: placeDetails.location.city,
             pricePerDay: placeDetails.price.pricePerDay,
-            currencyCode: placeDetails.price.currencyCode){[unowned self](fromDate,toDate) in
+            currencyCode: placeDetails.price.currencyCode,
+            bookedDates: databaseController.getBookedDates(of: placeDetails.placeId)
+            
+        ){[unowned self](fromDate,toDate) in
             self.fromDate = fromDate
             self.toDate = toDate
         })

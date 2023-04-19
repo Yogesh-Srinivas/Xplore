@@ -22,7 +22,7 @@ extension UILabel{
     }
     
     func configSemiPrimary(){
-        self.font = .systemFont(ofSize: 17 + ControlCenter.fontConstant ,weight: .medium)
+        self.font = .systemFont(ofSize: 17 + ControlCenter.fontConstant ,weight: .heavy)
         self.textColor = .label
     }
     
