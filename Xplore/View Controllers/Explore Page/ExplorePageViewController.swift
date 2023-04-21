@@ -8,6 +8,14 @@ class ExplorePageViewController: UITableViewController {
     
     var filteredPlaceList : [TravelPlaceDetail] = []
     
+    lazy var noSearchResultView = {
+        let emptyDetailView = EmptyDetailView(
+                    frame: .zero,
+                    image: UIImage(named: "noResult"),
+                    message: "No Result Found.")
+        return emptyDetailView
+    }()
+    
     lazy var searchItem = {
         let barButtonItem = UIBarButtonItem()
         barButtonItem.image = UIImage(systemName:"magnifyingglass")
@@ -55,13 +63,34 @@ class ExplorePageViewController: UITableViewController {
         self.navigationItem.title = "Xplore"
         self.placeDetailsList = databaseController.getAllPlaceDetail()
         self.filteredPlaceList = placeDetailsList
+        
+        view.addSubview(noSearchResultView)
+        
+        setupNoSearchResultView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
         updateWishListDetails()
+        updateRatingDetails()
         convertFilteredListToCurrentCurrency()
         tableView.reloadData()
+        
+        if filteredPlaceList.isEmpty{
+            noSearchResultView.isHidden = false
+        }else{
+            noSearchResultView.isHidden = true
+        }
+    }
+    
+    private func setupNoSearchResultView(){
+        noSearchResultView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            noSearchResultView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            noSearchResultView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
+            noSearchResultView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
+            noSearchResultView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
+        ])
     }
     
     private func updateWishListDetails(){
@@ -73,6 +102,19 @@ class ExplorePageViewController: UITableViewController {
         for placeDetailIndex in 0..<filteredPlaceList.count {
             let placeId = filteredPlaceList[placeDetailIndex].placeId
             filteredPlaceList[placeDetailIndex].isWishListed =  databaseController.isWishListed(placeId : placeId)
+        }
+
+    }
+    
+    private func updateRatingDetails(){
+        for placeDetailIndex in 0..<placeDetailsList.count {
+            let placeId = placeDetailsList[placeDetailIndex].placeId
+            placeDetailsList[placeDetailIndex].ratingDetail =  databaseController.getRatingDetail(placeId: placeId)
+        }
+        
+        for placeDetailIndex in 0..<filteredPlaceList.count {
+            let placeId = filteredPlaceList[placeDetailIndex].placeId
+            filteredPlaceList[placeDetailIndex].ratingDetail =  databaseController.getRatingDetail(placeId: placeId)
         }
 
     }
@@ -201,40 +243,50 @@ class ExplorePageViewController: UITableViewController {
                            locationDetail : FilteredLocation?) in
             
             filteredPlaceList = []
-            for placeDetail in placeDetailsList {
-                //Place Availability Check
-                if let fromDate = fromDate{
+            
+            if fromDate == nil && toDate == nil && guestDetails.numberOfGuests == 1 && locationDetail == nil{
+                
+                filteredPlaceList = placeDetailsList
+                
+            }else{
+                for placeDetail in placeDetailsList {
+                    //Place Availability Check
+                    if let fromDate = fromDate{
                         if !databaseController.isPlaceAvailable(
                             placeId: placeDetail.placeId,
                             fromDate: fromDate,
                             toDate: toDate){
                             continue
                         }
+                    }
+                    
+                    
+                    //Place Acomodation Check
+                    let guestsCount : Int = guestDetails.numberOfAdult + (guestDetails.numberOfInfant + guestDetails.numberOfChildren) * Int(0.5)
+                    
+                    if placeDetail.noOfRooms * placeDetail.noOfPeopleAccomodate < guestsCount{
+                        continue
+                    }
+                    
+                    //Place location check
+                    if let locationDetail = locationDetail{
+                        if placeDetail.location.country != locationDetail.country {
+                            continue
+                        }
+                        
+                        if let state = locationDetail.state,placeDetail.location.state != state{
+                            continue
+                        }
+                        
+                        if let city = locationDetail.city,placeDetail.location.city != city{
+                            continue
+                        }
+                    }
+                    
+                    //Filtered Place
+                    filteredPlaceList.append(placeDetail)
                 }
                 
-                
-                //Place Acoomodation Check
-                let guestsCount : Int = guestDetails.numberOfAdult + (guestDetails.numberOfInfant + guestDetails.numberOfChildren) * Int(0.5)
-                
-                if placeDetail.noOfRooms * placeDetail.noOfPeopleAccomodate < guestsCount{
-                    continue
-                }
-                
-                //Place location check
-                if placeDetail.location.country != locationDetail?.country {
-                    continue
-                }
-                
-                if let state = locationDetail?.state,placeDetail.location.state != state{
-                    continue
-                }
-                
-                if let city = locationDetail?.city,placeDetail.location.city != city{
-                    continue
-                }
-                
-                //Filtered Place
-                filteredPlaceList.append(placeDetail)
             }
             
             self.navigationItem.title = "Search result"
@@ -247,6 +299,7 @@ class ExplorePageViewController: UITableViewController {
     @objc private func cancelSearchButtonAction(){
         filteredPlaceList = placeDetailsList
         tableView.reloadData()
+        noSearchResultView.isHidden = true
         self.navigationItem.title = "Xplore"
         self.navigationItem.rightBarButtonItem = searchItem
     }

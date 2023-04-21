@@ -6,6 +6,9 @@ class LoginViewController: LoginTemplateViewController {
         let emailField = CustomLoginFieldView(frame: .zero)
         emailField.textField.placeholder = "Email"
         emailField.textField.iconImageView.image = UIImage(systemName: "envelope.open")
+        emailField.textField.keyboardType = .emailAddress
+        emailField.textField.returnKeyType = .next
+        emailField.textField.delegate = self
         return emailField
     }()
     
@@ -13,6 +16,8 @@ class LoginViewController: LoginTemplateViewController {
         let passwordField = CustomPasswordFieldView(frame:.zero)
         passwordField.passwordTextField.placeholder = "Password"
         passwordField.passwordTextField.iconImageView.image = UIImage(systemName: "lock")
+        passwordField.passwordTextField.returnKeyType = .done
+        passwordField.passwordTextField.delegate = self
         return passwordField
     }()
 
@@ -25,6 +30,11 @@ class LoginViewController: LoginTemplateViewController {
         emailField.textField.text = "yogi@gmail.com"
         passwordField.passwordTextField.text = "123"
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        emailField.textField.resignFirstResponder()
+        passwordField.passwordTextField.resignFirstResponder()
     }
     
     private func setupView(){
@@ -86,6 +96,12 @@ class LoginViewController: LoginTemplateViewController {
 
 extension LoginViewController : UITextFieldDelegate{
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == emailField.textField{
+            passwordField.passwordTextField.becomeFirstResponder()
+        }else{
+            passwordField.passwordTextField.resignFirstResponder()
+            pageButtonOnClickAction()
+        }
         return true
     }
 }

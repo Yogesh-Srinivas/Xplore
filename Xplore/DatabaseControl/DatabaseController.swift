@@ -113,6 +113,7 @@ final class DatabaseController : PlaceDBController,FetchableImage,SessionDBContr
     func isPlaceAvailable(placeId : String,fromDate : DateComponents,toDate : DateComponents?) -> Bool{
         
         var datesToCheck : [Date] = []
+        
         if let toDate = toDate{
             datesToCheck.append(contentsOf:
                             GeneralUtils.getDatesBetween(
@@ -267,5 +268,9 @@ final class DatabaseController : PlaceDBController,FetchableImage,SessionDBContr
     }
     func getBookedDates(of placeId : String) -> [DateComponents]{
         return databaseOperationDelegate.getBookedDates(of: placeId)
+    }
+    
+    func getRatingDetail(placeId : String) -> [Rating]{
+        return databaseOperationDelegate.getRatingDetail(placeId: placeId)
     }
 }

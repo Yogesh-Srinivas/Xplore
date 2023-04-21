@@ -19,7 +19,7 @@ class LoginTemplateViewController: UIViewController {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .equalCentering
-        stackView.spacing = 30
+        stackView.spacing = 40
         return stackView
     }()
     
@@ -68,12 +68,13 @@ class LoginTemplateViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             contentView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            contentView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            contentView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor),
             contentView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             contentView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor)
         ])
         
         contentView.bounces = false
+        contentView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(contentViewOnTapAction)))
     }
     
     private func setupTopIllustrationImage(){
@@ -83,8 +84,8 @@ class LoginTemplateViewController: UIViewController {
             topIllustrationImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             topIllustrationImage.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
             topIllustrationImage.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
-            topIllustrationImage.bottomAnchor.constraint(equalTo: titleLabel.topAnchor, constant: -15),
-            topIllustrationImage.heightAnchor.constraint(equalTo:self.view.safeAreaLayoutGuide.heightAnchor,multiplier: 0.15)
+            topIllustrationImage.bottomAnchor.constraint(equalTo: titleLabel.topAnchor, constant: -30),
+            topIllustrationImage.heightAnchor.constraint(equalTo:self.view.safeAreaLayoutGuide.heightAnchor,multiplier: 0.13)
         ])
     }
     
@@ -105,7 +106,7 @@ class LoginTemplateViewController: UIViewController {
         NSLayoutConstraint.activate([
             textFieldsView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             textFieldsView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            textFieldsView.bottomAnchor.constraint(equalTo: pageButton.topAnchor, constant: -20),
+            textFieldsView.bottomAnchor.constraint(equalTo: pageButton.topAnchor, constant: -40),
         
         ])
     }
@@ -148,6 +149,7 @@ class LoginTemplateViewController: UIViewController {
             
         ])
         
+        
     }
     
     
@@ -163,8 +165,15 @@ class LoginTemplateViewController: UIViewController {
         self.pageButtonAction = action
     }
     
-    @objc private func pageButtonOnClickAction(){
+    @objc func pageButtonOnClickAction(){
         pageButtonAction?()
+    }
+    
+    @objc private func contentViewOnTapAction(){
+        for child in self.textFieldsView.arrangedSubviews{
+            (child as? CustomLoginFieldView)?.textField.resignFirstResponder()
+            (child as? CustomPasswordFieldView)?.passwordTextField.resignFirstResponder()
+        }
     }
     
 }

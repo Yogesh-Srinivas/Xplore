@@ -4,6 +4,16 @@ class CancellationPolicyViewController: UIViewController {
     let titleView = UILabel()
     let policyContentView = UILabel()
     let labelWrapper = UIButton()
+    
+    lazy var cancelButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "xmark"), for: .normal)
+        button.contentHorizontalAlignment = .fill
+        button.contentVerticalAlignment = .fill
+        button.tintColor = .label
+        button.addTarget(self, action: #selector(cancelButtonOnTapAction), for: .touchDown)
+        return button
+    }()
 
     override func viewDidLoad() {
         
@@ -12,16 +22,18 @@ class CancellationPolicyViewController: UIViewController {
         view.backgroundColor = .systemBackground
         view.addSubview(titleView)
         view.addSubview(labelWrapper)
+        view.addSubview(cancelButton)
         labelWrapper.addSubview(policyContentView)
         
         setupTitleView()
         setupPolicyContentView()
+        setupCancelButton()
     }
     
     private func setupTitleView(){
         titleView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            titleView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            titleView.topAnchor.constraint(equalTo: cancelButton.bottomAnchor),
             titleView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 20),
             titleView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -20),
             titleView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.1)
@@ -31,6 +43,7 @@ class CancellationPolicyViewController: UIViewController {
         titleView.text = "Cancellation Policy"
         titleView.configPrimaryStyle()
     }
+    
     private func setupPolicyContentView(){
         labelWrapper.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -50,7 +63,7 @@ class CancellationPolicyViewController: UIViewController {
         
         ])
         
-        policyContentView.text = "Lorem ipsum dolor sit amet. Et illo ipsam qui illo consectetur aut obcaecati iure nam consequuntur fugit eum blanditiis laborum qui commodi galisum sit earum eligendi. Ad dolor nobis est omnis repellat et voluptatem dolor. In dolore nobis est voluptatem totam et enim eius.\n\nUt unde quia eos quam voluptatem a rerum velit et maxime consequatur ut autem quia. Et consequatur voluptatem et consequatur pariatur et itaque earum est voluptatum voluptas vel officiis dignissimos. Eos dolor aliquid in laboriosam perspiciatis aut possimus porro.\n\nEum maxime rerum eum laboriosam labore id quasi rerum. Ut nesciunt iusto sed nihil voluptatibus et rerum voluptatum qui maiores similique quo consequuntur ipsa. Et praesentium minima qui deserunt nulla et iusto alias aut adipisci iste eum nobis vitae non velit sunt!"
+        policyContentView.text = ControlCenter.cancellationPolicy
 
         policyContentView.numberOfLines = 0
         policyContentView.textAlignment = .justified
@@ -58,5 +71,17 @@ class CancellationPolicyViewController: UIViewController {
         
     }
     
-
+    private func setupCancelButton(){
+        cancelButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            cancelButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 20),
+            cancelButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 15),
+            cancelButton.heightAnchor.constraint(equalToConstant: 20),
+            cancelButton.widthAnchor.constraint(equalToConstant: 20),
+        ])
+    }
+    
+    @objc private func cancelButtonOnTapAction(){
+        self.dismiss(animated: true)
+    }
 }

@@ -3,6 +3,14 @@ import UIKit
 
 class UnreservedPlaceDetailsViewController: UnvisitedPlaceDetailViewController {
     
+    lazy var guestView = {
+        let customStepper = CustomStepperView(frame: .zero, maxValue: 33, minValue: 1, titleText: "Number of guests", subTitleText: ""){
+            [unowned self](value) in
+            self.numberOfGuests = value
+        }
+        customStepper.titleLabel.configSecondaryStyle()
+        return customStepper
+    }()
     
     lazy var wishListItem = {
         let barButtonItem = UIBarButtonItem()
@@ -50,6 +58,8 @@ class UnreservedPlaceDetailsViewController: UnvisitedPlaceDetailViewController {
             }
         }
     }
+    
+    var numberOfGuests : Int = 1
 
     lazy var footerView = UIView()
 
@@ -65,6 +75,8 @@ class UnreservedPlaceDetailsViewController: UnvisitedPlaceDetailViewController {
         navigationItem.rightBarButtonItem = wishListItem
         setupWishItem()
         
+        contentScrollView.insertSubview(guestView, belowSubview: cancellationPolicyView)
+        contentScrollView.insertSubview(UIUtils.getSeparator(size: 1), aboveSubview: guestView)
         contentScrollView.addSubview(paddingView)
         footerView.backgroundColor = .systemBackground
         view.addSubview(footerView)
@@ -134,7 +146,13 @@ class UnreservedPlaceDetailsViewController: UnvisitedPlaceDetailViewController {
         if reserveButton.tag == 0{
             availabiltiyView.viewOnTap()
         }else{
-            self.navigationController?.pushViewController(ReservationViewController(fromDate: fromDate, toDate: toDate, placeDetail: placeDetails,databaseController: databaseController,headerImage: self.placeImagesCollectionView.images[0]), animated: true)
+            self.navigationController?.pushViewController(ReservationViewController(
+                fromDate: fromDate,
+                toDate: toDate,
+                placeDetail: placeDetails,
+                numberOfGuests: numberOfGuests,
+                databaseController: databaseController,
+                headerImage: self.placeImagesCollectionView.images[0]), animated: true)
         }
     }
     

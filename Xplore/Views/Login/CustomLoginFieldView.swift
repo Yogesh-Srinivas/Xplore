@@ -75,6 +75,7 @@ class CustomLoginFieldView: UIView {
 }
 
 extension CustomLoginFieldView : UITextFieldDelegate{
+    
     func textFieldDidBeginEditing(_ textField: UITextField) {
         hideErrorMessage()
     }

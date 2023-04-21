@@ -6,6 +6,8 @@ class SignUpViewController: LoginTemplateViewController {
         let nameField = CustomLoginFieldView(frame: .zero)
         nameField.textField.placeholder = "Name"
         nameField.textField.iconImageView.image = UIImage(systemName: "person")
+        nameField.textField.returnKeyType = .next
+        nameField.textField.delegate = self
         return nameField
     }()
     
@@ -13,6 +15,9 @@ class SignUpViewController: LoginTemplateViewController {
         let emailField = CustomLoginFieldView(frame: .zero)
         emailField.textField.placeholder = "Email"
         emailField.textField.iconImageView.image = UIImage(systemName: "envelope.open")
+        emailField.textField.keyboardType = .emailAddress
+        emailField.textField.returnKeyType = .next
+        emailField.textField.delegate = self
         return emailField
     }()
     
@@ -20,6 +25,8 @@ class SignUpViewController: LoginTemplateViewController {
         let mobileField = CustomLoginFieldView(frame: .zero)
         mobileField.textField.placeholder = "Phone Number"
         mobileField.textField.iconImageView.image = UIImage(systemName: "phone")
+        mobileField.textField.keyboardType = .numberPad
+        emailField.textField.delegate = self
         return mobileField
     }()
     
@@ -27,6 +34,8 @@ class SignUpViewController: LoginTemplateViewController {
         let passwordField = CustomPasswordFieldView(frame:.zero)
         passwordField.passwordTextField.placeholder = "Password"
         passwordField.passwordTextField.iconImageView.image = UIImage(systemName: "lock")
+        passwordField.passwordTextField.returnKeyType = .next
+        passwordField.passwordTextField.delegate = self
         return passwordField
     }()
     
@@ -34,6 +43,8 @@ class SignUpViewController: LoginTemplateViewController {
         let confirmPasswordField = CustomPasswordFieldView(frame:.zero)
         confirmPasswordField.passwordTextField.placeholder = "confirm Password"
         confirmPasswordField.passwordTextField.iconImageView.image = UIImage(systemName: "lock")
+        confirmPasswordField.passwordTextField.returnKeyType = .done
+        confirmPasswordField.passwordTextField.delegate = self
         return confirmPasswordField
     }()
 
@@ -114,3 +125,20 @@ class SignUpViewController: LoginTemplateViewController {
     }
     
 }
+
+extension SignUpViewController : UITextFieldDelegate{
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == nameField.textField{
+            mobileField.textField.becomeFirstResponder()
+        }else if textField == emailField.textField{
+            passwordField.passwordTextField.becomeFirstResponder()
+        }else if textField == passwordField.passwordTextField{
+            confirmPasswordField.passwordTextField.becomeFirstResponder()
+        }else if textField == confirmPasswordField.passwordTextField{
+            confirmPasswordField.passwordTextField.resignFirstResponder()
+            pageButtonOnClickAction()
+        }
+        return true
+    }
+}
+

@@ -19,6 +19,8 @@ class RatingView: UIView {
         let image = UIImage(systemName: "star")?.withTintColor(.systemYellow,renderingMode: .alwaysOriginal)
         return image
     }()
+    
+    lazy var ratingView = UIStackView()
    
     var rating : Double
     
@@ -29,12 +31,18 @@ class RatingView: UIView {
         self.backgroundColor = .systemBackground
         self.addSubview(headerLabel)
         self.addSubview(contentView)
+        contentView.addSubview(ratingView)
         setupHeaderLabel()
         setupContentView()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func updateRatingView(newRating : Double){
+        self.rating = newRating
+        setRatingStars()
     }
     
     func setupHeaderLabel(){
@@ -62,11 +70,26 @@ class RatingView: UIView {
         ])
         
         
-        
-        let ratingView = UIStackView()
         ratingView.axis = .horizontal
         ratingView.distribution = .fillEqually
         
+        
+        ratingView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            ratingView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            ratingView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            ratingView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            ratingView.widthAnchor.constraint(equalTo: self.widthAnchor,multiplier: 0.5),
+        ])
+        
+        setRatingStars()
+        
+    }
+    
+    private func setRatingStars(){
+        for child in ratingView.arrangedSubviews{
+            child.removeFromSuperview()
+        }
         for i in 1...5 {
             if rating >= Double(i) {
                 if let tintedStar = fullStarImage{
@@ -83,17 +106,6 @@ class RatingView: UIView {
                 }
             }
         }
-        
-        contentView.addSubview(ratingView)
-        
-        ratingView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            ratingView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            ratingView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            ratingView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            ratingView.widthAnchor.constraint(equalTo: self.widthAnchor,multiplier: 0.5),
-        ])
-        
     }
     
 }

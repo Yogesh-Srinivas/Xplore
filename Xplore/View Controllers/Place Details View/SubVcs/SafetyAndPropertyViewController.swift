@@ -11,6 +11,22 @@ class SafetyAndPropertyViewController: UIViewController {
         return sectionView
     }()
     
+    lazy var cancelButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "xmark"), for: .normal)
+        button.contentHorizontalAlignment = .fill
+        button.contentVerticalAlignment = .fill
+        button.tintColor = .label
+        button.addTarget(self, action: #selector(cancelButtonOnTapAction), for: .touchDown)
+        return button
+    }()
+    
+    lazy var contentScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.showsVerticalScrollIndicator = false
+        return scrollView
+    }()
+    
     lazy var propertyInfoView = {
         SectionView(frame: CGRect.zero, contentView: UIStackView(), titleText: "Property Info")
     }()
@@ -28,21 +44,36 @@ class SafetyAndPropertyViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .systemBackground
-        view.addSubview(headerView)
-        view.addSubview(safetyConsiderationsView)
-        view.addSubview(safetyDevicesView)
-        view.addSubview(propertyInfoView)
+        view.addSubview(cancelButton)
+        view.addSubview(contentScrollView)
+        contentScrollView.addSubview(headerView)
+        contentScrollView.addSubview(safetyConsiderationsView)
+        contentScrollView.addSubview(safetyDevicesView)
+        contentScrollView.addSubview(propertyInfoView)
         
+        setupCancelButton()
+        setupScrollView()
         setupHeaderView()
         setupPropertyInfoView()
         setupSafetyConsiderationsView()
         setupSafetyDevicesView()
         
     }
+    
+    private func setupScrollView(){
+        contentScrollView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            contentScrollView.topAnchor.constraint(equalTo: cancelButton.bottomAnchor,constant: 10),
+            contentScrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            contentScrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            contentScrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+    }
+    
     private func setupHeaderView(){
         headerView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 30),
+            headerView.topAnchor.constraint(equalTo: contentScrollView.topAnchor,constant: 10),
             headerView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 20),
             headerView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -20)
         ])
@@ -59,12 +90,10 @@ class SafetyAndPropertyViewController: UIViewController {
         ])
         let contentView = safetyConsiderationsView.contentView as! UIStackView
         
-        let notSuitableForInfantLabel = getIconedLabel(imageSystemName: "stroller", labelText: "Not suitable for infants (under 2 years)")
+        let notSuitableForInfantLabel = getIconedLabel(imageSystemName: "stroller", labelText: "Not suitable for infants")
 
         contentView.addArrangedSubview(notSuitableForInfantLabel)
-        
-        notSuitableForInfantLabel.heightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.06).isActive = true
-        
+                
         contentView.axis = .vertical
         contentView.alignment = .leading
         
@@ -88,11 +117,6 @@ class SafetyAndPropertyViewController: UIViewController {
         contentView.addArrangedSubview(checkInLabel)
         contentView.addArrangedSubview(checkOutLabel)
         contentView.addArrangedSubview(smokingLabel)
-        
-        checkInLabel.heightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.06).isActive = true
-        checkOutLabel.heightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.06).isActive = true
-        smokingLabel.heightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.06).isActive = true
-        
         contentView.axis = .vertical
         contentView.alignment = .leading
     }
@@ -112,9 +136,7 @@ class SafetyAndPropertyViewController: UIViewController {
         let petsPropertyLabel = getIconedLabel(imageSystemName: "pawprint", labelText: "Pet(s) live on property")
 
         contentView.addArrangedSubview(petsPropertyLabel)
-        
-        petsPropertyLabel.heightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.06).isActive = true
-        
+                
         contentView.axis = .vertical
         contentView.alignment = .leading
         
@@ -125,6 +147,21 @@ class SafetyAndPropertyViewController: UIViewController {
         let iconedLabelView = IconedLabelView(frame: .zero)
         iconedLabelView.iconImageView.image = UIImage(systemName: imageSystemName)
         iconedLabelView.contentLabel.text = labelText
+        iconedLabelView.contentLabel.numberOfLines = 0
         return iconedLabelView
+    }
+    
+    private func setupCancelButton(){
+        cancelButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            cancelButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 20),
+            cancelButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 15),
+            cancelButton.heightAnchor.constraint(equalToConstant: 20),
+            cancelButton.widthAnchor.constraint(equalToConstant: 20),
+        ])
+    }
+    
+    @objc private func cancelButtonOnTapAction(){
+        self.dismiss(animated: true)
     }
 }

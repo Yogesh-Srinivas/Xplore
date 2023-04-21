@@ -29,7 +29,8 @@ class CancelReservationPageViewController: CancellationPolicyViewController {
         super.viewDidLoad()
         
         view.addSubview(cancellationButton)
-        
+        super.cancelButton.removeFromSuperview()
+        super.titleView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
         setupCancellationButton()
     }
     

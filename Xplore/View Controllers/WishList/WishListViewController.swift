@@ -5,7 +5,14 @@ class WishListViewController: UITableViewController {
     
     let databaseController : PlaceDBController
     var wishListDetails : [TravelPlaceDetail] = []
-    var wishListImagesList : [UIImageView] = []
+    
+    lazy var emptyWishListView = {
+        let emptyDetailView = EmptyDetailView(
+                    frame: .zero,
+                    image: UIImage(named: "noWishlist"),
+                    message: "It appears that you haven't created a wishlist yet!")
+        return emptyDetailView
+    }()
 
     init(databaseController : PlaceDBController){
         
@@ -23,6 +30,20 @@ class WishListViewController: UITableViewController {
         
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "WishListTableCell")
         self.navigationItem.title = "Your WishList"
+        
+        view.addSubview(emptyWishListView)
+        
+        setupEmptyWishlistView()
+    }
+    
+    private func setupEmptyWishlistView(){
+        emptyWishListView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            emptyWishListView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            emptyWishListView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
+            emptyWishListView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
+            emptyWishListView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
+        ])
     }
     
     func loadWishlist(){
@@ -40,6 +61,12 @@ class WishListViewController: UITableViewController {
         loadWishlist()
         wishListDetails = convertListToCurrentCurrency(travelPlaceList: wishListDetails)
         tableView.reloadData()
+        
+        if wishListDetails.count > 0{
+            emptyWishListView.isHidden = true
+        }else{
+            emptyWishListView.isHidden = false
+        }
     }
     
     private func convertListToCurrentCurrency(travelPlaceList : [TravelPlaceDetail]) -> [TravelPlaceDetail]{
@@ -60,7 +87,6 @@ class WishListViewController: UITableViewController {
     
     private func configTabelCell(cell : inout UITableViewCell,row : Int){
         
-        
         var contentConfig = UIListContentConfiguration.valueCell()
         contentConfig.text = wishListDetails[row].placeName
         contentConfig.textProperties.configSemiPrimary()
@@ -71,26 +97,13 @@ class WishListViewController: UITableViewController {
 
         contentConfig.secondaryTextProperties.configSecondaryFadedStyle()
         
-        wishListImagesList.append(UIImageView(image: UIImage(named: "loadingImage")))
+        var placeImage = UIImage(named: "loadingImage")
         
-        DispatchQueue.global(qos: .userInteractive).async{
-            [weak self,row,cell] in
-                
-            if let weakSelf = self{
-                if let data = weakSelf.databaseController.getImageData(for: (weakSelf.wishListDetails[row].images[0])){
-                    
-                    DispatchQueue.main.async {
-                        weakSelf.wishListImagesList[row].image = UIImage(data: data)
-                        var contentConfig = cell.contentConfiguration as! UIListContentConfiguration
-                        contentConfig.image = weakSelf.wishListImagesList[row].image
-                        weakSelf.tableView.reloadData()
-                    }
-                }
-            }
-            
+        if let imageDate = databaseController.getImageData(for: wishListDetails[row].images[0]){
+            placeImage = UIImage(data: imageDate)
         }
         
-        contentConfig.image = wishListImagesList[row].image
+        contentConfig.image = placeImage
         contentConfig.imageProperties.reservedLayoutSize = CGSize(width: 100, height: 100)
         contentConfig.imageProperties.maximumSize = CGSize(width: 125, height: 100)
         contentConfig.imageToTextPadding = 20
@@ -120,6 +133,12 @@ class WishListViewController: UITableViewController {
             wishListDetails.remove(at: row)
             tableView.deleteRows(at: [IndexPath(row: row, section: 0)], with: .fade)
             tableView.reloadData()
+            
+            if wishListDetails.count > 0{
+                emptyWishListView.isHidden = true
+            }else{
+                emptyWishListView.isHidden = false
+            }
         }
     }
 }
@@ -160,7 +179,12 @@ extension WishListViewController {
            placeDetailedPageViewController,
                 animated: true)
         
+        
         tableView.deselectRow(at: indexPath, animated: true)
+        
+       
     }
     
+
+
 }

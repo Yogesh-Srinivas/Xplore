@@ -21,4 +21,5 @@ protocol PlaceDBController{
     func isWishListed(placeId : String) -> Bool
     func getImageData(for imageUrl : String) -> Data?
     func getBookedDates(of placeId : String) -> [DateComponents]
+    func getRatingDetail(placeId : String) -> [Rating]
 }

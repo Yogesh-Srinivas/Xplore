@@ -35,7 +35,7 @@ class RatingAndReviewViewController: UIViewController {
             
         return stack
     }()
-    
+        
     private lazy var ratingView = {
         let sectionedView = SectionView(frame: .zero, contentView: ratingStarView, titleText: "Your Rating \(Constants.RATING_STAR) \(rating)")
         return sectionedView
@@ -44,7 +44,9 @@ class RatingAndReviewViewController: UIViewController {
     private var rating : Double = 0 {
         didSet{
             ratingView.titleText = "Your Rating \(Constants.RATING_STAR) \(rating)"
-            submitButton.isHidden = false
+            submitButton.isEnabled = true
+            submitButton.backgroundColor = .systemPink
+            submitButton.setTitleColor(.white, for: .normal)
         }
     }
     
@@ -66,9 +68,10 @@ class RatingAndReviewViewController: UIViewController {
         let button = UIButton()
         button.setTitle("Submit", for: .normal)
         button.setTitleColor(.label, for: .normal)
+        button.backgroundColor = .systemGray2
         button.addBorder()
         button.addTarget(self, action: #selector(submitButtonOnTapAction), for: .touchDown)
-        button.isHidden = true
+        button.isEnabled = false
         return button
     }()
     
@@ -87,17 +90,38 @@ class RatingAndReviewViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    lazy var contentScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.showsVerticalScrollIndicator = false
+        return scrollView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.setCustomBackground()
         
-        view.addSubview(ratingView)
-        view.addSubview(reviewView)
-        view.addSubview(submitButton)
+        view.addSubview(contentScrollView)
+        contentScrollView.addSubview(ratingView)
+        contentScrollView.addSubview(reviewView)
+        contentScrollView.addSubview(submitButton)
         
         setupRatingView()
         setupReviewView()
         setupSubmitButton()
+        setupScrollView()
+    }
+    
+    
+    private func setupScrollView(){
+        contentScrollView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            contentScrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            contentScrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            contentScrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            contentScrollView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor)
+        ])
+        
+        contentScrollView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(contentScrollOnTapAction)))
     }
     
     private func getStarButton() -> UIButton{
@@ -120,7 +144,7 @@ class RatingAndReviewViewController: UIViewController {
         
         ratingView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            ratingView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 20),
+            ratingView.topAnchor.constraint(equalTo: contentScrollView.topAnchor,constant: 20),
             ratingView.leadingAnchor.constraint(equalTo:  view.safeAreaLayoutGuide.leadingAnchor,constant: 20),
             ratingView.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor,multiplier: 0.6),
             ratingView.heightAnchor.constraint(equalTo: ratingView.widthAnchor, multiplier: 0.4)
@@ -130,7 +154,8 @@ class RatingAndReviewViewController: UIViewController {
     private func setupSubmitButton(){
         submitButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            submitButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor,constant: -10),
+            submitButton.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor,constant: -10),
+            submitButton.bottomAnchor.constraint(equalTo: contentScrollView.bottomAnchor,constant: -10),
             submitButton.leadingAnchor.constraint(equalTo:  view.safeAreaLayoutGuide.leadingAnchor,constant: 20),
             submitButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -20),
             submitButton.heightAnchor.constraint(equalToConstant: 50)
@@ -143,7 +168,7 @@ class RatingAndReviewViewController: UIViewController {
             reviewView.topAnchor.constraint(equalTo: ratingView.bottomAnchor,constant: 10),
             reviewView.leadingAnchor.constraint(equalTo:  view.safeAreaLayoutGuide.leadingAnchor,constant: 20),
             reviewView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -20),
-            reviewView.bottomAnchor.constraint(equalTo: submitButton.topAnchor, constant: -30)
+            reviewView.bottomAnchor.constraint(equalTo: submitButton.topAnchor, constant: -30),
         ])
     }
     
@@ -193,6 +218,7 @@ class RatingAndReviewViewController: UIViewController {
     }
     
     @objc private func submitButtonOnTapAction(){
+        reviewTextView.resignFirstResponder()
         
         databaseController.addRating(placeId: placeId, rating: rating)
         
@@ -206,5 +232,9 @@ class RatingAndReviewViewController: UIViewController {
             self.navigationController?.popViewController(animated: true)
         }
         
+    }
+    
+    @objc private func contentScrollOnTapAction(){
+        reviewTextView.resignFirstResponder()
     }
 }

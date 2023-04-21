@@ -168,6 +168,8 @@ class SearchViewController: UIViewController {
         return button
     }()
     
+    private let paddingView = UIView()
+    
     init(databaseController : PlaceDBController,completionHandler : @escaping (DateComponents?, DateComponents?,GuestInfo,FilteredLocation?)->()){
         
         self.databaseController = databaseController
@@ -190,6 +192,7 @@ class SearchViewController: UIViewController {
         contentScrollView.addSubview(whoView)
         contentScrollView.addSubview(UIUtils.getSeparator(size: 1))
         contentScrollView.addSubview(whereView)
+        contentScrollView.addSubview(paddingView)
         
         footerView.addSubview(clearButton)
         footerView.addSubview(searchButton)
@@ -199,11 +202,19 @@ class SearchViewController: UIViewController {
         setupWhoView()
         setupWhereView()
         setupFooterView()
+        setupPaddingView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = true
         self.navigationItem.title = "Search"
+    }
+    
+    private func setupPaddingView(){
+        paddingView.translatesAutoresizingMaskIntoConstraints = false
+      
+        paddingView.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        paddingView.topAnchor.constraint(equalTo: whereView.bottomAnchor, constant: 5).isActive = true
     }
     
     func setupContentScrollView(){
@@ -360,7 +371,14 @@ class SearchViewController: UIViewController {
         childrenStepperView.stepperValueLabel.text = "0"
         infantStepperView.stepperValueLabel.text = "0"
         
-        customCalenderView.selectedDates = []
+        customCalenderView = {
+            let calenderView = CustomCalenderViewController{
+                    [unowned self](fromDate,toDate) in
+                    self.fromDate = fromDate
+                    self.toDate = toDate
+                    }
+            return calenderView
+        }()
     }
     
     @objc private func whereButtonOnTapAction(){

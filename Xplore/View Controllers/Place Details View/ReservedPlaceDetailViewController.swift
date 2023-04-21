@@ -6,6 +6,15 @@ class ReservedPlaceDetailViewController: UnvisitedPlaceDetailViewController {
     
     lazy var priceDetailsView = PriceDetails(frame: .zero, tripDetails: tripDetails)
     
+    lazy var guestView = {
+        let labelView = StackViewWithCornorLabels(frame: .zero)
+        labelView.leadingLabel.text = "Number Of Guests"
+        labelView.trailingLabel.text = String(tripDetails.numberOfGuests)
+        labelView.leadingLabel.configSecondaryStyle()
+        labelView.trailingLabel.configSecondaryFadedStyle()
+        return labelView
+    }()
+    
     lazy var cancelReservationButton = {
         let button = UIButton()
         button.setTitle("cancel Reservation", for: .normal)
@@ -31,6 +40,8 @@ class ReservedPlaceDetailViewController: UnvisitedPlaceDetailViewController {
         super.contentScrollView.addSubview(UIUtils.getSeparator(size: 1))
         super.contentScrollView.addSubview(cancelReservationButton)
         super.contentScrollView.insertSubview(priceDetailsView, belowSubview: amenitiesView)
+        super.contentScrollView.insertSubview(guestView, aboveSubview: availabiltiyView)
+        super.contentScrollView.insertSubview(UIUtils.getSeparator(size: 1), belowSubview: guestView)
 
         setupTripDates()
         setupScrollView()
@@ -47,11 +58,11 @@ class ReservedPlaceDetailViewController: UnvisitedPlaceDetailViewController {
         super.availabiltiyView.headerLabel.text = "Your Stay"
 
         let fromDate = tripDetails.BookedDateFrom
-        var dateText = "\(fromDate.day!) \(GeneralUtils.getMonthInString(month: fromDate.month!) ) '\(fromDate.year! % 100)"
+        var dateText = "\(fromDate.day!) \(GeneralUtils.getMonthInString(month: fromDate.month!) )"
 
         if let toDate = tripDetails.BookedDateTo{
             
-            dateText += " to \(toDate.day!) \(GeneralUtils.getMonthInString(month: toDate.month!)) '\(toDate.year! % 100)"
+            dateText += " to \(toDate.day!) \(GeneralUtils.getMonthInString(month: toDate.month!))"
             
         }
         

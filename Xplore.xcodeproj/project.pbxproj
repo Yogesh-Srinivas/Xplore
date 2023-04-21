@@ -98,6 +98,7 @@
 		3F531C3629E9EAF90043185C /* CustomStepperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F531C3529E9EAF90043185C /* CustomStepperView.swift */; };
 		3F531C3A29EA94160043185C /* WhereSearchBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F531C3929EA94160043185C /* WhereSearchBarViewController.swift */; };
 		3F531C3E29EAC9D70043185C /* FilteredLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F531C3D29EAC9D70043185C /* FilteredLocation.swift */; };
+		3F72D21A29F19B0400506F51 /* EmptyDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F72D21929F19B0400506F51 /* EmptyDetailView.swift */; };
 		3F846FA129EB452F00C3AF36 /* SessionDBController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F846FA029EB452F00C3AF36 /* SessionDBController.swift */; };
 		3F846FA329EDA02C00C3AF36 /* UtilDBController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F846FA229EDA02C00C3AF36 /* UtilDBController.swift */; };
 		3F846FA529EDAA0B00C3AF36 /* Double+round.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F846FA429EDAA0B00C3AF36 /* Double+round.swift */; };
@@ -205,6 +206,7 @@
 		3F531C3529E9EAF90043185C /* CustomStepperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomStepperView.swift; sourceTree = "<group>"; };
 		3F531C3929EA94160043185C /* WhereSearchBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhereSearchBarViewController.swift; sourceTree = "<group>"; };
 		3F531C3D29EAC9D70043185C /* FilteredLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteredLocation.swift; sourceTree = "<group>"; };
+		3F72D21929F19B0400506F51 /* EmptyDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyDetailView.swift; sourceTree = "<group>"; };
 		3F846FA029EB452F00C3AF36 /* SessionDBController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDBController.swift; sourceTree = "<group>"; };
 		3F846FA229EDA02C00C3AF36 /* UtilDBController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilDBController.swift; sourceTree = "<group>"; };
 		3F846FA429EDAA0B00C3AF36 /* Double+round.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+round.swift"; sourceTree = "<group>"; };
@@ -267,7 +269,6 @@
 			isa = PBXGroup;
 			children = (
 				3F17E8DA29E3E39B0030CC02 /* MyTripViewController.swift */,
-				3F17E8DE29E406820030CC02 /* VisitedPlaceDetailViewController.swift */,
 				3F17E8E029E440E40030CC02 /* CancelReservationPageViewController.swift */,
 				3F531C2229E5C4490043185C /* RatingAndReviewViewController.swift */,
 			);
@@ -435,6 +436,7 @@
 				3F50BB2529D2A61000E0D6D4 /* IconedLabelView.swift */,
 				3F50BB2329D1D27300E0D6D4 /* SectionView.swift */,
 				3F50BB2B29D406C300E0D6D4 /* StackViewWithCornorLabels.swift */,
+				3F72D21929F19B0400506F51 /* EmptyDetailView.swift */,
 			);
 			path = "Template Views";
 			sourceTree = "<group>";
@@ -447,6 +449,7 @@
 				3F17E8E329E4DB410030CC02 /* UnreservedPlaceDetailViewController.swift */,
 				3F17E8E529E4DD890030CC02 /* UnvisitedPlaceDetailViewController.swift */,
 				3F17E8E729E4DDCB0030CC02 /* ReservedPlaceDetailViewController.swift */,
+				3F17E8DE29E406820030CC02 /* VisitedPlaceDetailViewController.swift */,
 			);
 			path = "Place Details View";
 			sourceTree = "<group>";
@@ -688,6 +691,7 @@
 				3F0BDABA29DD3DD700F6638B /* PricePresentationViewController.swift in Sources */,
 				3F50BAD129CC487C00E0D6D4 /* UserDetail.swift in Sources */,
 				3F50BB0929CF767F00E0D6D4 /* CustomCalenderViewController.swift in Sources */,
+				3F72D21A29F19B0400506F51 /* EmptyDetailView.swift in Sources */,
 				3F50BB4929D598B400E0D6D4 /* UILabel+underline.swift in Sources */,
 				3F17E8D629E2F37A0030CC02 /* CustomPasswordTextField.swift in Sources */,
 				3F50BAAF29CAFFB900E0D6D4 /* AppDelegate.swift in Sources */,
@@ -852,14 +856,15 @@
 				INFOPLIST_FILE = Xplore/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = Nothing.Xplore;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Nothing.Xplore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -879,14 +884,15 @@
 				INFOPLIST_FILE = Xplore/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = Nothing.Xplore;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Nothing.Xplore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

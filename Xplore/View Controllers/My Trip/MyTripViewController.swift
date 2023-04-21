@@ -13,6 +13,14 @@ class MyTripViewController: UITableViewController {
         barButtonItem.tag = 0
         return barButtonItem
     }()
+    
+    lazy var emptyPlaceListView = {
+        let emptyDetailView = EmptyDetailView(
+                    frame: .zero,
+                    image: UIImage(named: "noPlace"),
+                    message: "No trips booked yet!")
+        return emptyDetailView
+    }()
         
     var reservedList : [BookedTrip] = []
     var reservedListPlaceDetails : [TravelPlaceDetail] = []
@@ -33,7 +41,7 @@ class MyTripViewController: UITableViewController {
     }
     
     private func getTripDetails(){
-        var tripDetails = databaseController.getbookedTripDetail()
+        let tripDetails = databaseController.getbookedTripDetail()
         
         let convertedTripDetails = convertBookedTripListToCurrentCurrency(bookedTripList: tripDetails)
         
@@ -55,38 +63,58 @@ class MyTripViewController: UITableViewController {
             }
             
         }
-        
-//        visitedList = convertBookedTripListToCurrentCurrency(bookedTripList: visitedList)
-//        
-//        reservedList = convertBookedTripListToCurrentCurrency(bookedTripList: reservedList)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.setCustomBackground()
                 
-        tableView.register(PlaceDetailCardView.self,forCellReuseIdentifier: PlaceDetailCardView.reuseIdentifier)
+        tableView.register(UITableViewCell.self,forCellReuseIdentifier: "MyTripTableCell")
         tableView.showsVerticalScrollIndicator = false
         
+        view.addSubview(emptyPlaceListView)
+        
+        setupEmptyPlaceListView()
     }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
         self.tabBarController?.tabBar.backgroundColor = .systemBackground
         self.navigationController?.navigationBar.isHidden = false
         self.navigationItem.rightBarButtonItem = swapItem
-        self.navigationItem.title = "Reserved"
+        self.navigationItem.title = swapItem.tag == 0 ? "Reserved" : "Visited"
         
         getTripDetails()
         updateprimaryDatasource()
         tableView.reloadData()
+        
+        if reservedList.isEmpty{
+            emptyPlaceListView.isHidden = false
+        }else{
+            emptyPlaceListView.isHidden = true
+        }
+        
+        if visitedList.isEmpty{
+            swapItem.isHidden = true
+        }
+    }
+    
+    private func setupEmptyPlaceListView(){
+        emptyPlaceListView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            emptyPlaceListView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            emptyPlaceListView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
+            emptyPlaceListView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
+            emptyPlaceListView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
+        ])
     }
     
     private func convertBookedTripListToCurrentCurrency(bookedTripList : [BookedTrip]) -> [BookedTrip]{
         var convertedBookedTripList : [BookedTrip] = []
         for placeDetail in bookedTripList {
             var placeDetail = placeDetail
-            let currentCurrencyCode =  GeneralUtils.getCurrentCurrency() ?? "USD"
+            let currentCurrencyCode =  GeneralUtils.getCurrentCurrency()
             placeDetail.pricePerDay = GeneralUtils.convertCurrency(
                 of: placeDetail.pricePerDay,
                 from: placeDetail.currencyCode,
@@ -108,7 +136,7 @@ class MyTripViewController: UITableViewController {
     private func convertPlaceDetailToCurrenctCurrency(placeDetail : TravelPlaceDetail) -> TravelPlaceDetail{
         var placeDetail = placeDetail
         
-        let currentCurrencyCode =  GeneralUtils.getCurrentCurrency() ?? "USD"
+        let currentCurrencyCode =  GeneralUtils.getCurrentCurrency()
         
         placeDetail.price.pricePerDay = GeneralUtils.convertCurrency(
             of: placeDetail.price.pricePerDay,
@@ -122,12 +150,21 @@ class MyTripViewController: UITableViewController {
     
     @objc private func swapControlAction(){
         
+        
         swapItem.tag = swapItem.tag == 0 ? 1 : 0
         self.navigationItem.title = swapItem.tag == 0 ? "Reserved" : "Visited"
         
         getTripDetails()
         updateprimaryDatasource()
+        
+        if primaryBookedTripDataSource.isEmpty{
+            emptyPlaceListView.isHidden = false
+        }else{
+            emptyPlaceListView.isHidden = true
+        }
         tableView.reloadData()
+        
+       
     }
     
     private func updateprimaryDatasource(){
@@ -139,26 +176,36 @@ class MyTripViewController: UITableViewController {
             primaryPlaceDetailDataSource = visitedListPlaceDetails
         }
     }
-
     
-    private func configCell(row : Int,cell : PlaceDetailCardView){
-        cell.wishListButton.isHidden = true
-        cell.addImages(imageUrls: primaryPlaceDetailDataSource[row].images)
-            
+    private func configTabelCell(cell : inout UITableViewCell,row : Int){
+        
+        
+        var contentConfig = UIListContentConfiguration.valueCell()
+        contentConfig.text = primaryPlaceDetailDataSource[row].placeName
+        contentConfig.textProperties.configSemiPrimary()
+        contentConfig.textProperties.numberOfLines = 4
+        contentConfig.textToSecondaryTextVerticalPadding = 3
+        
         let totalPrice = primaryBookedTripDataSource[row].totalPrice + ControlCenter.serviceFee + ControlCenter.cleaningFee
         
-        let priceAmount = "\(primaryPlaceDetailDataSource[row].price.currencyCode) \(totalPrice)  (\(primaryBookedTripDataSource[row].numberOfDays) Days)"
+        contentConfig.secondaryText = "\(primaryPlaceDetailDataSource[row].price.currencyCode) \(totalPrice)  (\(primaryBookedTripDataSource[row].numberOfDays) Days)"
+
+        contentConfig.secondaryTextProperties.configSecondaryFadedStyle()
         
-        cell.priceLabelButton.setTitle(priceAmount, for: .normal)
-        cell.priceLabelButton.titleLabel?.configSecondaryStyle()
+        var placeImage = UIImage(named: "loadingImage")
         
-        cell.titleCardView.text = primaryPlaceDetailDataSource[row].placeName
-        cell.titleCardView.configSecondaryStyle()
+        if let imageDate = databaseController.getImageData(for: primaryPlaceDetailDataSource[row].images[0]){
+            placeImage = UIImage(data: imageDate)
+        }
         
-        cell.locationCardView.text = "\(primaryPlaceDetailDataSource[row].location.city), \(primaryPlaceDetailDataSource[row].location.state), \(primaryPlaceDetailDataSource[row].location.country)"
-        cell.locationCardView.configSecondaryStyle()
+        contentConfig.image = placeImage
+        contentConfig.imageProperties.reservedLayoutSize = CGSize(width: 100, height: 100)
+        contentConfig.imageProperties.maximumSize = CGSize(width: 125, height: 100)
+        contentConfig.imageToTextPadding = 20
+        contentConfig.imageProperties.cornerRadius = 15
+      
+        cell.contentConfiguration = contentConfig
         
-        cell.ratingCard.text = primaryPlaceDetailDataSource[row].ratingDetail.count != 0 ? "\(Constants.RATING_STAR)\(Constants.BULLETING_POINT)\(primaryPlaceDetailDataSource[row].placeRating) (\(primaryPlaceDetailDataSource[row].ratingDetail.count))" : "\(Constants.RATING_STAR) new"
     }
 
 }
@@ -169,9 +216,9 @@ extension MyTripViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: PlaceDetailCardView.reuseIdentifier, for: indexPath) as! PlaceDetailCardView
+        var cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "MyTripTableCell", for: indexPath)
         
-        configCell(row: indexPath.row, cell: cell)
+        configTabelCell(cell: &cell, row: indexPath.row)
         cell.selectionStyle = .none
         return cell
     }
@@ -188,6 +235,7 @@ extension MyTripViewController {
                 ),
                     animated: true)
         } else{
+            
             self.navigationController?.pushViewController(
                 
                 VisitedPlaceDetailViewController(

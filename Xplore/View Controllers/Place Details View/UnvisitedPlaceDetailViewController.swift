@@ -4,8 +4,7 @@ class UnvisitedPlaceDetailViewController: PlaceDetailViewController {
     
     lazy var amenitiesView = AmenitiesView(frame: CGRect.zero, amenitiesList: placeDetails.amenities)
     
-   
-    
+
     lazy var cancellationPolicyView = {
         let commonDetailShowView = CommonDetailShowView(frame: CGRect.zero, title: "Cancellation Policy")
         return commonDetailShowView
@@ -34,8 +33,8 @@ class UnvisitedPlaceDetailViewController: PlaceDetailViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        contentScrollView.addSubview(amenitiesView)
-        contentScrollView.addSubview(UIUtils.getSeparator(size: 1))
+        contentScrollView.insertSubview(amenitiesView, belowSubview: availabiltiyView)
+        contentScrollView.insertSubview(UIUtils.getSeparator(size: 1), aboveSubview: amenitiesView)
         contentScrollView.addSubview(cancellationPolicyView)
         contentScrollView.addSubview(houseRulesView)
         contentScrollView.addSubview(safetyAndPropertyView)

@@ -14,6 +14,17 @@ class VisitedPlaceDetailViewController: PlaceDetailViewController {
         return button
     }()
     
+    lazy var guestView = {
+        let labelView = StackViewWithCornorLabels(frame: .zero)
+        labelView.leadingLabel.text = "Number Of Guests"
+        labelView.trailingLabel.text = String(tripDetails.numberOfGuests)
+        labelView.leadingLabel.configSecondaryStyle()
+        labelView.trailingLabel.configSecondaryFadedStyle()
+        return labelView
+    }()
+    
+    lazy var priceDetailsView = PriceDetails(frame: .zero, tripDetails: tripDetails)
+    
     init(placeDetails :  TravelPlaceDetail,tripDetails : BookedTrip,databaseController : PlaceDBController) {
         self.tripDetails = tripDetails
         super.init(placeDetails: placeDetails, databaseController: databaseController)
@@ -28,15 +39,16 @@ class VisitedPlaceDetailViewController: PlaceDetailViewController {
         
         super.viewDidLoad()
         
-        super.contentScrollView.addSubview(PriceDetails(frame: .zero, tripDetails: tripDetails))
-        
-
         super.contentScrollView.bringSubviewToFront(ratingView)
         super.contentScrollView.bringSubviewToFront(super.contentScrollView.subviews[6])
         
         super.contentScrollView.bringSubviewToFront(reviewView)
         super.contentScrollView.bringSubviewToFront(super.contentScrollView.subviews[6])
         
+        super.contentScrollView.insertSubview(priceDetailsView, belowSubview: availabiltiyView)
+        super.contentScrollView.insertSubview(guestView, aboveSubview: availabiltiyView)
+        super.contentScrollView.insertSubview(UIUtils.getSeparator(size: 1), belowSubview: guestView)
+
         if !databaseController.isUserRated(placeId: placeDetails.placeId){
             super.contentScrollView.addSubview(ratingButton)
         }
@@ -48,6 +60,7 @@ class VisitedPlaceDetailViewController: PlaceDetailViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
         if databaseController.isUserRated(placeId: placeDetails.placeId){
             ratingButton.removeFromSuperview()
         }
@@ -56,6 +69,10 @@ class VisitedPlaceDetailViewController: PlaceDetailViewController {
         reviewView.updateReviewList(
             updatedReviewList: databaseController.getReviews(placeId : placeDetails.placeId)
         )
+        
+        let rating = databaseController.getRatingDetail(placeId: placeDetails.placeId)
+        placeDetails.ratingDetail = rating
+        ratingView.updateRatingView(newRating: placeDetails.placeRating)
     }
     
     private func setupTripDates(){
@@ -68,11 +85,11 @@ class VisitedPlaceDetailViewController: PlaceDetailViewController {
         super.availabiltiyView.headerLabel.text = "Your Stay"
 
         let fromDate = tripDetails.BookedDateFrom
-        var dateText = "\(fromDate.day!) \(GeneralUtils.getMonthInString(month: fromDate.month!) ) '\(fromDate.year! % 100)"
+        var dateText = "\(fromDate.day!) \(GeneralUtils.getMonthInString(month: fromDate.month!) )"
 
         if let toDate = tripDetails.BookedDateTo{
             
-            dateText += " to \(toDate.day!) \(GeneralUtils.getMonthInString(month: toDate.month!)) '\(toDate.year! % 100)"
+            dateText += " to \(toDate.day!) \(GeneralUtils.getMonthInString(month: toDate.month!))"
             
         }
         

@@ -19,6 +19,7 @@ final class ReviewView: UIView {
         layout.scrollDirection = .horizontal
         
         let uiCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
+    
         return uiCollectionView
     }()
     
@@ -50,7 +51,7 @@ final class ReviewView: UIView {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: self.topAnchor),
-            titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor,constant: 20),
             titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             titleLabel.bottomAnchor.constraint(equalTo: reviewCollectionView.topAnchor,constant: -10)
         ])
@@ -63,7 +64,7 @@ final class ReviewView: UIView {
         reviewCollectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             reviewCollectionView.bottomAnchor.constraint(equalTo: showAllButton.topAnchor,constant: -10),
-            reviewCollectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            reviewCollectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor,constant: 2),
             reviewCollectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             reviewCollectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor,constant: 10),
             reviewCollectionView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height * 0.3)
@@ -84,8 +85,8 @@ final class ReviewView: UIView {
         
         NSLayoutConstraint.activate([
             showAllButton.topAnchor.constraint(equalTo: reviewCollectionView.bottomAnchor,constant: 10),
-            showAllButton.leadingAnchor.constraint(equalTo: self.leadingAnchor,constant: 10),
-            showAllButton.trailingAnchor.constraint(equalTo: self.trailingAnchor,constant: -10),
+            showAllButton.leadingAnchor.constraint(equalTo: self.leadingAnchor,constant: 20),
+            showAllButton.trailingAnchor.constraint(equalTo: self.trailingAnchor,constant: -20),
             showAllButton.bottomAnchor.constraint(equalTo: self.bottomAnchor,constant: -10),
             showAllButton.heightAnchor.constraint(equalToConstant: showAllButton.intrinsicContentSize.height + 10)
         ])
@@ -99,7 +100,6 @@ final class ReviewView: UIView {
         let viewAllLabel = UILabel()
         viewAllLabel.text = "Show All \(reviewList.count) Reviews"
         viewAllLabel.configSecondaryRegularStyle()
-        viewAllLabel.underline()
        
         
         cell.contentView.addSubview(viewAllLabel)
@@ -138,13 +138,13 @@ extension ReviewView : UICollectionViewDelegate,UICollectionViewDataSource,UICol
         
         if indexPath.row == min(5,reviewList.count){
             let cell = reviewCollectionView.dequeueReusableCell(withReuseIdentifier: "ShowAllButton", for: indexPath)
-            
+
             addShowAllLabelToCell(cell: cell)
-            
+
             cell.layer.borderColor = UIColor.lightGray.cgColor
             cell.layer.borderWidth = 1
             cell.layer.cornerRadius = 10
-            
+
             return cell
         }
         
@@ -168,9 +168,55 @@ extension ReviewView : UICollectionViewDelegate,UICollectionViewDataSource,UICol
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.row == 5{
+        
+        if indexPath.row == min(5,reviewList.count){
             showAllReviewAction()
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
+    }
+
+   
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        
+            let minimumInteritemSpacing : CGFloat = 10
+        
+           if !decelerate {
+               let index = Int(round(scrollView.contentOffset.x / (self.reviewCollectionView.frame.height + minimumInteritemSpacing)))
+               
+               let indexPath = IndexPath(item: index, section: 0)
+               
+               
+               reviewCollectionView.scrollToItem(
+                    at: indexPath,
+                    at: .left  ,
+                    animated: true
+               )
+           }
+       }
+    
+       
+       func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+           
+           let minimumInteritemSpacing : CGFloat = 10
+           var index = Int(round(scrollView.contentOffset.x / (self.reviewCollectionView.frame.height + minimumInteritemSpacing)))
+           
+           
+           var scrollPosition : UICollectionView.ScrollPosition = .left
+           
+           if index == 4{
+               index = 5
+               scrollPosition = .right
+           }
+           
+           let indexPath = IndexPath(item: index, section: 0)
+           reviewCollectionView.scrollToItem(
+                at: indexPath,
+                at: scrollPosition,
+                animated: true
+           )
+       }
     
 }

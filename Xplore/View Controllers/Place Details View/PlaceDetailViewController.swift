@@ -173,6 +173,11 @@ class PlaceDetailViewController: UIViewController {
                 ])
             }
             
+            
+            if child is ReviewView{
+                widthPadingSize = 0
+            }
+            
             NSLayoutConstraint.activate([
                 child.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor,constant: widthPadingSize),
                 child.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor,constant: -widthPadingSize)

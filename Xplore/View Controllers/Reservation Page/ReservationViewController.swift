@@ -41,7 +41,7 @@ final class ReservationViewController : UITableViewController {
     private let databaseController : PlaceDBController
     var headerImage : UIImage?
     
-    init(fromDate : DateComponents,toDate : DateComponents?,placeDetail : TravelPlaceDetail,databaseController : PlaceDBController,headerImage : UIImage?){
+    init(fromDate : DateComponents,toDate : DateComponents?,placeDetail : TravelPlaceDetail,numberOfGuests : Int,databaseController : PlaceDBController,headerImage : UIImage?){
         if let headerImage = headerImage{
             self.headerImage = headerImage
         }else{
@@ -67,7 +67,7 @@ final class ReservationViewController : UITableViewController {
             fromDate: fromDate,
             toDate: toDate,
             dates: dates,
-            numberOfGuestes: 4,
+            numberOfGuestes: numberOfGuests,
             rating: placeDetail.placeRating,
             numberOfRating: placeDetail.ratingDetail.count,
             city: placeDetail.location.city,

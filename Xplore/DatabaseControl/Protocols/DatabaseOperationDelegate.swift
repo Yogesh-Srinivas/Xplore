@@ -38,4 +38,5 @@ protocol DatabaseOperationDelegate {
     func isUserIdExist(userId : String) -> Bool
     func isPlaceWishListed(placeId : String,userId : String) -> Bool
     func getBookedDates(of placeId : String) -> [DateComponents]
+    func getRatingDetail(placeId : String) -> [Rating]
 }

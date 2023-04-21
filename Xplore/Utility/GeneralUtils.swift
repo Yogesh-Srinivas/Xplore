@@ -62,7 +62,7 @@ struct GeneralUtils{
         if let date = dateFormatter.date(from: dateString) {
             let calendar = Calendar.current
             let components = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
-            return components
+            return DateComponents(calendar: calendar,year: components.year,month: components.month,day: components.day)
         }
         return nil
     }

@@ -58,7 +58,7 @@ class WhereSearchBarViewController: UISearchController {
         NSLayoutConstraint.activate([
             placeDetailsTableView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
             placeDetailsTableView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
-            placeDetailsTableView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -10),
+            placeDetailsTableView.bottomAnchor.constraint(equalTo: self.view.keyboardLayoutGuide.bottomAnchor, constant: -10),
         ])
     }
     
