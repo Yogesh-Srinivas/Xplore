@@ -76,13 +76,13 @@ class VisitedPlaceDetailViewController: PlaceDetailViewController {
     }
     
     private func setupTripDates(){
-        if let numberOfDays = GeneralUtils.getNumberOfDays(from: tripDetails.BookedDateFrom, to: tripDetails.BookedDateTo){
-            
-            super.priceLabel.text = "Trip Cost : \((tripDetails.pricePerDay * Double(numberOfDays)).round(to: 2)) \(tripDetails.currencyCode)"
-        }
+//        if let numberOfDays = GeneralUtils.getNumberOfDays(from: tripDetails.BookedDateFrom, to: tripDetails.BookedDateTo){
+//
+//            super.priceLabel.text = "Trip Cost : \((tripDetails.pricePerDay * Double(numberOfDays)).round(to: 2)) \(tripDetails.currencyCode)"
+//        }
         
         
-        super.availabiltiyView.headerLabel.text = "Your Stay"
+//        super.availabiltiyView.headerLabel.text = "Your Stay"
 
         let fromDate = tripDetails.BookedDateFrom
         var dateText = "\(fromDate.day!) \(GeneralUtils.getMonthInString(month: fromDate.month!) )"

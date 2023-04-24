@@ -2,7 +2,12 @@ import UIKit
 
 class AvailabilityDetailView: UIView {
 
-    let headerLabel = UILabel()
+//    let headerLabel = UILabel()
+    let availabilityIcon = {
+        let imageView = UIImageView(image: UIImage(systemName: "calendar"))
+        return imageView
+    }()
+    
     let contentLabel = UILabel()
     private var viewControllerToPresentOnTap : UIViewController?
     private var referenceViewControllerToPresent : UIViewController?
@@ -10,10 +15,10 @@ class AvailabilityDetailView: UIView {
     override init(frame: CGRect) {
         
         super.init(frame: frame)
-        self.addSubview(headerLabel)
+        self.addSubview(availabilityIcon)
         self.addSubview(contentLabel)
         self.backgroundColor = .systemBackground
-        setupHeaderLabel()
+        setupAvailabilityIcon()
         setupContentLabel()
     }
     
@@ -21,32 +26,44 @@ class AvailabilityDetailView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupHeaderLabel(){
-        headerLabel.translatesAutoresizingMaskIntoConstraints = false
+    func setupAvailabilityIcon(){
+//        headerLabel.translatesAutoresizingMaskIntoConstraints = false
+//        NSLayoutConstraint.activate([
+//            headerLabel.topAnchor.constraint(equalTo: self.topAnchor),
+//            headerLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+//            headerLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+//            headerLabel.bottomAnchor.constraint(equalTo: contentLabel.topAnchor,constant: -10)
+//        ])
+//        headerLabel.text = "Availability"
+//        headerLabel.adjustsFontSizeToFitWidth = true
+//        headerLabel.configPrimaryStyle()
+        
+       
+        availabilityIcon.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            headerLabel.topAnchor.constraint(equalTo: self.topAnchor),
-            headerLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            headerLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            headerLabel.bottomAnchor.constraint(equalTo: contentLabel.topAnchor,constant: -10)
+
+            availabilityIcon.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            availabilityIcon.leadingAnchor.constraint(equalTo: self.leadingAnchor,constant: 10),
+            availabilityIcon.heightAnchor.constraint(equalToConstant: 30),
+            availabilityIcon.widthAnchor.constraint(equalToConstant: 30)
+            
         ])
-        headerLabel.text = "Availability"
-        headerLabel.adjustsFontSizeToFitWidth = true
-        headerLabel.configPrimaryStyle()
        
     }
     func setupContentLabel(){
         contentLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
+            contentLabel.topAnchor.constraint(equalTo: self.topAnchor),
             contentLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            contentLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            contentLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            contentLabel.heightAnchor.constraint(equalTo: self.heightAnchor,multiplier : 0.5),
+            contentLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor,constant: -10),
+            contentLabel.leadingAnchor.constraint(equalTo: availabilityIcon.trailingAnchor,constant: 20),
+            contentLabel.heightAnchor.constraint(greaterThanOrEqualTo: availabilityIcon.heightAnchor)
         ])
         
         contentLabel.adjustsFontSizeToFitWidth = true
-        
-       
-
+        availabilityIcon.tintColor = .label
+        contentLabel.numberOfLines = 0
+        contentLabel.configSecondaryStyle()
     }
     func setupTapAction(currentViewController : UIViewController , viewControllerToPresentOnTap : UIViewController){
         self.viewControllerToPresentOnTap = viewControllerToPresentOnTap

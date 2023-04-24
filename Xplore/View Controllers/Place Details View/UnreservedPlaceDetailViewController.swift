@@ -2,15 +2,15 @@
 import UIKit
 
 class UnreservedPlaceDetailsViewController: UnvisitedPlaceDetailViewController {
-    
-    lazy var guestView = {
-        let customStepper = CustomStepperView(frame: .zero, maxValue: 33, minValue: 1, titleText: "Number of guests", subTitleText: ""){
-            [unowned self](value) in
-            self.numberOfGuests = value
-        }
-        customStepper.titleLabel.configSecondaryStyle()
-        return customStepper
-    }()
+//
+//    lazy var guestView = {
+//        let customStepper = CustomStepperView(frame: .zero, maxValue: 33, minValue: 1, titleText: "Number of guests", subTitleText: ""){
+//            [unowned self](value) in
+//            self.numberOfGuests = value
+//        }
+//        customStepper.titleLabel.configSecondaryStyle()
+//        return customStepper
+//    }()
     
     lazy var wishListItem = {
         let barButtonItem = UIBarButtonItem()
@@ -29,15 +29,16 @@ class UnreservedPlaceDetailsViewController: UnvisitedPlaceDetailViewController {
     
     var fromDate : DateComponents = DateComponents(){
         didSet{
-            availabiltiyView.contentLabel.text = "on \(fromDate.day!) \(GeneralUtils.getMonthInString(month: fromDate.month!) )"
+            let dateText = "on \(fromDate.day!) \(GeneralUtils.getMonthInString(month: fromDate.month!) )"
+            
+            availabiltiyView.contentLabel.text = dateText
+            datesButton.setTitle(dateText, for: .normal)
             
             availabiltiyView.contentLabel.configSecondaryStyle()
             
-            let pricePerDay = placeDetails.price.pricePerDay
-            let currencyCode = placeDetails.price.currencyCode
-            
-            priceLabel.text = "Trip Cost \(pricePerDay) \(currencyCode)"
-            
+//            _ = placeDetails.price.pricePerDay
+//            _ = placeDetails.price.currencyCode
+                        
             reserveButton.backgroundColor = .systemPink
             reserveButton.tag = 1
             
@@ -48,13 +49,11 @@ class UnreservedPlaceDetailsViewController: UnvisitedPlaceDetailViewController {
         didSet{
             if let toDate = toDate{
                 
-                availabiltiyView.contentLabel.text = "\(fromDate.day!) \(GeneralUtils.getMonthInString(month: fromDate.month!))  to  \(toDate.day!) \(GeneralUtils.getMonthInString(month: toDate.month!))"
+                let dateText = "\(fromDate.day!) \(GeneralUtils.getMonthInString(month: fromDate.month!)) to \(toDate.day!) \(GeneralUtils.getMonthInString(month: toDate.month!))"
                 
-                if let numberOfDays = GeneralUtils.getNumberOfDays(from: fromDate, to: toDate){
-                    let pricePerDay = placeDetails.price.pricePerDay
-                    let currencyCode = placeDetails.price.currencyCode
-                    priceLabel.text = "Trip Cost \((pricePerDay * Double(numberOfDays)).round(to: 2)) \(currencyCode)"
-                }
+                availabiltiyView.contentLabel.text = dateText
+                datesButton.setTitle(dateText, for: .normal)
+                
             }
         }
     }
@@ -62,6 +61,23 @@ class UnreservedPlaceDetailsViewController: UnvisitedPlaceDetailViewController {
     var numberOfGuests : Int = 1
 
     lazy var footerView = UIView()
+    
+    lazy var priceLabel = {
+        let label = UILabel()
+        label.configSecondaryFadedStyle()
+        return label
+    }()
+
+    lazy var datesButton = {
+        let button = UIButton()
+        button.setTitle("choose your dates", for: .normal)
+        button.titleLabel?.configSecondaryRegularStyle()
+        button.setTitleColor(.label, for: .normal)
+        button.titleLabel?.underline()
+        button.addTarget(self, action: #selector(datesButtonOnTapAction), for: .touchDown)
+        
+        return button
+    }()
 
     private let paddingView = UIView()
     
@@ -71,12 +87,12 @@ class UnreservedPlaceDetailsViewController: UnvisitedPlaceDetailViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         navigationItem.rightBarButtonItem = wishListItem
         setupWishItem()
         
-        contentScrollView.insertSubview(guestView, belowSubview: cancellationPolicyView)
-        contentScrollView.insertSubview(UIUtils.getSeparator(size: 1), aboveSubview: guestView)
+//        contentScrollView.insertSubview(guestView, belowSubview: cancellationPolicyView)
+//        contentScrollView.insertSubview(UIUtils.getSeparator(size: 1), aboveSubview: guestView)
+        
         contentScrollView.addSubview(paddingView)
         footerView.backgroundColor = .systemBackground
         view.addSubview(footerView)
@@ -90,15 +106,17 @@ class UnreservedPlaceDetailsViewController: UnvisitedPlaceDetailViewController {
     private func setupPaddingView(){
         paddingView.translatesAutoresizingMaskIntoConstraints = false
       
-        paddingView.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        paddingView.heightAnchor.constraint(equalToConstant: 70).isActive = true
     }
     
     private func setupFooterView(){
         
         footerView.addSubview(priceLabel)
         footerView.addSubview(reserveButton)
-
+        footerView.addSubview(datesButton)
+        
         setupPriceLabel()
+        setupDatesButton()
         setupReserveButton()
                 
         footerView.translatesAutoresizingMaskIntoConstraints = false
@@ -106,15 +124,19 @@ class UnreservedPlaceDetailsViewController: UnvisitedPlaceDetailViewController {
             footerView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             footerView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             footerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            footerView.heightAnchor.constraint(equalToConstant: 60)
+            footerView.heightAnchor.constraint(equalToConstant: 70)
         ])
         
+        footerView.layer.shadowColor = UIColor.tertiaryLabel.cgColor
+        footerView.layer.shadowRadius = 1
+        footerView.layer.shadowOffset = CGSize(width: 0, height: -1)
+        footerView.layer.masksToBounds = false
+        footerView.layer.shadowOpacity = 1
+        
         reserveButton.setTitle("Reserve", for: .normal)
-        reserveButton.titleLabel?.font = .systemFont(ofSize: 20, weight: .semibold)
         reserveButton.layer.cornerRadius = 10
         
         priceLabel.adjustsFontSizeToFitWidth = true
-        priceLabel.configSecondaryStyle()
     }
     
     private func setupPriceLabel(){
@@ -123,10 +145,20 @@ class UnreservedPlaceDetailsViewController: UnvisitedPlaceDetailViewController {
         NSLayoutConstraint.activate([
             priceLabel.leadingAnchor.constraint(equalTo: footerView.leadingAnchor,constant: 10),
             priceLabel.topAnchor.constraint(equalTo: footerView.topAnchor,constant: 10),
-            priceLabel.bottomAnchor.constraint(equalTo: footerView.bottomAnchor,constant: -10),
             priceLabel.trailingAnchor.constraint(equalTo: reserveButton.leadingAnchor,constant: -5)
         ])
         
+        priceLabel.text = "\(placeDetails.price.currencyCode) \(placeDetails.price.pricePerDay) day"
+        
+    }
+    
+    private func setupDatesButton(){
+        datesButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            datesButton.leadingAnchor.constraint(equalTo: footerView.leadingAnchor,constant: 10),
+            datesButton.topAnchor.constraint(equalTo: priceLabel.bottomAnchor,constant: 10),
+            datesButton.bottomAnchor.constraint(equalTo: footerView.bottomAnchor,constant: -10),
+        ])
     }
     
     private func setupReserveButton(){
@@ -144,7 +176,8 @@ class UnreservedPlaceDetailsViewController: UnvisitedPlaceDetailViewController {
     
     @objc private func reserveButtonOnTapAction(){
         if reserveButton.tag == 0{
-            availabiltiyView.viewOnTap()
+//            availabiltiyView.viewOnTap()
+            UIUtils.showAlertMessage(message: "choose your dates", viewController: self, durationInSeconds: 1)
         }else{
             self.navigationController?.pushViewController(ReservationViewController(
                 fromDate: fromDate,
@@ -152,7 +185,7 @@ class UnreservedPlaceDetailsViewController: UnvisitedPlaceDetailViewController {
                 placeDetail: placeDetails,
                 numberOfGuests: numberOfGuests,
                 databaseController: databaseController,
-                headerImage: self.placeImagesCollectionView.images[0]), animated: true)
+                headerImage: self.placeImagesCollectionViewWithPageControl.placeImagesCollectionView.images[0]), animated: true)
         }
     }
     
@@ -219,5 +252,9 @@ class UnreservedPlaceDetailsViewController: UnvisitedPlaceDetailViewController {
         wishListButtonClosure?()
         
         wishListItem.action = #selector(wishListButtonOnTapActionAddToWishList)
+    }
+    
+    @objc private func datesButtonOnTapAction(){
+        availabiltiyView.viewOnTap()
     }
 }

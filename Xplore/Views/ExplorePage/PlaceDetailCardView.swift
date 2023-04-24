@@ -4,7 +4,22 @@ class PlaceDetailCardView: UITableViewCell {
     
     static let reuseIdentifier = "PlaceDetailCardView"
     
-    private var imagesCollectionView : ImagesDisplayCollectionView
+    var row : Int = -1
+        
+    var databaseController : PlaceDBController = DatabaseController.shared
+    
+//    private var imagesCollectionView : ImagesDisplayCollectionView
+    
+    var placeImage = UIImage(named: "loadingImage")
+    
+    lazy var placeImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleToFill
+        imageView.image = placeImage
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 15
+        return imageView
+    }()
     
     let wishListButton = {
         let button = UIButton()
@@ -26,11 +41,12 @@ class PlaceDetailCardView: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         
-        self.imagesCollectionView = ImagesDisplayCollectionView()
+//        self.imagesCollectionView = ImagesDisplayCollectionView()
         
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        contentView.addSubview(imagesCollectionView)
+//        contentView.addSubview(imagesCollectionView)
+        contentView.addSubview(placeImageView)
         contentView.addSubview(titleCardView)
         contentView.addSubview(locationCardView)
         contentView.addSubview(priceLabelButton)
@@ -45,9 +61,9 @@ class PlaceDetailCardView: UITableViewCell {
     }
     
     
-    func addImages(imageUrls : [String]){
-        self.imagesCollectionView.imageUrls = imageUrls
-    }
+//    func addImages(imageUrls : [String]){
+//        self.imagesCollectionView.imageUrls = imageUrls
+//    }
     
     
     
@@ -66,22 +82,22 @@ class PlaceDetailCardView: UITableViewCell {
                 contentView.subviews[childIndex].leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 5),
                 contentView.subviews[childIndex].trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -5),
                 contentView.subviews[childIndex].bottomAnchor.constraint(equalTo:  contentView.subviews[childIndex+1].topAnchor,constant: -10),
-                contentView.subviews[childIndex].heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height * 0.3)
+                contentView.subviews[childIndex].heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height * 0.35)
 
                 ])
 
             case contentView.subviews.count - 2:
                 NSLayoutConstraint.activate([
-                    contentView.subviews[childIndex].topAnchor.constraint(equalTo: contentView.subviews[childIndex-1].bottomAnchor,constant: 15),
-                contentView.subviews[childIndex].bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -10),
+                    contentView.subviews[childIndex].topAnchor.constraint(equalTo: contentView.subviews[childIndex-1].bottomAnchor,constant: 3),
+                contentView.subviews[childIndex].bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -25),
                 contentView.subviews[childIndex].leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 20)
               
                 ])
                 
             case contentView.subviews.count - 1:
                 NSLayoutConstraint.activate([
-                    contentView.subviews[childIndex].topAnchor.constraint(equalTo: contentView.subviews[childIndex-2].bottomAnchor,constant: 15),
-                contentView.subviews[childIndex].bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -10),
+                    contentView.subviews[childIndex].topAnchor.constraint(equalTo: contentView.subviews[childIndex-2].bottomAnchor,constant: 3),
+                contentView.subviews[childIndex].bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -25),
                 contentView.subviews[childIndex].trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -20)
               
                 ])
@@ -94,7 +110,7 @@ class PlaceDetailCardView: UITableViewCell {
                 ])
             }
             
-            imagesCollectionView.layer.cornerRadius = 20
+//            imagesCollectionView.layer.cornerRadius = 20
         }
         
                 
@@ -110,7 +126,14 @@ class PlaceDetailCardView: UITableViewCell {
      
         ])
     }
+}
 
-    
 
+extension PlaceDetailCardView{
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        placeImageView.image = UIImage(named: "loadingImage")
+        
+    }
 }

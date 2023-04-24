@@ -2,13 +2,11 @@ import UIKit
 
 class ImagesDisplayCollectionView: UICollectionView {
         
-    var imageUrls : [String]  = []{
-        didSet{
-            self.reloadData()
-        }
-    }
+    var imageUrls : [String]  = []
     var images : [UIImage?] = []
     var databaseController : FetchableImage!
+    var pageControlAction : ((Int)->())?
+    let imgaeView = UIImageView(image: UIImage(systemName: "heart"))
     
     init() {
       
@@ -25,16 +23,23 @@ class ImagesDisplayCollectionView: UICollectionView {
 
         self.register(CustomImageCell.self, forCellWithReuseIdentifier: "ImagesCollectionCell")
         self.isPagingEnabled = true
+        self.showsHorizontalScrollIndicator = false
         
+      
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func setPageControlAction(pageControlAction : @escaping (Int)->()){
+        self.pageControlAction = pageControlAction
+    }
+    
 }
 
-extension ImagesDisplayCollectionView : UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
+extension ImagesDisplayCollectionView : UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UIScrollViewDelegate{
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         imageUrls.count
     }
@@ -47,7 +52,9 @@ extension ImagesDisplayCollectionView : UICollectionViewDelegate,UICollectionVie
             images.append(UIImage(named: "loadingImage"))
         }
         
-        cell.setupImageView(image: images[indexPath.row]!)
+        if let image = images[indexPath.row]{
+            cell.setupImageView(image: image)
+        }
        
         DispatchQueue.global(qos: .userInteractive).async {[weak self] in
             
@@ -79,7 +86,15 @@ extension ImagesDisplayCollectionView : UICollectionViewDelegate,UICollectionVie
             height:self.frame.height
         )
     }
-        
+    
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let page : Int = Int(round(scrollView.contentOffset.x / self.frame.width))
+
+        pageControlAction?(page)
+    }
+   
+    
 }
 
 
@@ -94,7 +109,7 @@ class CustomImageCell : UICollectionViewCell{
     func setupImageView(image : UIImage){
 
         imageToDisplay.clipsToBounds = true
-        imageToDisplay.contentMode = .scaleAspectFill
+        imageToDisplay.contentMode = .scaleToFill
 
         self.contentView.addSubview(imageToDisplay)
 
@@ -109,3 +124,4 @@ class CustomImageCell : UICollectionViewCell{
     }
 
 }
+

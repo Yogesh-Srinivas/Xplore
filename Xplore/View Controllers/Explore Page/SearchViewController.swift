@@ -322,6 +322,12 @@ class SearchViewController: UIViewController {
             footerView.heightAnchor.constraint(equalToConstant: 65)
         ])
         
+        footerView.layer.shadowColor = UIColor.tertiaryLabel.cgColor
+        footerView.layer.shadowRadius = 1
+        footerView.layer.shadowOffset = CGSize(width: 0, height: -1)
+        footerView.layer.masksToBounds = false
+        footerView.layer.shadowOpacity = 1
+        
     }
     
     private func setupClearButton(){

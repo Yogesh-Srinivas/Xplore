@@ -19,7 +19,7 @@ final class ReviewView: UIView {
         layout.scrollDirection = .horizontal
         
         let uiCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
-    
+        uiCollectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         return uiCollectionView
     }()
     
@@ -191,7 +191,7 @@ extension ReviewView : UICollectionViewDelegate,UICollectionViewDataSource,UICol
                
                reviewCollectionView.scrollToItem(
                     at: indexPath,
-                    at: .left  ,
+                    at: .left,
                     animated: true
                )
            }
@@ -201,13 +201,17 @@ extension ReviewView : UICollectionViewDelegate,UICollectionViewDataSource,UICol
        func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
            
            let minimumInteritemSpacing : CGFloat = 10
+           
            var index = Int(round(scrollView.contentOffset.x / (self.reviewCollectionView.frame.height + minimumInteritemSpacing)))
            
            
            var scrollPosition : UICollectionView.ScrollPosition = .left
            
-           if index == 4{
-               index = 5
+           let reviewListCount = min(6,reviewList.count + 1)
+           
+           
+           if index == reviewListCount - 2 && index != 0{
+               index += 1
                scrollPosition = .right
            }
            

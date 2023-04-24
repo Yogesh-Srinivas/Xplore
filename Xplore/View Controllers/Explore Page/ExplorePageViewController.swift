@@ -2,7 +2,9 @@ import UIKit
 
 class ExplorePageViewController: UITableViewController {
     
-    let databaseController : PlaceDBController
+    let databaseController : PlaceDBController = DatabaseController.shared
+    
+    let imageFetcher : FetchableImage = DatabaseController.shared
     
     var placeDetailsList : [TravelPlaceDetail] = []
     
@@ -46,8 +48,6 @@ class ExplorePageViewController: UITableViewController {
     
     init(databaseController : PlaceDBController){
         
-        self.databaseController = databaseController
-
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -59,18 +59,23 @@ class ExplorePageViewController: UITableViewController {
         super.viewDidLoad()
         
         self.tableView.register(PlaceDetailCardView.self, forCellReuseIdentifier: PlaceDetailCardView.reuseIdentifier)
+        self.tableView.bounces = false
+        self.tableView.showsVerticalScrollIndicator = false
+
+        
         self.navigationItem.rightBarButtonItem = searchItem
         self.navigationItem.title = "Xplore"
         self.placeDetailsList = databaseController.getAllPlaceDetail()
         self.filteredPlaceList = placeDetailsList
         
         view.addSubview(noSearchResultView)
-        
         setupNoSearchResultView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
+        self.tabBarController?.tabBar.backgroundColor = .systemBackground
+
         updateWishListDetails()
         updateRatingDetails()
         convertFilteredListToCurrentCurrency()
@@ -136,10 +141,12 @@ class ExplorePageViewController: UITableViewController {
     
     private func configTabelCell(cell : inout PlaceDetailCardView,row : Int){
         
-        cell.addImages(imageUrls: filteredPlaceList[row].images)
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(cellImageOnTapAction(_:)))
+        cell.placeImageView.tag = row
+        cell.placeImageView.addGestureRecognizer(gestureRecognizer)
         
-        
-        let priceAmount = "\(filteredPlaceList[row].price.currencyCode) \(filteredPlaceList[row].price.pricePerDay)"
+        let taxAmount = (filteredPlaceList[row].price.taxPercentage * 0.01 * filteredPlaceList[row].price.pricePerDay).round(to: 2)
+        let priceAmount = "\(filteredPlaceList[row].price.currencyCode) \(filteredPlaceList[row].price.pricePerDay + taxAmount)"
         
         cell.priceLabelButton.titleLabel?.removeUnderline()
         cell.priceLabelButton.setTitle(priceAmount, for: .normal)
@@ -149,12 +156,12 @@ class ExplorePageViewController: UITableViewController {
         cell.priceLabelButton.titleLabel?.underline()
         
         cell.titleCardView.text = filteredPlaceList[row].placeName
-        cell.titleCardView.configSemiPrimary()
+        cell.titleCardView.configPrimaryStyle()
         
         cell.locationCardView.text = "\(filteredPlaceList[row].location.city), \(filteredPlaceList[row].location.state), \(filteredPlaceList[row].location.country)"
-        cell.locationCardView.configTertiaryStyle()
+        cell.locationCardView.configSecondaryFadedStyle()
         
-        cell.ratingCard.text = filteredPlaceList[row].ratingDetail.count != 0 ? "\(Constants.RATING_STAR)\(Constants.BULLETING_POINT)\(filteredPlaceList[row].placeRating) (\(filteredPlaceList[row].ratingDetail.count))" : "\(Constants.RATING_STAR) new"
+        cell.ratingCard.text = filteredPlaceList[row].ratingDetail.count != 0 ? "\(Constants.RATING_STAR) \(filteredPlaceList[row].placeRating) (\(filteredPlaceList[row].ratingDetail.count))" : "\(Constants.RATING_STAR) new"
        
         
         
@@ -184,10 +191,11 @@ class ExplorePageViewController: UITableViewController {
     
     @objc private func priceButtonOnTapAction(_ sender: UIButton){
  
-        let nav = UINavigationController(rootViewController: PricePresentationViewController(priceDetails: filteredPlaceList[sender.tag].price))
-        nav.modalPresentationStyle = .formSheet
-        nav.sheetPresentationController?.detents = [.custom(resolver: { _ in 200 })]
-        present(nav, animated: true)
+        let priceVc = PricePresentationViewController(priceDetails: filteredPlaceList[sender.tag].price,placeTitle: filteredPlaceList[sender.tag].placeName)
+        
+        priceVc.modalPresentationStyle = .formSheet
+        priceVc.sheetPresentationController?.detents = [.custom(resolver: { _ in 270 })]
+        present(priceVc, animated: true)
     }
     
     @objc private func wishListButtonOnTapActionAddToWishList(_ sender: UIButton){
@@ -211,6 +219,34 @@ class ExplorePageViewController: UITableViewController {
         sender.addTarget(self, action: #selector(wishListButtonOnTapActionRemoveFromWishList(_:)), for: .touchUpInside)
        
     }
+    
+    func cellOnTapAction(row : Int){
+        let wishListButtonClosure = { [unowned self] in
+           
+            self.filteredPlaceList[row].isWishListed = self.filteredPlaceList[row].isWishListed ? false : true
+            
+            if let indexOfPlaceList = placeDetailsList.firstIndex(where: {
+                (placeDetail) in placeDetail == self.filteredPlaceList[row] ? true : false}
+            ){
+                self.placeDetailsList[indexOfPlaceList].isWishListed = self.filteredPlaceList[row].isWishListed
+            }
+        }
+        
+        let placeDetailedPageViewController =  UnreservedPlaceDetailsViewController(
+            placeDetails: filteredPlaceList[row],
+            databaseController: databaseController,wishListButtonClosure : wishListButtonClosure)
+                
+        self.navigationController?.pushViewController(
+           placeDetailedPageViewController,
+                animated: true)
+    }
+    
+    @objc func cellImageOnTapAction(_ gestureRecognizer : UIGestureRecognizer){
+        if let row = gestureRecognizer.view?.tag{
+            cellOnTapAction(row: row)
+        }
+    }
+    
     
     @objc func wishListButtonOnTapActionRemoveFromWishList(_ sender: UIButton){
         
@@ -242,11 +278,11 @@ class ExplorePageViewController: UITableViewController {
                            guestDetails : GuestInfo,
                            locationDetail : FilteredLocation?) in
             
-            filteredPlaceList = []
+            self.filteredPlaceList = []
             
             if fromDate == nil && toDate == nil && guestDetails.numberOfGuests == 1 && locationDetail == nil{
                 
-                filteredPlaceList = placeDetailsList
+                self.filteredPlaceList = placeDetailsList
                 
             }else{
                 for placeDetail in placeDetailsList {
@@ -293,6 +329,7 @@ class ExplorePageViewController: UITableViewController {
             self.navigationItem.rightBarButtonItem = cancelSearchItem
             self.tableView.reloadData()
         }
+        
         self.navigationController?.pushViewController(searchViewController, animated: true)
     }
     
@@ -315,7 +352,33 @@ extension ExplorePageViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCell(withIdentifier: PlaceDetailCardView.reuseIdentifier, for: indexPath) as! PlaceDetailCardView
+        cell.tag = indexPath.row
         configTabelCell(cell: &cell, row: indexPath.row)
+        
+        
+        let imageUrl = filteredPlaceList[indexPath.row].images[0]
+        
+        
+        DispatchQueue.global(qos: .userInteractive).async {[weak self,imageUrl] in
+            
+            if let weakSelf = self{
+                
+                weakSelf.imageFetcher.fetchImage(from: imageUrl){
+                   (data) in
+                    
+                        guard let data = data else{return}
+                        let image = UIImage(data: data)
+                        
+                        DispatchQueue.main.async {
+                            if let updateCell = tableView.cellForRow(at: indexPath){
+                                (updateCell as! PlaceDetailCardView).placeImageView.image = image
+                            }
+                        }
+                }
+                
+            }
+        }
+        
         cell.selectionStyle = .none
         return cell
     }
@@ -330,26 +393,7 @@ extension ExplorePageViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let wishListButtonClosure = { [unowned self] in
-            
-            
-           
-            self.filteredPlaceList[indexPath.row].isWishListed = self.filteredPlaceList[indexPath.row].isWishListed ? false : true
-            
-            if let indexOfPlaceList = placeDetailsList.firstIndex(where: {
-                (placeDetail) in placeDetail == self.filteredPlaceList[indexPath.row] ? true : false}
-            ){
-                self.placeDetailsList[indexOfPlaceList].isWishListed = self.filteredPlaceList[indexPath.row].isWishListed
-            }
-        }
-        
-        let placeDetailedPageViewController =  UnreservedPlaceDetailsViewController(
-            placeDetails: filteredPlaceList[indexPath.row],
-            databaseController: databaseController,wishListButtonClosure : wishListButtonClosure)
-                
-        self.navigationController?.pushViewController(
-           placeDetailedPageViewController,
-                animated: true)
+        cellOnTapAction(row: indexPath.row)
         
         tableView.deselectRow(at: indexPath, animated: true)
     }

@@ -96,7 +96,8 @@ class SafetyAndPropertyViewController: UIViewController {
                 
         contentView.axis = .vertical
         contentView.alignment = .leading
-        
+        contentView.spacing = 15
+
         
     }
     
@@ -119,6 +120,8 @@ class SafetyAndPropertyViewController: UIViewController {
         contentView.addArrangedSubview(smokingLabel)
         contentView.axis = .vertical
         contentView.alignment = .leading
+        contentView.spacing = 15
+
     }
     
     private func setupPropertyInfoView(){
@@ -139,7 +142,8 @@ class SafetyAndPropertyViewController: UIViewController {
                 
         contentView.axis = .vertical
         contentView.alignment = .leading
-        
+        contentView.spacing = 15
+
     }
     
     

@@ -48,14 +48,15 @@ class ReservedPlaceDetailViewController: UnvisitedPlaceDetailViewController {
     }
     
     private func setupTripDates(){
-        if let numberOfDays = GeneralUtils.getNumberOfDays(from: tripDetails.BookedDateFrom, to: tripDetails.BookedDateTo){
+//        if let numberOfDays = GeneralUtils.getNumberOfDays(from: tripDetails.BookedDateFrom, to: tripDetails.BookedDateTo){
             
-            let tripCost = (tripDetails.pricePerDay * Double(numberOfDays)).round(to: 2)
-            super.priceLabel.text = "Trip Cost : \(tripCost) \(tripDetails.currencyCode)"
-        }
+//            let tripCost = (tripDetails.pricePerDay * Double(numberOfDays)).round(to: 2)
+//            super.priceLabel.text = "Trip Cost : \(tripCost) \(tripDetails.currencyCode)"
+            
+//        }
         
         
-        super.availabiltiyView.headerLabel.text = "Your Stay"
+//        super.availabiltiyView.headerLabel.text = "Your Stay"
 
         let fromDate = tripDetails.BookedDateFrom
         var dateText = "\(fromDate.day!) \(GeneralUtils.getMonthInString(month: fromDate.month!) )"

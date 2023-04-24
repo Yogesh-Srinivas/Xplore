@@ -33,10 +33,12 @@ class UnvisitedPlaceDetailViewController: PlaceDetailViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        contentScrollView.insertSubview(amenitiesView, belowSubview: availabiltiyView)
-        contentScrollView.insertSubview(UIUtils.getSeparator(size: 1), aboveSubview: amenitiesView)
+        contentScrollView.insertSubview(amenitiesView, aboveSubview: availabiltiyView)
+        contentScrollView.insertSubview(UIUtils.getSeparator(size: 1), belowSubview: amenitiesView)
         contentScrollView.addSubview(cancellationPolicyView)
+        contentScrollView.addSubview(UIUtils.getSeparator(size: 1))
         contentScrollView.addSubview(houseRulesView)
+        contentScrollView.addSubview(UIUtils.getSeparator(size: 1))
         contentScrollView.addSubview(safetyAndPropertyView)
         
         setupAmentiesView()

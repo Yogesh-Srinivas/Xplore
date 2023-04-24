@@ -42,7 +42,6 @@ class SectionView: UIView {
         ])
         titleView.text = titleText
         titleView.configPrimaryStyle()
-//        titleView.setc
     }
     
     func setupContentView(){

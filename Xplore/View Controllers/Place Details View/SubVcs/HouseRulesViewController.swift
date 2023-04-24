@@ -112,7 +112,7 @@ class HouseRulesViewController: UIViewController {
                 
         contentView.axis = .vertical
         contentView.alignment = .leading
-        
+        contentView.spacing = 15
         
     }
     
@@ -137,6 +137,8 @@ class HouseRulesViewController: UIViewController {
         
         contentView.axis = .vertical
         contentView.alignment = .leading
+        contentView.spacing = 15
+
     }
     
     private func getIconedLabel(imageSystemName : String,labelText : String) -> IconedLabelView{

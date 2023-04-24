@@ -64,7 +64,7 @@ class CancellationPolicyViewController: UIViewController {
         ])
         
         policyContentView.text = ControlCenter.cancellationPolicy
-
+        policyContentView.configSecondaryRegularStyle()
         policyContentView.numberOfLines = 0
         policyContentView.textAlignment = .justified
         labelWrapper.contentVerticalAlignment = .top

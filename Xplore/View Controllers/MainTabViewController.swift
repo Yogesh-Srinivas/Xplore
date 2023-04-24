@@ -70,6 +70,15 @@ class MainTabBarController: UITabBarController {
         
         self.tabBar.tintColor = .systemPink
         
+        self.tabBar.layer.shadowColor = UIColor.tertiaryLabel.cgColor
+        self.tabBar.layer.shadowRadius = 1
+        self.tabBar.layer.shadowOffset = CGSize(width: 0, height: -1)
+        self.tabBar.layer.masksToBounds = false
+        self.tabBar.layer.shadowOpacity = 1
+        
+//        self.tabBar.addSubview(UIUtils.getSeparator(size: 1))
+
+        
     }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {

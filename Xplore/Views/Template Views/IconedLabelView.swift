@@ -25,11 +25,11 @@ class IconedLabelView: UIView {
     private func setupIconedLabelView(){
         iconImageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            iconImageView.topAnchor.constraint(equalTo: self.topAnchor,constant: 10),
-            iconImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor,constant: -10),
+
+            iconImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             iconImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor,constant: 10),
-            iconImageView.heightAnchor.constraint(equalToConstant: 20),
-            iconImageView.widthAnchor.constraint(equalToConstant: 20)
+            iconImageView.heightAnchor.constraint(equalToConstant: 30),
+            iconImageView.widthAnchor.constraint(equalToConstant: 30)
             
         ])
         
@@ -38,11 +38,13 @@ class IconedLabelView: UIView {
             contentLabel.topAnchor.constraint(equalTo: self.topAnchor),
             contentLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             contentLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor,constant: -10),
-            contentLabel.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor,constant: 20)
+            contentLabel.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor,constant: 20),
+            contentLabel.heightAnchor.constraint(greaterThanOrEqualTo: iconImageView.heightAnchor)
         ])
         
         iconImageView.tintColor = .label
         contentLabel.numberOfLines = 0
+        contentLabel.configSecondaryStyle()
     }
 
 }

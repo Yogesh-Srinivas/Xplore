@@ -12,7 +12,6 @@ class AmenitiesView: UIView {
         uiButton.setTitle("Show All Amenities", for: .normal)
         uiButton.setTitleColor(.label, for: .normal)
         uiButton.layer.cornerRadius = 10
-        uiButton.underline()
         uiButton.addBorder()
         return uiButton
     }()
@@ -62,7 +61,7 @@ class AmenitiesView: UIView {
             amenityStackView.addArrangedSubview(
                 IconedLabelView(frame: .zero,
                                 contentText: amenitiesList[availableAmenityIndex].rawValue,
-                                imageSystemName: "fork.knife"
+                                imageSystemName: Amenity.getImage(for: amenitiesList[availableAmenityIndex])
                                )
             )
         }
@@ -70,10 +69,11 @@ class AmenitiesView: UIView {
         
         amenityStackView.alignment = .top
         amenityStackView.axis = .vertical
+        amenityStackView.spacing = 15
         
         amenityStackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            amenityStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
+            amenityStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor,constant: 15),
             amenityStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             amenityStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor)
         ])
@@ -92,7 +92,7 @@ class AmenitiesView: UIView {
             showAllAmenitiesButton.leadingAnchor.constraint(equalTo: self.leadingAnchor,constant: 20),
             showAllAmenitiesButton.trailingAnchor.constraint(equalTo: self.trailingAnchor,constant: -20),
             showAllAmenitiesButton.heightAnchor.constraint(equalToConstant: 40),
-            showAllAmenitiesButton.topAnchor.constraint(equalTo: amenityStackView.bottomAnchor)
+            showAllAmenitiesButton.topAnchor.constraint(equalTo: amenityStackView.bottomAnchor,constant: 10)
             
         ])
         

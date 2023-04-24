@@ -9,8 +9,16 @@ import UIKit
 
 class EmptyDetailView: UIView {
     
-    let emptyImage : UIImage?
-    let message : String
+    var emptyImage : UIImage? {
+        didSet{
+            emptyImageView.image = emptyImage
+        }
+    }
+    var message : String{
+        didSet{
+            messageLabel.text = message
+        }
+    }
     
     lazy var emptyImageView = {
         let imageView = UIImageView(image: emptyImage)

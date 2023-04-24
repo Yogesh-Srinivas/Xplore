@@ -4,17 +4,25 @@ class PlaceDetailViewController: UIViewController {
 
     let databaseController : PlaceDBController
     
-    lazy var placeImagesCollectionView  = ImagesDisplayCollectionView()
+    lazy var placeImagesCollectionViewWithPageControl  = ImageCollectionWithPageControl(frame: .zero)
     
     lazy var availabiltiyView = AvailabilityDetailView()
     
     lazy var contentScrollView = UIScrollView()
         
-    lazy var ratingView = RatingView(frame: CGRect.zero, rating: placeDetails.placeRating)
+    lazy var ratingView = RatingView(frame: CGRect.zero, rating: placeDetails.placeRating,numberOfRating: placeDetails.ratingDetail.count)
+    
+    lazy var ratingLabel = {
+        let label = UILabel()
+        label.configSecondaryRegularStyle()
+        return label
+    }()
     
     lazy var titleView = {
-        let sectionedView = SectionView(frame: .zero, contentView: descriptionLabel, titleText: "")
-        return sectionedView
+        let label = UILabel()
+        label.configSemiPrimary()
+        label.numberOfLines = 0
+        return label
     }()
     
     lazy var descriptionLabel = {
@@ -25,12 +33,10 @@ class PlaceDetailViewController: UIViewController {
     }()
     
     lazy var locationLabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.configSecondaryStyle()
-        
-        let sectionedView = SectionView(frame: .zero, contentView: label, titleText: "Destination")
-        return sectionedView
+        let iconedImageView = IconedLabelView(frame: .zero, contentText: "", imageSystemName: "location.circle")
+        iconedImageView.contentLabel.numberOfLines = 0
+    
+        return iconedImageView
     }()
     
     lazy var hostLabel = {
@@ -45,7 +51,6 @@ class PlaceDetailViewController: UIViewController {
     
    
     
-    lazy var priceLabel = UILabel()
     lazy var reserveButton = {
         let button = UIButton()
         button.tag = 0
@@ -61,13 +66,13 @@ class PlaceDetailViewController: UIViewController {
     
     init(placeDetails :  TravelPlaceDetail,databaseController : PlaceDBController){
 
-        
         self.placeDetails = placeDetails
         self.databaseController = databaseController
         
         super.init(nibName: nil, bundle: nil)
         
-        self.placeImagesCollectionView.imageUrls = placeDetails.images
+        self.placeImagesCollectionViewWithPageControl.placeImagesCollectionView.imageUrls = placeDetails.images
+        self.placeImagesCollectionViewWithPageControl.pageControl.numberOfPages = placeDetails.images.count
     }
     
     required init?(coder: NSCoder) {
@@ -89,18 +94,19 @@ class PlaceDetailViewController: UIViewController {
 
         
         view.addSubview(contentScrollView)
-        contentScrollView.addSubview(placeImagesCollectionView)
+        contentScrollView.addSubview(placeImagesCollectionViewWithPageControl)
         contentScrollView.addSubview(titleView)
+        contentScrollView.addSubview(ratingLabel)
         contentScrollView.addSubview(UIUtils.getSeparator(size: 1))
         contentScrollView.addSubview(locationLabel)
         contentScrollView.addSubview(UIUtils.getSeparator(size: 1))
+        contentScrollView.addSubview(availabiltiyView)
+        contentScrollView.addSubview(UIUtils.getSeparator(size: 1))
         contentScrollView.addSubview(hostLabel)
         contentScrollView.addSubview(UIUtils.getSeparator(size: 1))
-        contentScrollView.addSubview(ratingView)
-        contentScrollView.addSubview(UIUtils.getSeparator(size: 1))
+//        contentScrollView.addSubview(ratingView)
+//        contentScrollView.addSubview(UIUtils.getSeparator(size: 1))
         contentScrollView.addSubview(reviewView)
-        contentScrollView.addSubview(UIUtils.getSeparator(size: 1))
-        contentScrollView.addSubview(availabiltiyView)
         contentScrollView.addSubview(UIUtils.getSeparator(size: 1))
 
         setupDetailsLabels()
@@ -108,13 +114,11 @@ class PlaceDetailViewController: UIViewController {
     }
 
     private func setupDetailsLabels(){
-        self.titleView.titleText = self.placeDetails.placeName
-        self.titleView.titleView.numberOfLines = 0
-        
+        self.titleView.text = self.placeDetails.placeName
         descriptionLabel.text = self.placeDetails.description
+        ratingLabel.text = "\(Constants.RATING_STAR) \(placeDetails.placeRating) (\(placeDetails.ratingDetail.count))"
         
-        let locationContentLabel = locationLabel.contentView as! UILabel
-        locationContentLabel.text = "\(self.placeDetails.location.address),\n\(self.placeDetails.location.city),\n\(self.placeDetails.location.state), \(self.placeDetails.location.country)."
+        locationLabel.contentLabel.text = "\(self.placeDetails.location.address),\n\(self.placeDetails.location.city),\n\(self.placeDetails.location.state), \(self.placeDetails.location.country)."
         
         let hostContentLabel = self.hostLabel.contentView as! UIStackView
         let hostDetail = databaseController.getHostDetail(hostId: self.placeDetails.hostId)
@@ -124,11 +128,11 @@ class PlaceDetailViewController: UIViewController {
         hostName.text = hostDetail.userName
         
         let hostMobile = UILabel()
-        hostMobile.configSecondaryFadedStyle()
+        hostMobile.configSecondaryRegularStyle()
         hostMobile.text = "contact : \(hostDetail.mobile)"
         
         let hostEmail = UILabel()
-        hostEmail.configSecondaryFadedStyle()
+        hostEmail.configSecondaryRegularStyle()
         hostEmail.text = "email : \(hostDetail.email)"
         
         hostContentLabel.addArrangedSubview(hostName)

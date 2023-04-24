@@ -1,43 +1,130 @@
 import UIKit
 
-class MyTripViewController: UITableViewController {
-    
+class MyTripViewController: UIViewController {
+
     let databaseController : PlaceDBController
-    
-    lazy var swapItem = {
-        let barButtonItem = UIBarButtonItem()
-        barButtonItem.image = UIImage(systemName: "rectangle.2.swap")
-        barButtonItem.tintColor = .label
-        barButtonItem.target = self
-        barButtonItem.action = #selector(self.swapControlAction)
-        barButtonItem.tag = 0
-        return barButtonItem
+
+    lazy var segmentedControl = {
+        let segmentedControl = UISegmentedControl(items: ["Reserved","Visited"])
+        segmentedControl.selectedSegmentTintColor = .systemPink
+        segmentedControl.selectedSegmentIndex = 0
+        segmentedControl.backgroundColor = .systemBackground
+        segmentedControl.addTarget(self, action: #selector(segmentedControlAction), for: .valueChanged)
+        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.selected)
+        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15, weight: .medium)], for: UIControl.State.normal)
+
+        return segmentedControl
     }()
     
     lazy var emptyPlaceListView = {
         let emptyDetailView = EmptyDetailView(
                     frame: .zero,
-                    image: UIImage(named: "noPlace"),
+                    image: UIImage(named: "notBooked"),
                     message: "No trips booked yet!")
         return emptyDetailView
     }()
-        
-    var reservedList : [BookedTrip] = []
-    var reservedListPlaceDetails : [TravelPlaceDetail] = []
-    
-    var visitedList : [BookedTrip] = []
-    var visitedListPlaceDetails : [TravelPlaceDetail] = []
-    
+
+    lazy var commonTableView = UITableView()
+
+    var reservedList : [BookedTrip] = DataHold.bookedTrips
+    var reservedListPlaceDetails : [TravelPlaceDetail] = DataHold.travelPlaceDetails
+
+    var visitedList : [BookedTrip] = DataHold.bookedTrips
+    var visitedListPlaceDetails : [TravelPlaceDetail] = DataHold.travelPlaceDetails
+
     lazy var primaryBookedTripDataSource = reservedList
     lazy var primaryPlaceDetailDataSource = reservedListPlaceDetails
-    
+
     init(databaseController: PlaceDBController){
         self.databaseController = databaseController
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.setCustomBackground()
+        
+        
+        view.addSubview(segmentedControl)
+        view.addSubview(commonTableView)
+        commonTableView.register(UITableViewCell.self, forCellReuseIdentifier: "MyTripTableCell")
+        view.addSubview(emptyPlaceListView)
+
+        setupSegmentedControl()
+        setupCommonTableView()
+        setupEmptyPlaceListView()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = false
+        self.tabBarController?.tabBar.backgroundColor = .systemBackground
+        self.navigationController?.navigationBar.isHidden = false
+        self.navigationItem.title = "My Trip"
+        
+        getTripDetails()
+        segmentedControlAction()
+        
+    }
+
+    @objc private func segmentedControlAction(){
+        if segmentedControl.selectedSegmentIndex == 1{
+            primaryBookedTripDataSource = visitedList
+            primaryPlaceDetailDataSource = visitedListPlaceDetails
+        }else{
+            primaryBookedTripDataSource = reservedList
+            primaryPlaceDetailDataSource = reservedListPlaceDetails
+        }
+        
+        if primaryBookedTripDataSource.isEmpty{
+            emptyPlaceListView.isHidden = false
+            emptyPlaceListView.message = segmentedControl.selectedSegmentIndex == 0 ? "No trips booked yet!" : "Haven't explored any place yet!"
+            emptyPlaceListView.emptyImage = segmentedControl.selectedSegmentIndex == 0 ? UIImage(named: "notBooked") : UIImage(named: "unexplored")
+        }else{
+            emptyPlaceListView.isHidden = true
+        }
+        
+        commonTableView.reloadData()
+    }
+  
+    
+    private func setupSegmentedControl(){
+        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            segmentedControl.topAnchor.constraint(equalTo:  self.view.safeAreaLayoutGuide.topAnchor,constant: 5),
+            segmentedControl.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 5),
+            segmentedControl.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -5),
+            segmentedControl.heightAnchor.constraint(equalToConstant: 40)
+        ])
+    }
+    
+    private func setupEmptyPlaceListView(){
+        emptyPlaceListView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            emptyPlaceListView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor),
+            emptyPlaceListView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
+            emptyPlaceListView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
+            emptyPlaceListView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
+        ])
+    }
+
+    private func setupCommonTableView(){
+        commonTableView.delegate = self
+        commonTableView.dataSource = self
+        commonTableView.register(PlaceDetailCardView.self,forCellReuseIdentifier: PlaceDetailCardView.reuseIdentifier)
+        commonTableView.showsVerticalScrollIndicator = false
+
+        commonTableView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            commonTableView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 10),
+            commonTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 2),
+            commonTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -2),
+            commonTableView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
+        ])
     }
     
     private func getTripDetails(){
@@ -63,51 +150,6 @@ class MyTripViewController: UITableViewController {
             }
             
         }
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.setCustomBackground()
-                
-        tableView.register(UITableViewCell.self,forCellReuseIdentifier: "MyTripTableCell")
-        tableView.showsVerticalScrollIndicator = false
-        
-        view.addSubview(emptyPlaceListView)
-        
-        setupEmptyPlaceListView()
-    }
-    
-    
-    override func viewWillAppear(_ animated: Bool) {
-        self.tabBarController?.tabBar.isHidden = false
-        self.tabBarController?.tabBar.backgroundColor = .systemBackground
-        self.navigationController?.navigationBar.isHidden = false
-        self.navigationItem.rightBarButtonItem = swapItem
-        self.navigationItem.title = swapItem.tag == 0 ? "Reserved" : "Visited"
-        
-        getTripDetails()
-        updateprimaryDatasource()
-        tableView.reloadData()
-        
-        if reservedList.isEmpty{
-            emptyPlaceListView.isHidden = false
-        }else{
-            emptyPlaceListView.isHidden = true
-        }
-        
-        if visitedList.isEmpty{
-            swapItem.isHidden = true
-        }
-    }
-    
-    private func setupEmptyPlaceListView(){
-        emptyPlaceListView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            emptyPlaceListView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            emptyPlaceListView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
-            emptyPlaceListView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
-            emptyPlaceListView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
-        ])
     }
     
     private func convertBookedTripListToCurrentCurrency(bookedTripList : [BookedTrip]) -> [BookedTrip]{
@@ -147,36 +189,7 @@ class MyTripViewController: UITableViewController {
         
         return placeDetail
     }
-    
-    @objc private func swapControlAction(){
-        
-        
-        swapItem.tag = swapItem.tag == 0 ? 1 : 0
-        self.navigationItem.title = swapItem.tag == 0 ? "Reserved" : "Visited"
-        
-        getTripDetails()
-        updateprimaryDatasource()
-        
-        if primaryBookedTripDataSource.isEmpty{
-            emptyPlaceListView.isHidden = false
-        }else{
-            emptyPlaceListView.isHidden = true
-        }
-        tableView.reloadData()
-        
-       
-    }
-    
-    private func updateprimaryDatasource(){
-        if swapItem.tag == 0 {
-            primaryBookedTripDataSource = reservedList
-            primaryPlaceDetailDataSource = reservedListPlaceDetails
-        }else{
-            primaryBookedTripDataSource = visitedList
-            primaryPlaceDetailDataSource = visitedListPlaceDetails
-        }
-    }
-    
+
     private func configTabelCell(cell : inout UITableViewCell,row : Int){
         
         
@@ -199,34 +212,35 @@ class MyTripViewController: UITableViewController {
         }
         
         contentConfig.image = placeImage
-        contentConfig.imageProperties.reservedLayoutSize = CGSize(width: 100, height: 100)
-        contentConfig.imageProperties.maximumSize = CGSize(width: 125, height: 100)
+        contentConfig.imageProperties.reservedLayoutSize = CGSize(width: 130, height: 100)
+        contentConfig.imageProperties.maximumSize = CGSize(width: 130, height: 100)
         contentConfig.imageToTextPadding = 20
         contentConfig.imageProperties.cornerRadius = 15
+        
       
         cell.contentConfiguration = contentConfig
         
     }
 
 }
-extension MyTripViewController {
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+extension MyTripViewController : UITableViewDelegate,UITableViewDataSource{
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         primaryPlaceDetailDataSource.count
     }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "MyTripTableCell", for: indexPath)
-        
-        configTabelCell(cell: &cell, row: indexPath.row)
-        cell.selectionStyle = .none
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var cell = commonTableView.dequeueReusableCell(withIdentifier: "MyTripTableCell", for: indexPath)
+
+        configTabelCell(cell: &cell,row: indexPath.row)
+
         return cell
     }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        
-        if swapItem.tag == 0 {
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
+
+        if segmentedControl.selectedSegmentIndex == 0 {
             self.navigationController?.pushViewController(
                 ReservedPlaceDetailViewController(
                     placeDetails: primaryPlaceDetailDataSource[indexPath.row],
@@ -235,9 +249,8 @@ extension MyTripViewController {
                 ),
                     animated: true)
         } else{
-            
             self.navigationController?.pushViewController(
-                
+
                 VisitedPlaceDetailViewController(
                     placeDetails: primaryPlaceDetailDataSource[indexPath.row],
                     tripDetails: primaryBookedTripDataSource[indexPath.row],
@@ -245,10 +258,10 @@ extension MyTripViewController {
             ),
                     animated: true)
         }
-        
-        
-        
+
+
+
         tableView.deselectRow(at: indexPath, animated: true)
     }
-    
+
 }

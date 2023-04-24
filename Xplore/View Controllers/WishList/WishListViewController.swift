@@ -58,6 +58,8 @@ class WishListViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
+        self.tabBarController?.tabBar.backgroundColor = .systemBackground
+
         loadWishlist()
         wishListDetails = convertListToCurrentCurrency(travelPlaceList: wishListDetails)
         tableView.reloadData()

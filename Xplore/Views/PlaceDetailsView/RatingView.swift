@@ -24,8 +24,11 @@ class RatingView: UIView {
    
     var rating : Double
     
-    init(frame: CGRect,rating : Double) {
+    var numberOfRating : Int
+    
+    init(frame: CGRect,rating : Double,numberOfRating : Int) {
         self.rating = rating
+        self.numberOfRating = numberOfRating
         super.init(frame: frame)
         
         self.backgroundColor = .systemBackground
@@ -42,6 +45,7 @@ class RatingView: UIView {
     
     func updateRatingView(newRating : Double){
         self.rating = newRating
+        headerLabel.text = "Rating \(Constants.RATING_STAR) \(rating) (\(numberOfRating)"
         setRatingStars()
     }
     
@@ -53,7 +57,7 @@ class RatingView: UIView {
             headerLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             headerLabel.bottomAnchor.constraint(equalTo: contentView.topAnchor,constant: -10)
         ])
-        headerLabel.text = "Rating \(Constants.RATING_STAR)\(Constants.BULLETING_POINT)\(rating)"
+        headerLabel.text = "Rating \(Constants.RATING_STAR) \(rating)"
         
         headerLabel.adjustsFontSizeToFitWidth = true
         headerLabel.configPrimaryStyle()

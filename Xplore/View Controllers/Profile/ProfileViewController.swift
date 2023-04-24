@@ -30,6 +30,8 @@ class ProfileViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = true
         self.tabBarController?.tabBar.isHidden = false
+        self.tabBarController?.tabBar.backgroundColor = .systemBackground
+
     }
         
     private func configTabelCell(cell : UITableViewCell,row : Int){
