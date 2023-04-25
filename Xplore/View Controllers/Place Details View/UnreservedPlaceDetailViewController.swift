@@ -2,15 +2,6 @@
 import UIKit
 
 class UnreservedPlaceDetailsViewController: UnvisitedPlaceDetailViewController {
-//
-//    lazy var guestView = {
-//        let customStepper = CustomStepperView(frame: .zero, maxValue: 33, minValue: 1, titleText: "Number of guests", subTitleText: ""){
-//            [unowned self](value) in
-//            self.numberOfGuests = value
-//        }
-//        customStepper.titleLabel.configSecondaryStyle()
-//        return customStepper
-//    }()
     
     lazy var wishListItem = {
         let barButtonItem = UIBarButtonItem()
@@ -157,7 +148,7 @@ class UnreservedPlaceDetailsViewController: UnvisitedPlaceDetailViewController {
         NSLayoutConstraint.activate([
             datesButton.leadingAnchor.constraint(equalTo: footerView.leadingAnchor,constant: 10),
             datesButton.topAnchor.constraint(equalTo: priceLabel.bottomAnchor,constant: 10),
-            datesButton.bottomAnchor.constraint(equalTo: footerView.bottomAnchor,constant: -10),
+            datesButton.bottomAnchor.constraint(equalTo: footerView.bottomAnchor,constant: -15),
         ])
     }
     

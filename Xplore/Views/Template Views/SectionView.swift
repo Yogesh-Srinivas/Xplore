@@ -23,7 +23,7 @@ class SectionView: UIView {
         
         
         self.addSubview(titleView)
-        self.addSubview(contentView)
+        self.addSubview(self.contentView)
         setupTitleView()
         setupContentView()
         
@@ -41,7 +41,7 @@ class SectionView: UIView {
             titleView.trailingAnchor.constraint(equalTo: self.trailingAnchor)
         ])
         titleView.text = titleText
-        titleView.configPrimaryStyle()
+        titleView.configSemiPrimary()
     }
     
     func setupContentView(){
@@ -51,7 +51,6 @@ class SectionView: UIView {
             contentView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             contentView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
-            
         ])
         
     }

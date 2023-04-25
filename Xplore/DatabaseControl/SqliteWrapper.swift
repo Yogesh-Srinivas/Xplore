@@ -36,9 +36,6 @@ final class SqliteWrapper{
     
     func create(tabel tableName : String,values fieldDetails : [FieldDetail],primaryKeys : [String]?){
         
-        //TODO: need to remove this line
-        dropTable(table: tableName)
-        
         var queryString = "CREATE TABLE IF NOT EXISTS \(tableName)("
         
         for fieldDetail in fieldDetails {

@@ -65,7 +65,6 @@
 		3F50BB2229D1B04400E0D6D4 /* SafetyAndPropertyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB2129D1B04400E0D6D4 /* SafetyAndPropertyViewController.swift */; };
 		3F50BB2429D1D27300E0D6D4 /* SectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB2329D1D27300E0D6D4 /* SectionView.swift */; };
 		3F50BB2629D2A61000E0D6D4 /* IconedLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB2529D2A61000E0D6D4 /* IconedLabelView.swift */; };
-		3F50BB2829D2F18400E0D6D4 /* ReservationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB2729D2F18400E0D6D4 /* ReservationViewController.swift */; };
 		3F50BB2C29D406C300E0D6D4 /* StackViewWithCornorLabels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB2B29D406C300E0D6D4 /* StackViewWithCornorLabels.swift */; };
 		3F50BB3729D4647F00E0D6D4 /* UIUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB3629D4647F00E0D6D4 /* UIUtils.swift */; };
 		3F50BB3929D4657600E0D6D4 /* ImageWithLabelViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BB3829D4657600E0D6D4 /* ImageWithLabelViewTableViewCell.swift */; };
@@ -100,6 +99,11 @@
 		3F72D21A29F19B0400506F51 /* EmptyDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F72D21929F19B0400506F51 /* EmptyDetailView.swift */; };
 		3F72D21C29F6430100506F51 /* ImageCollectionWithPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F72D21B29F6430100506F51 /* ImageCollectionWithPageControl.swift */; };
 		3F72D21E29F67A2700506F51 /* MyTripViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F72D21D29F67A2700506F51 /* MyTripViewController.swift */; };
+		3F72D22029F7A47200506F51 /* ReservationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F72D21F29F7A47200506F51 /* ReservationViewController.swift */; };
+		3F72D22229F7AB8600506F51 /* HeaderImageWithTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F72D22129F7AB8600506F51 /* HeaderImageWithTitle.swift */; };
+		3F72D22429F810D500506F51 /* UINavigationBar+addShadow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F72D22329F810D500506F51 /* UINavigationBar+addShadow.swift */; };
+		3F72D22629F8391000506F51 /* UITableView+reloadData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F72D22529F8391000506F51 /* UITableView+reloadData.swift */; };
+		3F72D22829F8558E00506F51 /* LodingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F72D22729F8558E00506F51 /* LodingViewController.swift */; };
 		3F846FA129EB452F00C3AF36 /* SessionDBController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F846FA029EB452F00C3AF36 /* SessionDBController.swift */; };
 		3F846FA329EDA02C00C3AF36 /* UtilDBController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F846FA229EDA02C00C3AF36 /* UtilDBController.swift */; };
 		3F846FA529EDAA0B00C3AF36 /* Double+round.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F846FA429EDAA0B00C3AF36 /* Double+round.swift */; };
@@ -174,7 +178,6 @@
 		3F50BB2129D1B04400E0D6D4 /* SafetyAndPropertyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafetyAndPropertyViewController.swift; sourceTree = "<group>"; };
 		3F50BB2329D1D27300E0D6D4 /* SectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionView.swift; sourceTree = "<group>"; };
 		3F50BB2529D2A61000E0D6D4 /* IconedLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconedLabelView.swift; sourceTree = "<group>"; };
-		3F50BB2729D2F18400E0D6D4 /* ReservationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservationViewController.swift; sourceTree = "<group>"; };
 		3F50BB2B29D406C300E0D6D4 /* StackViewWithCornorLabels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackViewWithCornorLabels.swift; sourceTree = "<group>"; };
 		3F50BB3629D4647F00E0D6D4 /* UIUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIUtils.swift; sourceTree = "<group>"; };
 		3F50BB3829D4657600E0D6D4 /* ImageWithLabelViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageWithLabelViewTableViewCell.swift; sourceTree = "<group>"; };
@@ -209,6 +212,11 @@
 		3F72D21929F19B0400506F51 /* EmptyDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyDetailView.swift; sourceTree = "<group>"; };
 		3F72D21B29F6430100506F51 /* ImageCollectionWithPageControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionWithPageControl.swift; sourceTree = "<group>"; };
 		3F72D21D29F67A2700506F51 /* MyTripViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTripViewController.swift; sourceTree = "<group>"; };
+		3F72D21F29F7A47200506F51 /* ReservationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservationViewController.swift; sourceTree = "<group>"; };
+		3F72D22129F7AB8600506F51 /* HeaderImageWithTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderImageWithTitle.swift; sourceTree = "<group>"; };
+		3F72D22329F810D500506F51 /* UINavigationBar+addShadow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationBar+addShadow.swift"; sourceTree = "<group>"; };
+		3F72D22529F8391000506F51 /* UITableView+reloadData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+reloadData.swift"; sourceTree = "<group>"; };
+		3F72D22729F8558E00506F51 /* LodingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LodingViewController.swift; sourceTree = "<group>"; };
 		3F846FA029EB452F00C3AF36 /* SessionDBController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDBController.swift; sourceTree = "<group>"; };
 		3F846FA229EDA02C00C3AF36 /* UtilDBController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilDBController.swift; sourceTree = "<group>"; };
 		3F846FA429EDAA0B00C3AF36 /* Double+round.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+round.swift"; sourceTree = "<group>"; };
@@ -263,6 +271,7 @@
 				3F17E8D329E2EB370030CC02 /* LoginTemplateViewController.swift */,
 				3FD1414629EE54E4007B97BB /* LoginViewController.swift */,
 				3FD1414829EE54F3007B97BB /* SignUpViewController.swift */,
+				3F72D22729F8558E00506F51 /* LodingViewController.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -416,8 +425,8 @@
 		3F50BB3129D462FE00E0D6D4 /* Reservation Page */ = {
 			isa = PBXGroup;
 			children = (
-				3F50BB2729D2F18400E0D6D4 /* ReservationViewController.swift */,
 				3F0BDACF29E0338F00F6638B /* ReservationConfirmationViewController.swift */,
+				3F72D21F29F7A47200506F51 /* ReservationViewController.swift */,
 			);
 			path = "Reservation Page";
 			sourceTree = "<group>";
@@ -439,6 +448,7 @@
 				3F50BB2329D1D27300E0D6D4 /* SectionView.swift */,
 				3F50BB2B29D406C300E0D6D4 /* StackViewWithCornorLabels.swift */,
 				3F72D21929F19B0400506F51 /* EmptyDetailView.swift */,
+				3F72D22129F7AB8600506F51 /* HeaderImageWithTitle.swift */,
 			);
 			path = "Template Views";
 			sourceTree = "<group>";
@@ -493,6 +503,8 @@
 				3F531C2029E5B8170043185C /* UIButton+addBorder.swift */,
 				3F846FA429EDAA0B00C3AF36 /* Double+round.swift */,
 				3FD1415329EE8C2E007B97BB /* UITextField+validateText.swift */,
+				3F72D22329F810D500506F51 /* UINavigationBar+addShadow.swift */,
+				3F72D22529F8391000506F51 /* UITableView+reloadData.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -628,8 +640,8 @@
 				3F50BB5429D69D4500E0D6D4 /* FieldDetail.swift in Sources */,
 				3F50BAD729CC4A2600E0D6D4 /* Location.swift in Sources */,
 				3F0BDAC629DE9E1200F6638B /* FetchableImage.swift in Sources */,
-				3F50BB2829D2F18400E0D6D4 /* ReservationViewController.swift in Sources */,
 				3F846FA129EB452F00C3AF36 /* SessionDBController.swift in Sources */,
+				3F72D22429F810D500506F51 /* UINavigationBar+addShadow.swift in Sources */,
 				3F50BB0B29D03F4C00E0D6D4 /* AvailabilityDetailView.swift in Sources */,
 				3F846FA529EDAA0B00C3AF36 /* Double+round.swift in Sources */,
 				3F72D21C29F6430100506F51 /* ImageCollectionWithPageControl.swift in Sources */,
@@ -642,6 +654,7 @@
 				3F50BAB329CAFFB900E0D6D4 /* ViewController.swift in Sources */,
 				3F531C2129E5B8170043185C /* UIButton+addBorder.swift in Sources */,
 				3F0BDAD029E0338F00F6638B /* ReservationConfirmationViewController.swift in Sources */,
+				3F72D22629F8391000506F51 /* UITableView+reloadData.swift in Sources */,
 				3F50BACB29CB2BB400E0D6D4 /* DatabaseOperation.swift in Sources */,
 				3F531C3E29EAC9D70043185C /* FilteredLocation.swift in Sources */,
 				3F50BACF29CC46E500E0D6D4 /* DataHold.swift in Sources */,
@@ -654,6 +667,7 @@
 				3F17E8DD29E400F80030CC02 /* PageType.swift in Sources */,
 				3F50BB1829D159BD00E0D6D4 /* ReviewCard.swift in Sources */,
 				3F50BB1629D0A36600E0D6D4 /* RatingView.swift in Sources */,
+				3F72D22229F7AB8600506F51 /* HeaderImageWithTitle.swift in Sources */,
 				3F0BDAD229E0469600F6638B /* ReservationConfirmCustomCell.swift in Sources */,
 				3F50BB2C29D406C300E0D6D4 /* StackViewWithCornorLabels.swift in Sources */,
 				3F50BB5829D6A42500E0D6D4 /* FieldWithValue.swift in Sources */,
@@ -690,6 +704,7 @@
 				3F531C2329E5C4490043185C /* RatingAndReviewViewController.swift in Sources */,
 				3FD1415029EE75F3007B97BB /* Authenticator.swift in Sources */,
 				3F50BB4729D597DF00E0D6D4 /* UIButton+underline.swift in Sources */,
+				3F72D22829F8558E00506F51 /* LodingViewController.swift in Sources */,
 				3FD1415429EE8C2E007B97BB /* UITextField+validateText.swift in Sources */,
 				3F0BDABA29DD3DD700F6638B /* PricePresentationViewController.swift in Sources */,
 				3F50BAD129CC487C00E0D6D4 /* UserDetail.swift in Sources */,
@@ -709,6 +724,7 @@
 				3F17E8E129E440E40030CC02 /* CancelReservationPageViewController.swift in Sources */,
 				3F531C3A29EA94160043185C /* WhereSearchBarViewController.swift in Sources */,
 				3F50BAB129CAFFB900E0D6D4 /* SceneDelegate.swift in Sources */,
+				3F72D22029F7A47200506F51 /* ReservationViewController.swift in Sources */,
 				3F531C3029E9BACE0043185C /* InformationViewController.swift in Sources */,
 				3F50BB5A29D6A4D900E0D6D4 /* QueryCondition.swift in Sources */,
 				3F17E8E429E4DB410030CC02 /* UnreservedPlaceDetailViewController.swift in Sources */,

@@ -4,14 +4,13 @@ class VisitedPlaceDetailViewController: PlaceDetailViewController {
 
     let tripDetails : BookedTrip
     
-    lazy var ratingButton = {
-        let button = UIButton()
-        button.setTitle("Rate this Place", for: .normal)
-        button.titleLabel?.configSecondaryStyle()
-        button.setTitleColor(.systemYellow, for: .normal)
-        button.underline()
-        button.addTarget(self, action: #selector(ratingButtonOnTapAction), for: .touchDown)
-        return button
+    lazy var ratingButtonItem = {
+        let buttonItem = UIBarButtonItem()
+        buttonItem.title = "Rate Place"
+        buttonItem.tintColor = .link
+        buttonItem.target = self
+        buttonItem.action = #selector(ratingButtonOnTapAction)
+        return buttonItem
     }()
     
     lazy var guestView = {
@@ -39,19 +38,9 @@ class VisitedPlaceDetailViewController: PlaceDetailViewController {
         
         super.viewDidLoad()
         
-        super.contentScrollView.bringSubviewToFront(ratingView)
-        super.contentScrollView.bringSubviewToFront(super.contentScrollView.subviews[6])
-        
-        super.contentScrollView.bringSubviewToFront(reviewView)
-        super.contentScrollView.bringSubviewToFront(super.contentScrollView.subviews[6])
-        
-        super.contentScrollView.insertSubview(priceDetailsView, belowSubview: availabiltiyView)
-        super.contentScrollView.insertSubview(guestView, aboveSubview: availabiltiyView)
-        super.contentScrollView.insertSubview(UIUtils.getSeparator(size: 1), belowSubview: guestView)
-
-        if !databaseController.isUserRated(placeId: placeDetails.placeId){
-            super.contentScrollView.addSubview(ratingButton)
-        }
+        super.contentScrollView.insertSubview(guestView, belowSubview: hostLabel)
+        super.contentScrollView.insertSubview(UIUtils.getSeparator(size: 1), belowSubview: hostLabel)
+        super.contentScrollView.insertSubview(priceDetailsView, belowSubview: hostLabel)
        
         setupScrollView()
         
@@ -61,9 +50,10 @@ class VisitedPlaceDetailViewController: PlaceDetailViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         
-        if databaseController.isUserRated(placeId: placeDetails.placeId){
-            ratingButton.removeFromSuperview()
+        if !databaseController.isUserRated(placeId: placeDetails.placeId){
+            self.navigationItem.rightBarButtonItem = ratingButtonItem
         }
+        
         setupScrollView()
         
         reviewView.updateReviewList(
@@ -72,17 +62,12 @@ class VisitedPlaceDetailViewController: PlaceDetailViewController {
         
         let rating = databaseController.getRatingDetail(placeId: placeDetails.placeId)
         placeDetails.ratingDetail = rating
-        ratingView.updateRatingView(newRating: placeDetails.placeRating)
+//        ratingView.updateRatingView(newRating: placeDetails.placeRating)
+        ratingLabel.text = self.placeDetails.ratingDetail.isEmpty ?                     "\(Constants.RATING_STAR) New" :
+                            "\(Constants.RATING_STAR) \(placeDetails.placeRating) (\(placeDetails.ratingDetail.count))"
     }
     
     private func setupTripDates(){
-//        if let numberOfDays = GeneralUtils.getNumberOfDays(from: tripDetails.BookedDateFrom, to: tripDetails.BookedDateTo){
-//
-//            super.priceLabel.text = "Trip Cost : \((tripDetails.pricePerDay * Double(numberOfDays)).round(to: 2)) \(tripDetails.currencyCode)"
-//        }
-        
-        
-//        super.availabiltiyView.headerLabel.text = "Your Stay"
 
         let fromDate = tripDetails.BookedDateFrom
         var dateText = "\(fromDate.day!) \(GeneralUtils.getMonthInString(month: fromDate.month!) )"

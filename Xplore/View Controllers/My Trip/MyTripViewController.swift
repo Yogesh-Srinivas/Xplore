@@ -26,11 +26,11 @@ class MyTripViewController: UIViewController {
 
     lazy var commonTableView = UITableView()
 
-    var reservedList : [BookedTrip] = DataHold.bookedTrips
-    var reservedListPlaceDetails : [TravelPlaceDetail] = DataHold.travelPlaceDetails
+    var reservedList : [BookedTrip] = []
+    var reservedListPlaceDetails : [TravelPlaceDetail] = []
 
-    var visitedList : [BookedTrip] = DataHold.bookedTrips
-    var visitedListPlaceDetails : [TravelPlaceDetail] = DataHold.travelPlaceDetails
+    var visitedList : [BookedTrip] = []
+    var visitedListPlaceDetails : [TravelPlaceDetail] = []
 
     lazy var primaryBookedTripDataSource = reservedList
     lazy var primaryPlaceDetailDataSource = reservedListPlaceDetails
@@ -57,6 +57,7 @@ class MyTripViewController: UIViewController {
         setupSegmentedControl()
         setupCommonTableView()
         setupEmptyPlaceListView()
+        
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -150,6 +151,8 @@ class MyTripViewController: UIViewController {
             }
             
         }
+        
+        
     }
     
     private func convertBookedTripListToCurrentCurrency(bookedTripList : [BookedTrip]) -> [BookedTrip]{
@@ -199,7 +202,7 @@ class MyTripViewController: UIViewController {
         contentConfig.textProperties.numberOfLines = 4
         contentConfig.textToSecondaryTextVerticalPadding = 3
         
-        let totalPrice = primaryBookedTripDataSource[row].totalPrice + ControlCenter.serviceFee + ControlCenter.cleaningFee
+        let totalPrice = (primaryBookedTripDataSource[row].totalPrice + ControlCenter.serviceFee + ControlCenter.cleaningFee).round(to: 2)
         
         contentConfig.secondaryText = "\(primaryPlaceDetailDataSource[row].price.currencyCode) \(totalPrice)  (\(primaryBookedTripDataSource[row].numberOfDays) Days)"
 

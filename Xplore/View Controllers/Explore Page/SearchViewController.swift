@@ -19,13 +19,11 @@ class SearchViewController: UIViewController {
     lazy var whenLabelButton = {
         let button = UIButton()
         button.setTitle("change", for: .normal)
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(.label, for: .normal)
+        button.titleLabel?.underline()
         button.titleLabel?.configSecondaryStyle()
-        button.configHighlightTheme()
         button.addTarget(self, action: #selector(whenButtonOnTapAction), for: .touchDown)
-        
-        button.layer.cornerRadius = 10
-
+    
         return button
     }()
     
@@ -80,13 +78,11 @@ class SearchViewController: UIViewController {
     lazy var whereLabelButton = {
         let button = UIButton()
         button.setTitle("change", for: .normal)
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(.label, for: .normal)
+        button.titleLabel?.underline()
         button.titleLabel?.configSecondaryStyle()
-        button.configHighlightTheme()
         button.addTarget(self, action: #selector(whereButtonOnTapAction), for: .touchDown)
-        
-        button.layer.cornerRadius = 10
-
+    
         return button
     }()
     
@@ -356,7 +352,7 @@ class SearchViewController: UIViewController {
     
     @objc private func searchButtonOnTapAction(){
         completionHandler(fromDate,toDate,guestInfo,filteredLocation)
-        self.navigationController?.popViewController(animated: false)
+        self.navigationController?.popViewController(animated: true)
     }
     
     @objc private func clearButtonOnTapAction(){

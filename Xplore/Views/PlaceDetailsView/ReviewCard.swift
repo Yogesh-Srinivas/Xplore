@@ -46,7 +46,7 @@ class ReviewCard: UICollectionViewCell{
         ])
         
         
-        reviewLabel.textAlignment = .justified
+        reviewLabel.textAlignment = .natural
         reviewLabel.isUserInteractionEnabled = false
         reviewLabel.isScrollEnabled = false
         reviewLabel.textContainer.lineBreakMode = .byTruncatingTail

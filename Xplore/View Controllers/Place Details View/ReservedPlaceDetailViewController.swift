@@ -15,15 +15,24 @@ class ReservedPlaceDetailViewController: UnvisitedPlaceDetailViewController {
         return labelView
     }()
     
-    lazy var cancelReservationButton = {
-        let button = UIButton()
-        button.setTitle("cancel Reservation", for: .normal)
-        button.titleLabel?.configSecondaryStyle()
-        button.setTitleColor(.red, for: .normal)
-        button.underline()
-        button.addTarget(self, action: #selector(cancelReservationButtonOnTapAction), for: .touchDown)
-        return button
+    lazy var cancelItem = {
+        let barButtonItem = UIBarButtonItem()
+        barButtonItem.title = "cancel Trip"
+        barButtonItem.tintColor = .systemRed
+        barButtonItem.target = self
+        barButtonItem.action = #selector(cancelReservationButtonOnTapAction)
+        return barButtonItem
     }()
+    
+//    lazy var cancelReservationButton = {
+//        let button = UIButton()
+//        button.setTitle("cancel Reservation", for: .normal)
+//        button.titleLabel?.configSecondaryStyle()
+//        button.setTitleColor(.red, for: .normal)
+//        button.underline()
+//        button.addTarget(self, action: #selector(cancelReservationButtonOnTapAction), for: .touchDown)
+//        return button
+//    }()
     
     init(placeDetails :  TravelPlaceDetail,databaseController : PlaceDBController,tripDetails : BookedTrip){
         self.tripDetails = tripDetails
@@ -38,13 +47,16 @@ class ReservedPlaceDetailViewController: UnvisitedPlaceDetailViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         super.contentScrollView.addSubview(UIUtils.getSeparator(size: 1))
-        super.contentScrollView.addSubview(cancelReservationButton)
         super.contentScrollView.insertSubview(priceDetailsView, belowSubview: amenitiesView)
         super.contentScrollView.insertSubview(guestView, aboveSubview: availabiltiyView)
         super.contentScrollView.insertSubview(UIUtils.getSeparator(size: 1), belowSubview: guestView)
 
         setupTripDates()
         setupScrollView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationItem.rightBarButtonItem = cancelItem
     }
     
     private func setupTripDates(){

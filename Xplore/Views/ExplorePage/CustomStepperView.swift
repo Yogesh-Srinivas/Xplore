@@ -15,9 +15,9 @@ class CustomStepperView: UIView {
         let label = UILabel()
         label.text = String(Int(contentStepper.value))
         label.configSemiPrimary()
-        label.layer.borderWidth = 1
-        label.layer.borderColor = UIColor.systemGray.cgColor
-        label.layer.cornerRadius = 5
+//        label.layer.borderWidth = 1
+//        label.layer.borderColor = UIColor.systemGray.cgColor
+//        label.layer.cornerRadius = 5
         label.textAlignment = .center
         return label
     }()
@@ -64,7 +64,7 @@ class CustomStepperView: UIView {
         
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
-            titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
+            titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             titleLabel.bottomAnchor.constraint(equalTo: subTitleLabel.topAnchor, constant: -5)
         ])
         
@@ -72,13 +72,13 @@ class CustomStepperView: UIView {
         
         NSLayoutConstraint.activate([
             subTitleLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10),
-            subTitleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10)
+            subTitleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor)
         ])
         
         contentStepper.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            contentStepper.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
+            contentStepper.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             contentStepper.centerYAnchor.constraint(equalTo: self.centerYAnchor),
         ])
         

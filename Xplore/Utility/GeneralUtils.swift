@@ -82,5 +82,18 @@ struct GeneralUtils{
         let toCurrencyValue = utilDBController.getCurrencyValue(currenyCode: toCurrencyCode)
         return ((amount / fromCurrencyValue) * toCurrencyValue).round(to: 2)
     }
+    
+    static func getRandomList(from startInt : Int,to endInt : Int) -> [Int]{
+        var randomList : [Int] = []
+        
+        for _ in startInt...endInt{
+            var randomInt = Int.random(in: startInt...endInt)
+            while randomList.contains(randomInt){
+                randomInt = Int.random(in: startInt...endInt)
+            }
+            randomList.append(randomInt)
+        }
+        return randomList
+    }
 
 }

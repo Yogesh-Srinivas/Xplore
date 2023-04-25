@@ -29,6 +29,7 @@ class WishListViewController: UITableViewController {
         super.viewDidLoad()
         
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "WishListTableCell")
+        self.tableView.separatorStyle = .none
         self.navigationItem.title = "Your WishList"
         
         view.addSubview(emptyWishListView)
@@ -136,11 +137,14 @@ class WishListViewController: UITableViewController {
             tableView.deleteRows(at: [IndexPath(row: row, section: 0)], with: .fade)
             tableView.reloadData()
             
-            if wishListDetails.count > 0{
-                emptyWishListView.isHidden = true
-            }else{
-                emptyWishListView.isHidden = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3){ [unowned self] in
+                if self.wishListDetails.count > 0{
+                    emptyWishListView.isHidden = true
+                }else{
+                    emptyWishListView.isHidden = false
+                }
             }
+            
         }
     }
 }

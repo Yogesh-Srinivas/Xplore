@@ -57,7 +57,7 @@ class PriceDetails: SectionView {
     
     lazy var totalPrice = {
         let horizontalStackView = StackViewWithCornorLabels()
-        horizontalStackView.leadingLabel.configPrimaryRegularStyle()
+        horizontalStackView.leadingLabel.configSecondaryStyle()
         horizontalStackView.trailingLabel.configSecondaryStyle()
         return horizontalStackView
     }()
@@ -95,7 +95,7 @@ class PriceDetails: SectionView {
         actualPrice.leadingLabel.text = "Actual Price"
         actualPrice.trailingLabel.text = "\(tripDetails.actualPrice)"
         
-        taxes.leadingLabel.text = "Taxes (\(tripDetails.taxPercentage) %)"
+        taxes.leadingLabel.text = "Taxes (\(tripDetails.taxPercentage.round(to: 2)) %)"
         taxes.trailingLabel.text = "\(tripDetails.taxes)"
         
         cleaningFee.leadingLabel.text = "Cleaning Fee"
@@ -105,7 +105,7 @@ class PriceDetails: SectionView {
         serviceFee.trailingLabel.text = "\(ControlCenter.serviceFee)"
         
         totalPrice.leadingLabel.text = "Total(\(tripDetails.currencyCode))"
-        totalPrice.trailingLabel.text = "\(tripDetails.totalPrice + ControlCenter.cleaningFee + ControlCenter.serviceFee)"
+        totalPrice.trailingLabel.text = "\((tripDetails.totalPrice + ControlCenter.cleaningFee + ControlCenter.serviceFee).round(to: 2))"
         
     }
     

@@ -20,8 +20,8 @@ class RatingAndReviewViewController: UIViewController {
     private lazy var ratingStarView = {
         let stack = UIStackView()
         stack.axis = .horizontal
-        stack.distribution = .fillEqually
-        stack.alignment = .fill
+        stack.distribution = .fillProportionally
+        stack.alignment = .center
         
         if let tintedEmptyStar = emptyStarImage{
             for starCount in 1...5{
@@ -36,14 +36,23 @@ class RatingAndReviewViewController: UIViewController {
         return stack
     }()
         
-    private lazy var ratingView = {
-        let sectionedView = SectionView(frame: .zero, contentView: ratingStarView, titleText: "Your Rating \(Constants.RATING_STAR) \(rating)")
-        return sectionedView
+    private var ratingTitleLabel = {
+        let label = UILabel()
+        label.text = "Rate your Experience"
+        label.configSemiPrimary()
+        return label
+    }()
+    
+    private var ratingDescriptionLabel = {
+        let label = UILabel()
+        label.text = "How was your experience at this palce?"
+        label.configSecondaryFadedStyle()
+        return label
     }()
 
     private var rating : Double = 0 {
         didSet{
-            ratingView.titleText = "Your Rating \(Constants.RATING_STAR) \(rating)"
+           
             submitButton.isEnabled = true
             submitButton.backgroundColor = .systemPink
             submitButton.setTitleColor(.white, for: .normal)
@@ -53,10 +62,10 @@ class RatingAndReviewViewController: UIViewController {
     private lazy var reviewTextView = {
         let textView = UITextView()
         textView.configSecondaryStyle()
-        textView.layer.borderColor = UIColor.lightGray.cgColor
-        textView.layer.borderWidth = 1.5
+        textView.layer.borderColor = UIColor.systemGray4.cgColor
+        textView.layer.borderWidth = 1
         textView.layer.cornerRadius = 5
-        textView.backgroundColor = .tertiarySystemFill
+        textView.backgroundColor = .systemGray6
         textView.showsVerticalScrollIndicator = false
         textView.autocorrectionType = .no
         textView.autocapitalizationType = .none
@@ -68,12 +77,14 @@ class RatingAndReviewViewController: UIViewController {
         let button = UIButton()
         button.setTitle("Submit", for: .normal)
         button.setTitleColor(.label, for: .normal)
-        button.backgroundColor = .systemGray2
+        button.backgroundColor = .systemGray4
         button.addBorder()
         button.addTarget(self, action: #selector(submitButtonOnTapAction), for: .touchDown)
         button.isEnabled = false
         return button
     }()
+    
+    
     
     private lazy var reviewView = {
         let sectionedView = SectionView(frame: .zero, contentView: reviewTextView, titleText: "Your Review (Optional)")
@@ -101,7 +112,9 @@ class RatingAndReviewViewController: UIViewController {
         view.setCustomBackground()
         
         view.addSubview(contentScrollView)
-        contentScrollView.addSubview(ratingView)
+        contentScrollView.addSubview(ratingTitleLabel)
+        contentScrollView.addSubview(ratingDescriptionLabel)
+        contentScrollView.addSubview(ratingStarView)
         contentScrollView.addSubview(reviewView)
         contentScrollView.addSubview(submitButton)
         
@@ -132,7 +145,8 @@ class RatingAndReviewViewController: UIViewController {
         starButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            starButton.heightAnchor.constraint(equalToConstant: 50)
+            starButton.heightAnchor.constraint(equalToConstant: 50),
+            starButton.widthAnchor.constraint(equalToConstant: 50)
         ])
         
         starButton.addTarget(self, action: #selector(starButtonOnSingleTapAction(_:)), for: .touchDown)
@@ -142,12 +156,28 @@ class RatingAndReviewViewController: UIViewController {
     private func setupRatingView(){
     
         
-        ratingView.translatesAutoresizingMaskIntoConstraints = false
+        ratingTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
-            ratingView.topAnchor.constraint(equalTo: contentScrollView.topAnchor,constant: 20),
-            ratingView.leadingAnchor.constraint(equalTo:  view.safeAreaLayoutGuide.leadingAnchor,constant: 20),
-            ratingView.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor,multiplier: 0.6),
-            ratingView.heightAnchor.constraint(equalTo: ratingView.widthAnchor, multiplier: 0.4)
+            ratingTitleLabel.topAnchor.constraint(equalTo: contentScrollView.topAnchor,constant: 5),
+            ratingTitleLabel.leadingAnchor.constraint(equalTo:  view.safeAreaLayoutGuide.leadingAnchor,constant: 20),
+            ratingTitleLabel.trailingAnchor.constraint(equalTo:  view.safeAreaLayoutGuide.trailingAnchor,constant: -20)
+
+        ])
+        
+        ratingDescriptionLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            ratingDescriptionLabel.topAnchor.constraint(equalTo: ratingTitleLabel.bottomAnchor,constant: 3),
+            ratingDescriptionLabel.leadingAnchor.constraint(equalTo:  view.safeAreaLayoutGuide.leadingAnchor,constant: 20),
+            ratingDescriptionLabel.trailingAnchor.constraint(equalTo:  view.safeAreaLayoutGuide.trailingAnchor,constant: -20)
+        ])
+        
+        ratingStarView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            ratingStarView.topAnchor.constraint(equalTo: ratingDescriptionLabel.bottomAnchor,constant: 10),
+            ratingStarView.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor)
         ])
     }
     
@@ -165,7 +195,7 @@ class RatingAndReviewViewController: UIViewController {
     private func setupReviewView(){
         reviewView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            reviewView.topAnchor.constraint(equalTo: ratingView.bottomAnchor,constant: 10),
+            reviewView.topAnchor.constraint(equalTo: ratingStarView.bottomAnchor,constant: 20),
             reviewView.leadingAnchor.constraint(equalTo:  view.safeAreaLayoutGuide.leadingAnchor,constant: 20),
             reviewView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -20),
             reviewView.bottomAnchor.constraint(equalTo: submitButton.topAnchor, constant: -30),

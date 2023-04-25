@@ -12,17 +12,17 @@ extension UILabel{
     }
     
     func configPrimaryStyle(){
-        self.font = .systemFont(ofSize: 20 + ControlCenter.fontConstant, weight: .bold)
+        self.font = .systemFont(ofSize: 20 + ControlCenter.fontConstant, weight: .semibold)
         self.textColor = .label
     }
     
     func configPrimaryRegularStyle(){
-        self.font = .systemFont(ofSize: 20 + ControlCenter.fontConstant, weight: .medium)
+        self.font = .systemFont(ofSize: 20 + ControlCenter.fontConstant, weight: .regular)
         self.textColor = .label
     }
     
     func configSemiPrimary(){
-        self.font = .systemFont(ofSize: 17 + ControlCenter.fontConstant ,weight: .heavy)
+        self.font = .systemFont(ofSize: 17 + ControlCenter.fontConstant ,weight: .medium)
         self.textColor = .label
     }
     

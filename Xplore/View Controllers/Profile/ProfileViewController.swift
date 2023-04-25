@@ -32,6 +32,11 @@ class ProfileViewController: UITableViewController {
         self.tabBarController?.tabBar.isHidden = false
         self.tabBarController?.tabBar.backgroundColor = .systemBackground
 
+        
+        if let contentConfiguration = (tableView.cellForRow(at: IndexPath(row: 0, section: 0))?.contentConfiguration),var parsedContentConfiguration = contentConfiguration as? UIListContentConfiguration {
+            parsedContentConfiguration.secondaryText = GeneralUtils.getCurrentCurrency()
+            tableView.reloadData()
+        }
     }
         
     private func configTabelCell(cell : UITableViewCell,row : Int){
@@ -42,11 +47,12 @@ class ProfileViewController: UITableViewController {
         
         cell.accessoryView?.tintColor = .label
         
-        var config = UIListContentConfiguration.sidebarHeader()
+        var config = UIListContentConfiguration.valueCell()
         
         switch row{
         case 0 :
             config.text = "Currency"
+            config.secondaryText = GeneralUtils.getCurrentCurrency()
 //        case 1 :
 //            config.text = "Security"
         case 1 :
@@ -71,6 +77,10 @@ class ProfileViewController: UITableViewController {
 extension ProfileViewController{
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 4
+    }
+    
+    override func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+        UITableView.automaticDimension
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

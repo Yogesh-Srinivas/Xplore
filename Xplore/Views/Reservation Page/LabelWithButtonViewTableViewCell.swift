@@ -33,7 +33,7 @@ class LabelWithButtonViewTableViewCell: UITableViewCell {
             bottomButton.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor,constant: -15),
             bottomButton.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor,constant: 15),
             bottomButton.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor,constant: -15),
-            bottomButton.heightAnchor.constraint(equalToConstant: 60)
+            bottomButton.heightAnchor.constraint(equalToConstant: 45)
         ])
         bottomButton.layer.cornerRadius = 10
     }

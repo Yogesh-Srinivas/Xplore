@@ -71,27 +71,21 @@ class SignUpViewController: LoginTemplateViewController {
         self.setPageButtonAction { [unowned self] in
             
             if !nameField.textField.validateText(for: .Name){
-                nameField.emptyTextField()
                 nameField.showErrorMessage(message: "Provide Proper Name eg. FirstName MiddleName(optional) LastName(optional)")
                 
             }else if !mobileField.textField.validateText(for: .Mobile){
-                mobileField.emptyTextField()
                 mobileField.showErrorMessage(message: "Provide Proper mobile number")
                 
             }else if !emailField.textField.validateText(for: .Email){
-                emailField.emptyTextField()
                 emailField.showErrorMessage(message: "Provide Proper email")
                 
             }else if !passwordField.passwordTextField.validateText(for: .Password){
-                passwordField.emptyTextField()
                 passwordField.showErrorMessage(message: "Password should contain atleast an upperCase,a lowerCase and a number.No spaces or special charactes allowed.")
                 
             }else if !confirmPasswordField.passwordTextField.validateText(for: .Password){
-                confirmPasswordField.emptyTextField()
                 confirmPasswordField.showErrorMessage(message: "Password should contain atleast an upperCase,a lowerCase and a number.No spaces or special charactes allowed.")
                 
             }else if confirmPasswordField.passwordTextField.text != passwordField.passwordTextField.text{
-                confirmPasswordField.emptyTextField()
                 confirmPasswordField.showErrorMessage(message: "Passwords do not match")
                 
             }else if let email = emailField.textField.text,
@@ -99,7 +93,6 @@ class SignUpViewController: LoginTemplateViewController {
                      let mobile = mobileField.textField.text,
                      let password = passwordField.passwordTextField.text{
                 if Authenticator.isEmailExist(email: email ){
-                    emailField.emptyTextField()
                     emailField.showErrorMessage(message: "Email already exists")
                 }else{
                     Authenticator.signUp(
@@ -139,6 +132,20 @@ extension SignUpViewController : UITextFieldDelegate{
             pageButtonOnClickAction()
         }
         return true
+    }
+    
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        if textField == nameField.textField{
+            nameField.hideErrorMessage()
+        }else if textField == emailField.textField{
+            emailField.hideErrorMessage()
+        }else if textField == passwordField.passwordTextField{
+            passwordField.hideErrorMessage()
+        }else if textField == confirmPasswordField.passwordTextField{
+            confirmPasswordField.hideErrorMessage()
+        }else if textField == mobileField{
+            mobileField.hideErrorMessage()
+        }
     }
 }
 

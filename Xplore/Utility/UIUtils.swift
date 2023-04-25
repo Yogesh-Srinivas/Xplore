@@ -21,7 +21,7 @@ struct UIUtils{
             separatorView.heightAnchor.constraint(equalToConstant: size)
         ])
         
-        separatorView.backgroundColor = .systemGray3
+        separatorView.backgroundColor = .systemGray5
         return separatorView
     }
 }

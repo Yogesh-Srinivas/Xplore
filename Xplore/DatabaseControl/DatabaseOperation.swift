@@ -375,11 +375,11 @@ final class DatabaseOperation : DatabaseOperationDelegate{
             let bookedDateToString = parsedResult["bookedDateTo"] as! String
             let numberOfGuests = parsedResult["numberOfGuests"] as! Int
             let isVisited = parsedResult["isVisited"] as! Int == 0 ? false : true
-            let pricePerDay = parsedResult["pricePerDay"] as! Double
-            let taxPercentage = parsedResult["taxPercentage"] as! Double
+            let pricePerDay = (parsedResult["pricePerDay"] as! Double).round(to: 2)
+            let taxPercentage = (parsedResult["taxPercentage"] as! Double).round(to: 2)
             let currencyCode = parsedResult["currencyCode"] as! String
-            let cleaningFee = parsedResult["cleaningFee"] as! Double
-            let serviceFee = parsedResult["serviceFee"] as! Double
+            let cleaningFee = (parsedResult["cleaningFee"] as! Double).round(to: 2)
+            let serviceFee = (parsedResult["serviceFee"] as! Double).round(to: 2)
             let reservationId = parsedResult["reservationId"] as! String
             
             if let bookedDateFromCompontent = GeneralUtils.convertDateStringToComponent(dateString: bookedDateFromString) {
@@ -466,8 +466,8 @@ final class DatabaseOperation : DatabaseOperationDelegate{
             fields: xploreSqliteWrapper.select(fields : nil, from: "Pricing", where: [QueryCondition(lhs: "placeId", condition: .EQUAL_TO, rhs: placeId, rhsType: .TEXT)])[0]
             )
         
-        let pricePerDay = priceDetailsResult["pricePerDay"] as! Double
-        let taxPercentage = priceDetailsResult["taxPercentage"] as! Double
+        let pricePerDay = (priceDetailsResult["pricePerDay"] as! Double).round(to: 2)
+        let taxPercentage = (priceDetailsResult["taxPercentage"] as! Double).round(to: 2)
         let currencyCode = priceDetailsResult["currencyCode"] as! String
         
         return Price(pricePerDay: pricePerDay, taxPercentage: taxPercentage, currencyCode: currencyCode)
@@ -549,7 +549,7 @@ final class DatabaseOperation : DatabaseOperationDelegate{
 
             let parsedRow = resultParser(fields: row)
             
-            let rating = parsedRow["rating"] as! Double
+            let rating = (parsedRow["rating"] as! Double).round(to: 2)
             let userId = parsedRow["userId"] as! String
             
             ratingList.append(
@@ -740,7 +740,7 @@ final class DatabaseOperation : DatabaseOperationDelegate{
             
             let currencyName = parsedResult["currencyName"] as! String
             let currencyCode = parsedResult["currencyCode"] as! String
-            let currencyValue = parsedResult["currencyValue"] as! Double
+            let currencyValue = (parsedResult["currencyValue"] as! Double).round(to: 2)
             
             let currency = Currency(
                 currencyName: currencyName,
@@ -758,7 +758,7 @@ final class DatabaseOperation : DatabaseOperationDelegate{
         let selectedResult = xploreSqliteWrapper.select(fields: ["currencyValue"], from: "Currency", where: [QueryCondition(lhs: "currencyCode", condition: .EQUAL_TO, rhs: currenyCode, rhsType: .TEXT)])[0]
         
         let parsedResult = resultParser(fields: selectedResult)
-        return parsedResult["currencyValue"] as! Double
+        return (parsedResult["currencyValue"] as! Double).round(to: 2)
     }
     
     private func isListContains(locationDetail : FilteredLocation,locationList : [FilteredLocation]) -> Bool{
@@ -796,7 +796,17 @@ final class DatabaseOperation : DatabaseOperationDelegate{
     
     func getUserDetail(for userId: String) -> UserDetail {
         let result = xploreSqliteWrapper.select(fields: ["userName","email","mobile"], from: "UserDetail", where: [QueryCondition(lhs: "userId", condition: .EQUAL_TO, rhs: userId, rhsType: .TEXT)])
-       
+        
+        if result.isEmpty{
+            return UserDetail(
+                        userId: "null",
+                        userName: "null",
+                        email: "null",
+                        mobile: "null",
+                        password: nil
+                )
+        }
+        
         let parsedResult = resultParser(fields: result[0])
         let name = parsedResult["userName"] as? String ?? ""
         let email = parsedResult["email"] as? String ?? ""

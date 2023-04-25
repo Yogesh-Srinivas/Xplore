@@ -1,6 +1,6 @@
 struct ControlCenter{
-    static let cleaningFee : Double = 600
-    static let serviceFee : Double = 1500
+    static let cleaningFee : Double = 30
+    static let serviceFee : Double = 50
     static let fontConstant : Double = 3
     
     static let TermsOfService = """
@@ -37,4 +37,8 @@ If you have any questions or concerns about our Privacy Policy or our practices 
     
     
     static let cancellationPolicy = "Airbnb offers hosts the flexibility to choose from several different cancellation policies, each with varying levels of flexibility for guests. The most flexible policy is the \"Flexible\" policy, which allows guests to cancel up to 24 hours before check-in and receive a full refund. The \"Moderate\" policy allows guests to cancel up to 5 days before check-in for a full refund, while the \"Strict\" policy allows guests to cancel up to 7 days before check-in for a 50% refund. Hosts can also choose the \"Super Strict\" policy, which allows guests to cancel up to 30 days before check-in for a 50% refund or up to 60 days before check-in for a 50% refund. It is important for guests to carefully review a listing's cancellation policy before making a reservation to ensure they understand the terms and potential financial implications of cancellation."
+    
+    static let guestRules = "We ask every guest to rember a few simple things about what makes a great guest.\n\n\(Constants.BULLETING_POINT) Follow the house rules\n\(Constants.BULLETING_POINT) Treat your Host's home like your own"
+    
+    static let reserveConfirmText = "By selecting the below button I agree to the Host's House Rules,Ground rules for guest and I'm responsible for the damage."
 }

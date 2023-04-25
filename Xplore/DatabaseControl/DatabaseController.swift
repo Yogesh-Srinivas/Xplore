@@ -171,7 +171,6 @@ final class DatabaseController : PlaceDBController,FetchableImage,SessionDBContr
                         DispatchQueue.main.async {
                             self.addImageUrl(imageUrl: imageUrl)
                         }
-
     
                     }
                     

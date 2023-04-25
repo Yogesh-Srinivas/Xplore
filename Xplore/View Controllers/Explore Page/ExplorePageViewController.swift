@@ -61,6 +61,7 @@ class ExplorePageViewController: UITableViewController {
         self.tableView.register(PlaceDetailCardView.self, forCellReuseIdentifier: PlaceDetailCardView.reuseIdentifier)
         self.tableView.bounces = false
         self.tableView.showsVerticalScrollIndicator = false
+        self.tableView.separatorStyle = .none
 
         
         self.navigationItem.rightBarButtonItem = searchItem
@@ -75,7 +76,8 @@ class ExplorePageViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
         self.tabBarController?.tabBar.backgroundColor = .systemBackground
-
+        self.navigationController?.navigationBar.isHidden = false
+        
         updateWishListDetails()
         updateRatingDetails()
         convertFilteredListToCurrentCurrency()
@@ -116,7 +118,7 @@ class ExplorePageViewController: UITableViewController {
             let placeId = placeDetailsList[placeDetailIndex].placeId
             placeDetailsList[placeDetailIndex].ratingDetail =  databaseController.getRatingDetail(placeId: placeId)
         }
-        
+
         for placeDetailIndex in 0..<filteredPlaceList.count {
             let placeId = filteredPlaceList[placeDetailIndex].placeId
             filteredPlaceList[placeDetailIndex].ratingDetail =  databaseController.getRatingDetail(placeId: placeId)
@@ -146,7 +148,7 @@ class ExplorePageViewController: UITableViewController {
         cell.placeImageView.addGestureRecognizer(gestureRecognizer)
         
         let taxAmount = (filteredPlaceList[row].price.taxPercentage * 0.01 * filteredPlaceList[row].price.pricePerDay).round(to: 2)
-        let priceAmount = "\(filteredPlaceList[row].price.currencyCode) \(filteredPlaceList[row].price.pricePerDay + taxAmount)"
+        let priceAmount = "\(filteredPlaceList[row].price.currencyCode) \((filteredPlaceList[row].price.pricePerDay + taxAmount).round(to: 2))"
         
         cell.priceLabelButton.titleLabel?.removeUnderline()
         cell.priceLabelButton.setTitle(priceAmount, for: .normal)
@@ -156,7 +158,7 @@ class ExplorePageViewController: UITableViewController {
         cell.priceLabelButton.titleLabel?.underline()
         
         cell.titleCardView.text = filteredPlaceList[row].placeName
-        cell.titleCardView.configPrimaryStyle()
+        cell.titleCardView.configSemiPrimary()
         
         cell.locationCardView.text = "\(filteredPlaceList[row].location.city), \(filteredPlaceList[row].location.state), \(filteredPlaceList[row].location.country)"
         cell.locationCardView.configSecondaryFadedStyle()
@@ -335,7 +337,7 @@ class ExplorePageViewController: UITableViewController {
     
     @objc private func cancelSearchButtonAction(){
         filteredPlaceList = placeDetailsList
-        tableView.reloadData()
+        tableView.reloadData(with: .right)
         noSearchResultView.isHidden = true
         self.navigationItem.title = "Xplore"
         self.navigationItem.rightBarButtonItem = searchItem

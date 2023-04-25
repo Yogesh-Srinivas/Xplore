@@ -26,10 +26,6 @@ class LoginViewController: LoginTemplateViewController {
         self.addFieldView(fieldView: emailField)
         self.addFieldView(fieldView: passwordField)
         setupView()
-        //For test
-        emailField.textField.text = "yogi@gmail.com"
-        passwordField.passwordTextField.text = "123"
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -42,20 +38,27 @@ class LoginViewController: LoginTemplateViewController {
         self.titleLabel.text = "Login"
         
         self.pageButton.setTitle("Login", for: .normal)
+        
         self.setPageButtonAction { [unowned self] in
             
             if !emailField.textField.validateText(for: .Email){
                 self.emailField.showErrorMessage(message: "Invalid Email address")
-                self.emailField.emptyTextField()
                 return
             }
             
             if self.authenticateLogin(){
+                self.pageButton.setTitle("Logging in...", for: .normal)
+                
+                let loadingVC = LodingViewController()
                 self.navigationController?.navigationBar.isHidden = true
-                self.navigationController?.setViewControllers([MainTabBarController()], animated: true)
+                self.navigationController?.setViewControllers([loadingVC], animated: false)
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2){[loadingVC] in
+                    loadingVC.navigationController?.navigationBar.isHidden = true
+                    loadingVC.navigationController?.setViewControllers([MainTabBarController()], animated: true)
+                }
+               
             }else{
-                self.emailField.emptyTextField()
-                self.passwordField.emptyTextField()
                 self.passwordField.showErrorMessage(message: "Email/Password Mismatch")
             }
         }
@@ -103,5 +106,13 @@ extension LoginViewController : UITextFieldDelegate{
             pageButtonOnClickAction()
         }
         return true
+    }
+    
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        if textField == emailField.textField{
+            emailField.hideErrorMessage()
+        }else{
+            passwordField.hideErrorMessage()
+        }
     }
 }

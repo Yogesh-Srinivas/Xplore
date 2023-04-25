@@ -180,15 +180,15 @@ extension ReviewView : UICollectionViewDelegate,UICollectionViewDataSource,UICol
 
    
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        
+
             let minimumInteritemSpacing : CGFloat = 10
-        
+
            if !decelerate {
                let index = Int(round(scrollView.contentOffset.x / (self.reviewCollectionView.frame.height + minimumInteritemSpacing)))
-               
+
                let indexPath = IndexPath(item: index, section: 0)
-               
-               
+
+
                reviewCollectionView.scrollToItem(
                     at: indexPath,
                     at: .left,
@@ -196,7 +196,7 @@ extension ReviewView : UICollectionViewDelegate,UICollectionViewDataSource,UICol
                )
            }
        }
-    
+
        
        func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
            

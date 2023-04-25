@@ -44,7 +44,7 @@ class AvailabilityDetailView: UIView {
 
             availabilityIcon.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             availabilityIcon.leadingAnchor.constraint(equalTo: self.leadingAnchor,constant: 10),
-            availabilityIcon.heightAnchor.constraint(equalToConstant: 30),
+            availabilityIcon.heightAnchor.constraint(equalToConstant: 26),
             availabilityIcon.widthAnchor.constraint(equalToConstant: 30)
             
         ])

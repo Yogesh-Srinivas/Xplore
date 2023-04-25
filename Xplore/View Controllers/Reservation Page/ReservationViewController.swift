@@ -1,13 +1,14 @@
 import UIKit
 
-final class ReservationViewController : UITableViewController {
+class ReservationViewController: UIViewController {
+    
     private struct TripDetails{
         let placeId : String
         let placeName : String
         let fromDate : DateComponents
         let toDate : DateComponents?
         let dates : String
-        let numberOfGuestes : Int
+        var numberOfGuestes : Int
         let rating : Double
         let numberOfRating : Int
         let city : String
@@ -17,47 +18,149 @@ final class ReservationViewController : UITableViewController {
         }
     }
     
-    private struct PriceDetails{
-        let pricePerDay : Double
-        let cleaningFee : Double
-        let serviceFee : Double
-        let taxPercentage : Double
-        let numberOfDays : Int
-        let currencyCode : String
-        
-        var totalPrice : Double{
-            return (actualPrice + taxes + cleaningFee + serviceFee).round(to: 2)
+    lazy var guestView = {
+        let customStepper = CustomStepperView(frame: .zero, maxValue: 33, minValue: 1, titleText: "Guests", subTitleText: ""){
+            
+            [unowned self](value) in
+            self.tripDetails.numberOfGuestes = value
+            
         }
-        var taxes : Double{
-            return (Double(pricePerDay) * Double(numberOfDays) * taxPercentage / 100).round(to: 2)
-        }
-        var actualPrice : Double{
-            return (pricePerDay * Double(numberOfDays)).round(to: 2)
-        }
-    }
+        customStepper.titleLabel.configSecondaryStyle()
+        customStepper.stepperValueLabel.configSecondaryRegularStyle()
+        return customStepper
+    }()
     
-    private let tripDetails : TripDetails
-    private let priceDetails : PriceDetails
-    private let databaseController : PlaceDBController
-    var headerImage : UIImage?
+    private var tripDetails : TripDetails
+    
+    let databaseController : PlaceDBController
+    
+    lazy var contentScrollView = {
+        let scrollView = UIScrollView()
+        return scrollView
+    }()
+    
+    lazy var headerView = {
+        let headerImageView = HeaderImageWithTitle(frame: .zero)
+        return headerImageView
+    }()
+    
+    lazy var yourTripView = {
+        let sectionView = SectionView(frame: .zero, contentView: yourTripContentStackView, titleText: "Your Trip")
+        sectionView.titleView.configSemiPrimary()
+
+        return sectionView
+    }()
+    
+    lazy var yourTripContentStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 15
+        stackView.distribution = .equalSpacing
+        return stackView
+    }()
+    
+    var priceDetails : BookedTrip
+    
+    lazy var priceDetailView = {
+        let priceDetail = PriceDetails(frame: .zero, tripDetails: priceDetails)
+        priceDetail.titleView.configSemiPrimary()
+        return priceDetail
+    }()
+    
+    lazy var confirmLabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.configSecondaryRegularStyle()
+        label.text = ControlCenter.reserveConfirmText
+        return label
+    }()
+    
+    lazy var confirmButton = {
+        let button = UIButton()
+        button.backgroundColor = .systemPink
+        button.setTitle("Confirm and Reserve", for: .normal)
+        button.layer.cornerRadius = 10
+        button.titleLabel?.configSecondaryStyle()
+        button.addTarget(self, action: #selector(reserveButtonOnTapAction), for: .touchDown)
+        button.heightAnchor.constraint(equalToConstant: 45).isActive = true
+        return button
+    }()
+    
+    lazy var guestRulesView = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.configSecondaryRegularStyle()
+        label.text = ControlCenter.guestRules
+        
+        let sectionView = SectionView(frame: .zero, contentView: label, titleText: "Guest rules")
+        sectionView.titleView.configSemiPrimary()
+        
+        return sectionView
+    }()
+    
+    
+//    lazy var specialRequestTextView = {
+//        let textView = UITextView()
+//        textView.configSecondaryRegularStyle()
+//        textView.backgroundColor = .systemGray5
+//        textView.layer.cornerRadius = 5
+//        textView.layer.borderWidth = 1
+//        textView.layer.borderColor = UIColor.systemGray3.cgColor
+//
+//        return textView
+//    }()
+    
+//    lazy var specialRequestYesButton = {
+//        let button = UIButton()
+//        button.backgroundColor = .systemPink
+//        button.setTitle("Yes", for: .normal)
+//        button.layer.cornerRadius = 10
+//        button.titleLabel?.configSecondaryRegularStyle()
+//        button.tag = 1
+//        button.addTarget(self, action: #selector(specialRequestButtonOnTapAction(_:)), for: .touchDown)
+//
+//        return button
+//    }()
+//
+//    lazy var specialRequestNoButton = {
+//        let button = UIButton()
+//        button.backgroundColor = .systemPink
+//        button.setTitle("No", for: .normal)
+//        button.layer.cornerRadius = 4
+//        button.titleLabel?.configSecondaryRegularStyle()
+//        button.tag = 0
+//        button.addTarget(self, action: #selector(specialRequestButtonOnTapAction(_:)), for: .touchDown)
+//        return button
+//    }()
+//
+//    lazy var specialRequestionActionButtonView = {
+//        let stackView = UIStackView()
+//        stackView.axis = .horizontal
+//        stackView.distribution = .equalCentering
+//        stackView.spacing = 20
+//        stackView.addArrangedSubview(specialRequestYesButton)
+//        stackView.addArrangedSubview(specialRequestNoButton)
+//        return stackView
+//    }()
+    
+    
+    
+//    lazy var specialRequestView = {
+//        let sectionView = SectionView(frame: .zero, contentView: self.specialRequestionActionButtonView, titleText: "Do you want to add any special request?")
+//        sectionView.titleView.numberOfLines = 0
+//        sectionView.titleView.configSecondaryRegularStyle()
+//        return sectionView
+//    }()
     
     init(fromDate : DateComponents,toDate : DateComponents?,placeDetail : TravelPlaceDetail,numberOfGuests : Int,databaseController : PlaceDBController,headerImage : UIImage?){
-        if let headerImage = headerImage{
-            self.headerImage = headerImage
-        }else{
-            self.headerImage = UIImage(named: "loadingImage")
-        }
+        
+        
         var dates = "\(fromDate.day!) \(GeneralUtils.getMonthInString(month: fromDate.month!))"
         
-        var numberOfDays = 1
         
         if let toDate = toDate{
             dates += " - \(toDate.day!) \(GeneralUtils.getMonthInString(month: toDate.month!))"
-            
-            
-            if let convertedNumberOfDates = GeneralUtils.getNumberOfDays(from: fromDate, to: toDate){
-                numberOfDays = convertedNumberOfDates
-            }
+
         }
         
         
@@ -74,17 +177,27 @@ final class ReservationViewController : UITableViewController {
             imageUrl: placeDetail.images[0]
         )
         
-        self.priceDetails = PriceDetails(
+        self.priceDetails = BookedTrip(
+            userId: GeneralUtils.getUserId(),
+            placeId: placeDetail.placeId,
+            BookedDateFrom: fromDate,
+            BookedDateTo: toDate,
             pricePerDay: placeDetail.price.pricePerDay,
-            cleaningFee: ControlCenter.cleaningFee,
-            serviceFee: ControlCenter.serviceFee,
             taxPercentage: placeDetail.price.taxPercentage,
-            numberOfDays: numberOfDays,
-            currencyCode: placeDetail.price.currencyCode)
+            currencyCode: placeDetail.price.currencyCode,
+            isVisited: false,
+            numberOfGuests: 1,
+            cleaningFee: ControlCenter.cleaningFee,
+            serviceFee: ControlCenter.cleaningFee,
+            reservationId: "")
         
         self.databaseController = databaseController
         
         super.init(nibName: nil, bundle: nil)
+        
+        if let headerImage = headerImage{
+            self.headerView.headerImage.image = headerImage
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -92,86 +205,94 @@ final class ReservationViewController : UITableViewController {
     }
     
     override func viewDidLoad() {
-        view.backgroundColor = .systemBackground
+        super.viewDidLoad()
+        self.view.configBackgroundTheme()
         
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.register(LabelWithButtonViewTableViewCell.self, forCellReuseIdentifier: String(describing: LabelWithButtonViewTableViewCell.self))
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "ReservationDetailCell")
-    
+        view.addSubview(contentScrollView)
+        contentScrollView.addSubview(headerView)
+        contentScrollView.addSubview(UIUtils.getSeparator(size: 1))
+        contentScrollView.addSubview(yourTripView)
+        contentScrollView.addSubview(UIUtils.getSeparator(size: 1))
+        contentScrollView.addSubview(priceDetailView)
+        contentScrollView.addSubview(guestRulesView)
+        contentScrollView.addSubview(UIUtils.getSeparator(size: 1))
+        contentScrollView.addSubview(confirmLabel)
+        contentScrollView.addSubview(confirmButton)
+        
+        setupScrollView()
+        setupYourTripView()
+        setupHeaderview()
     }
     
-    private func configTripDetailsCell(_ rowIndex : Int,_ config : inout UIListContentConfiguration){
-        if rowIndex == 0{
-            config.secondaryText = self.tripDetails.dates
-            config.text = "Dates"
-        }else{
-            config.secondaryText = self.tripDetails.guestes
-            config.text = "Guests"
+    private func setupHeaderview(){
+        headerView.primaryLabel.text = tripDetails.placeName
+        
+        headerView.secondaryLabel.text = tripDetails.numberOfRating != 0 ? "\(Constants.RATING_STAR) \(tripDetails.rating) (\(tripDetails.numberOfRating))" : "\(Constants.RATING_STAR) New"
+    }
+    
+    private func setupYourTripView(){
+        
+        let datesView = StackViewWithCornorLabels(frame: .zero)
+        datesView.leadingLabel.text = "Dates"
+        datesView.trailingLabel.text = self.tripDetails.dates
+        
+        datesView.leadingLabel.configSecondaryStyle()
+        datesView.trailingLabel.configSecondaryRegularStyle()
+        
+        yourTripContentStackView.addArrangedSubview(datesView)
+        yourTripContentStackView.addArrangedSubview(guestView)
+    }
+        
+    private func setupScrollView(){
+        
+        contentScrollView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            contentScrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            contentScrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            contentScrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            contentScrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+        
+        let scrollViewChildren = contentScrollView.subviews
+        
+        for childIndex in 0..<scrollViewChildren.count{
+            
+            let child = scrollViewChildren[childIndex]
+            let widthPadingSize = 20.0
+            child.translatesAutoresizingMaskIntoConstraints = false
+            
+            switch childIndex{
+            case 0:
+                NSLayoutConstraint.activate([
+                    child.topAnchor.constraint(equalTo: contentScrollView.topAnchor)
+                   
+                ])
+            case scrollViewChildren.count - 1:
+                NSLayoutConstraint.activate([
+                    child.bottomAnchor.constraint(equalTo: contentScrollView.bottomAnchor,constant: -20),
+                ])
+            default:
+                NSLayoutConstraint.activate([
+                    child.topAnchor.constraint(equalTo: scrollViewChildren[childIndex-1].bottomAnchor,constant: 20),
+                    child.bottomAnchor.constraint(equalTo: scrollViewChildren[childIndex+1].topAnchor,constant: -20)
+    
+                ])
+            }
+            
+            NSLayoutConstraint.activate([
+                child.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor,constant: widthPadingSize),
+                child.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor,constant: -widthPadingSize)
+            ])
         }
         
-    }
-    private func configPriceDetailsCell(_ rowIndex : Int,_ config : inout UIListContentConfiguration){
-        
-        
-        if rowIndex == 0{
-            config.text = String(priceDetails.pricePerDay)+" x "+String(priceDetails.numberOfDays)
-            config.secondaryText = String(priceDetails.actualPrice)
-        }else if rowIndex == 1{
-            config.text = "Cleaning Fee"
-            config.secondaryText = String(priceDetails.cleaningFee)
-        }else if rowIndex == 2{
-            config.text = "Service Fee"
-            config.secondaryText = String(priceDetails.serviceFee)
-        }else if rowIndex == 3{
-            config.text = "Taxes"
-            config.secondaryText = String(priceDetails.taxes)
-        }else if rowIndex == 4{
-            
-            config.text = "Total (\(priceDetails.currencyCode))"
-            config.textProperties.font = .systemFont(ofSize: 19, weight: .bold)
-            
-            config.secondaryText = String(priceDetails.totalPrice)
-            config.secondaryTextProperties.font = .systemFont(ofSize: 19, weight: .bold)
-        }
-        
-    }
-    private func configGroundRuleDetailsCell(_ config : inout UIListContentConfiguration){
-        config.text = "We ask every guest to rember a few simple things about what makes a great guest.\n\n\(Constants.BULLETING_POINT) Follow the house rules\n\(Constants.BULLETING_POINT) Treat your Host's home like your own"
-    }
-    private func configHeaderCell(_ config : inout UIListContentConfiguration){
-        
-        config.image = headerImage
-        config.imageProperties.reservedLayoutSize = CGSize(width: 150, height: 125)
-        config.imageProperties.maximumSize = CGSize(width: 170, height: 125)
-        config.imageProperties.cornerRadius = 15
-        
-        
-        config.secondaryText =  tripDetails.numberOfRating != 0 ? "\(Constants.RATING_STAR) \(tripDetails.rating) (\(tripDetails.numberOfRating))" : "\(Constants.RATING_STAR) new"
-       
-        config.text = tripDetails.placeName
-        config.textProperties.font = .systemFont(ofSize: 19)
-        config.textProperties.numberOfLines = 4
-        
+        contentScrollView.showsVerticalScrollIndicator = false
     }
     
-    private func configFooterCell(_ footerCell : inout LabelWithButtonViewTableViewCell){
-        
-        footerCell.contentLabel.text = "By selecting the below button I agree to the Host's House Rules,Ground rules for guest and I'm responsible for the damage."
-        
-        footerCell.bottomButton.setTitle("Confirm and Reserve", for: .normal)
-        
-        footerCell.bottomButton.addTarget(self, action: #selector(reserveBottonOnTapAction), for: .touchDown)
-        
-        //sample coloring
-        footerCell.bottomButton.backgroundColor = .systemPink
-        
-        footerCell.isUserInteractionEnabled = true
-    }
     
-    @objc private func reserveBottonOnTapAction(){
+    @objc private func reserveButtonOnTapAction(_ button : UIButton){
         let reservationId = GeneralUtils.generateReservationUniqueID()
-        
+                
         let reservedPlaceDetail = BookedTrip(
             userId: GeneralUtils.getUserId(),
             placeId: tripDetails.placeId,
@@ -188,79 +309,12 @@ final class ReservationViewController : UITableViewController {
         )
         
         databaseController.reservePlace(tripDetails : reservedPlaceDetail)
-        
+                
         self.navigationController?.pushViewController(
             ReservationConfirmationViewController(
                 location: tripDetails.city,
                 reservationCode: reservationId,
                 imageUrl: tripDetails.imageUrl), animated: true)
     }
-    
-
-    
+ 
 }
-
-extension ReservationViewController {
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section{
-        case 1:
-            return 2
-        case 2:
-            return 5
-        default:
-            return 1
-        }
-    }
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 5
-    }
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let defaultCell = tableView.dequeueReusableCell(withIdentifier: "ReservationDetailCell", for: indexPath)
-        var config = UIListContentConfiguration.valueCell()
-        
-        switch indexPath.section{
-            case 0:
-                configHeaderCell(&config)
-            case 1:
-                configTripDetailsCell(indexPath.row,&config)
-            case 2:
-                configPriceDetailsCell(indexPath.row,&config)
-            case 3:
-                configGroundRuleDetailsCell(&config)
-            default:
-                var customCell = tableView.dequeueReusableCell(withIdentifier: String(describing: LabelWithButtonViewTableViewCell.self), for: indexPath) as! LabelWithButtonViewTableViewCell
-                configFooterCell(&customCell)
-                return customCell
-        }
-        
-        defaultCell.contentConfiguration = config
-        return defaultCell
-    }
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        UITableView.automaticDimension
-    }
-    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        100
-    }
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch section{
-        case 1:
-            return "Your Trip"
-        case 2:
-            return "Price Details (\(priceDetails.currencyCode))"
-        case 3:
-            return "Ground Rules"
-        default:
-            return nil
-        }
-    }
-    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        nil
-    }
-
-    
-}
-
-

@@ -14,12 +14,31 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.windowScene = windowScene
         window?.makeKeyAndVisible()
         
-        
-//        let mainTabBarController = MainTabBarController()
-//        mainTabBarController.selectedIndex = 3
-        
-//        window?.rootViewController = mainTabBarController
-        window?.rootViewController = UINavigationController(rootViewController: LoginViewController())
+        let userDefault = UserDefaults.standard
+        if !userDefault.bool(forKey: "hasAppOpenedBefore"){
+            
+            userDefault.set(true, forKey: "hasAppOpenedBefore")
+            window?.rootViewController = UINavigationController(rootViewController: LoginViewController())
+            
+        }else{
+            if userDefault.string(forKey: "userId") != nil{
+                
+                let navigationController = UINavigationController()
+                navigationController.navigationBar.isHidden = true
+
+                navigationController.setViewControllers([LodingViewController()], animated: true)
+                self.window?.rootViewController = navigationController
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2){
+                    navigationController.setViewControllers([MainTabBarController()], animated: true)
+                    self.window?.rootViewController = navigationController
+                }
+
+               
+            }else{
+                window?.rootViewController = UINavigationController(rootViewController: LoginViewController())
+            }
+        }
         
     }
 

@@ -18,7 +18,7 @@ class AvailabilityCalenderViewController: CustomCalenderViewController {
             
             footerLabel.text = "\(currencyCode) \((pricePerDay * Double(selectedDates.count)).round(to: 2))"
             
-            saveButton.backgroundColor = selectedDates.count > 0 ? .systemPink : .systemGray
+            saveButton.backgroundColor = selectedDates.count > 0 ? .systemPink : .systemGray4
             
         }
     }

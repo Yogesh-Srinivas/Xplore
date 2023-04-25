@@ -3,7 +3,7 @@ import UIKit
 
 class CustomTextField: UITextField {
     
-    var textFieldElementsColor = UIColor.systemGray2
+    var textFieldElementsColor = UIColor.systemGray
     
     lazy var iconImageView = {
         let imageView = UIImageView()
@@ -37,7 +37,7 @@ class CustomTextField: UITextField {
     }
     
     private func setupBorderLayer(){
-        self.borderLayer.borderColor = textFieldElementsColor.cgColor
+        self.borderLayer.borderColor = UIColor.systemGray6.cgColor
         self.borderLayer.borderWidth = 1.0
         self.layer.addSublayer(borderLayer)
     }
@@ -47,26 +47,26 @@ class CustomTextField: UITextField {
     }
     
     override func textRect(forBounds bounds: CGRect) -> CGRect {
-        let leftImageIconWidth = frame.size.height * 0.25
+        let leftImageIconWidth = frame.size.height * 0.24
 
-        return bounds.insetBy(dx: leftImageIconWidth + 20, dy: leftImageIconWidth)
+        return bounds.insetBy(dx: leftImageIconWidth + 25, dy: leftImageIconWidth)
     }
 
     override func editingRect(forBounds bounds: CGRect) -> CGRect {
-        let leftImageIconWidth = frame.size.height * 0.25
+        let leftImageIconWidth = frame.size.height * 0.24
 
-        return bounds.insetBy(dx: leftImageIconWidth + 20, dy: leftImageIconWidth)
+        return bounds.insetBy(dx: leftImageIconWidth + 25, dy: leftImageIconWidth)
     }
 
 
     override func draw(_ rect: CGRect) {
         let leftImageIconWidth = frame.size.height * 0.5
 
-        borderLayer.frame = CGRect(x: leftImageIconWidth + 10, y: frame.size.height - 1, width: frame.size.width - leftImageIconWidth - 10, height: 2)
+        borderLayer.frame = CGRect(x: leftImageIconWidth + 15, y: frame.size.height - 1, width: frame.size.width - leftImageIconWidth - 10, height: 2)
     }
 
     override func leftViewRect(forBounds bounds: CGRect) -> CGRect {
-        return CGRect(x: 0, y: frame.size.height * 0.3, width: frame.size.height * 0.6, height: frame.size.height * 0.6)
+        return CGRect(x: 0, y: frame.size.height * 0.3, width: frame.size.height * 0.65, height: frame.size.height * 0.60)
     }
     
 }

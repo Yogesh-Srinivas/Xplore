@@ -27,7 +27,7 @@ class PlaceDetailViewController: UIViewController {
     
     lazy var descriptionLabel = {
         let label = UILabel()
-        label.configSecondaryRegularStyle()
+        label.configSecondaryFadedStyle()
         label.numberOfLines = 0
         return label
     }()
@@ -54,7 +54,7 @@ class PlaceDetailViewController: UIViewController {
     lazy var reserveButton = {
         let button = UIButton()
         button.tag = 0
-        button.backgroundColor = .systemGray
+        button.backgroundColor = .systemGray4
         return button
     }()
     
@@ -96,6 +96,7 @@ class PlaceDetailViewController: UIViewController {
         view.addSubview(contentScrollView)
         contentScrollView.addSubview(placeImagesCollectionViewWithPageControl)
         contentScrollView.addSubview(titleView)
+        contentScrollView.addSubview(descriptionLabel)
         contentScrollView.addSubview(ratingLabel)
         contentScrollView.addSubview(UIUtils.getSeparator(size: 1))
         contentScrollView.addSubview(locationLabel)
@@ -116,7 +117,8 @@ class PlaceDetailViewController: UIViewController {
     private func setupDetailsLabels(){
         self.titleView.text = self.placeDetails.placeName
         descriptionLabel.text = self.placeDetails.description
-        ratingLabel.text = "\(Constants.RATING_STAR) \(placeDetails.placeRating) (\(placeDetails.ratingDetail.count))"
+        ratingLabel.text = self.placeDetails.ratingDetail.isEmpty ?                     "\(Constants.RATING_STAR) New" :
+                            "\(Constants.RATING_STAR) \(placeDetails.placeRating) (\(placeDetails.ratingDetail.count))"
         
         locationLabel.contentLabel.text = "\(self.placeDetails.location.address),\n\(self.placeDetails.location.city),\n\(self.placeDetails.location.state), \(self.placeDetails.location.country)."
         

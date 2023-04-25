@@ -4,6 +4,7 @@ class ReservationConfirmCustomCell: UITableViewCell {
 
     lazy var logoImage = {
         let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
@@ -49,15 +50,15 @@ class ReservationConfirmCustomCell: UITableViewCell {
         placeImage.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            logoImage.topAnchor.constraint(equalTo: self.topAnchor,constant: 15),
-            logoImage.leadingAnchor.constraint(equalTo: self.leadingAnchor,constant: 10),
-            logoImage.heightAnchor.constraint(equalToConstant: 100),
+            logoImage.topAnchor.constraint(equalTo: self.topAnchor),
+            logoImage.leadingAnchor.constraint(equalTo: self.leadingAnchor,constant: 3),
+            logoImage.heightAnchor.constraint(equalToConstant: 130),
             logoImage.widthAnchor.constraint(equalToConstant: 150),
-            logoImage.bottomAnchor.constraint(equalTo: primaryLabel.topAnchor)
+//            logoImage.bottomAnchor.constraint(equalTo: primaryLabel.topAnchor)
         ])
         
         NSLayoutConstraint.activate([
-            primaryLabel.topAnchor.constraint(equalTo: logoImage.bottomAnchor),
+            primaryLabel.topAnchor.constraint(equalTo: logoImage.bottomAnchor,constant: -15),
             primaryLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor,constant: 20),
             primaryLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor,constant: -20),
             primaryLabel.bottomAnchor.constraint(equalTo: secondaryLabel.topAnchor,constant: -10),

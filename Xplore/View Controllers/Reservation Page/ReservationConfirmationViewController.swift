@@ -27,11 +27,14 @@ final class ReservationConfirmationViewController: UITableViewController {
         tableView.register(UITableViewCell.self,forCellReuseIdentifier: "TableViewCell")
         tableView.register(ReservationConfirmCustomCell.self,forCellReuseIdentifier: "ReservationConfirmCustomCell")
         tableView.bounces = false
+        tableView.separatorStyle = .none
         
         self.navigationItem.setHidesBackButton(true, animated: false)
     }
 
-    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isHidden = true
+    }
     
     private func configCell(config : inout UIListContentConfiguration){
         config.text = "Reservation Code"
@@ -52,17 +55,18 @@ final class ReservationConfirmationViewController: UITableViewController {
         cell.contentView.addSubview(cheersButton)
         
         NSLayoutConstraint.activate([
-            cheersButton.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor,constant: 20),
-            cheersButton.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor,constant: -20),
+            cheersButton.centerXAnchor.constraint(equalTo: cell.contentView.centerXAnchor),
             cheersButton.topAnchor.constraint(equalTo: cell.contentView.topAnchor,constant: 10),
             cheersButton.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor,constant: -10),
-            cheersButton.heightAnchor.constraint(equalToConstant: 50)
+            cheersButton.widthAnchor.constraint(equalToConstant: 200)
         ])
         
         cheersButton.addTarget(self, action: #selector(cheersButtonOnTapAction), for: .touchDown)
     }
     
     @objc private func cheersButtonOnTapAction(){
+        self.navigationController?.navigationBar.isHidden = false
+
         self.navigationController?.popToRootViewController(animated: true)
     }
 }

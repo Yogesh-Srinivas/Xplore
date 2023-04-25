@@ -11,7 +11,7 @@ class LoginTemplateViewController: UIViewController {
     
     lazy var titleLabel = {
         let label = UILabel()
-        label.configTitleStyle()
+        label.configPrimaryStyle()
         return label
     }()
     
@@ -73,7 +73,6 @@ class LoginTemplateViewController: UIViewController {
             contentView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor)
         ])
         
-        contentView.bounces = false
         contentView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(contentViewOnTapAction)))
     }
     
@@ -81,11 +80,11 @@ class LoginTemplateViewController: UIViewController {
         topIllustrationImage.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            topIllustrationImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            topIllustrationImage.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
-            topIllustrationImage.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
-            topIllustrationImage.bottomAnchor.constraint(equalTo: titleLabel.topAnchor, constant: -30),
-            topIllustrationImage.heightAnchor.constraint(equalTo:self.view.safeAreaLayoutGuide.heightAnchor,multiplier: 0.13)
+            topIllustrationImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
+            topIllustrationImage.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            topIllustrationImage.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            topIllustrationImage.bottomAnchor.constraint(equalTo: titleLabel.topAnchor, constant: -40),
+            topIllustrationImage.heightAnchor.constraint(equalTo:topIllustrationImage.widthAnchor ,multiplier: 0.15)
         ])
     }
     
@@ -130,7 +129,7 @@ class LoginTemplateViewController: UIViewController {
         NSLayoutConstraint.activate([
             linkLabel.topAnchor.constraint(equalTo: pageButton.bottomAnchor, constant: 15),
             linkLabel.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
-            linkLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            linkLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -10)
         
         ])
         
@@ -146,7 +145,6 @@ class LoginTemplateViewController: UIViewController {
         NSLayoutConstraint.activate([
             fieldView.leadingAnchor.constraint(equalTo: textFieldsView.leadingAnchor),
             fieldView.trailingAnchor.constraint(equalTo: textFieldsView.trailingAnchor),
-            
         ])
         
         
