@@ -15,9 +15,6 @@ class CustomStepperView: UIView {
         let label = UILabel()
         label.text = String(Int(contentStepper.value))
         label.configSemiPrimary()
-//        label.layer.borderWidth = 1
-//        label.layer.borderColor = UIColor.systemGray.cgColor
-//        label.layer.cornerRadius = 5
         label.textAlignment = .center
         return label
     }()

@@ -9,7 +9,8 @@ class CustomCalenderViewController: UIViewController {
     
     var selectedDates : [DateComponents] = []{
         didSet{
-            saveButton.backgroundColor = selectedDates.count > 0 ? .systemPink : .systemGray
+            saveButton.backgroundColor = selectedDates.count > 0 ? .systemPink : .systemGray4
+            saveButton.isEnabled = true
         }
     }
     
@@ -29,6 +30,8 @@ class CustomCalenderViewController: UIViewController {
     
     lazy var saveButton = {
         let button = UIButton()
+        button.isEnabled = false
+        button.backgroundColor = .systemGray4
         return button
 
     }()
@@ -53,7 +56,6 @@ class CustomCalenderViewController: UIViewController {
         //sample coloring
         headerView.backgroundColor = .systemBackground
         footerView.backgroundColor = .systemBackground
-        saveButton.backgroundColor = .systemGray
         saveButton.setTitle("Save", for: .normal)
         self.view.backgroundColor = .systemBackground
         
@@ -156,9 +158,10 @@ class CustomCalenderViewController: UIViewController {
         }else if selectedDates.count > 1{
             completionHandler(selectedDates[0],selectedDates[selectedDates.count-1])
             dismiss(animated: true)
-        }else{
-            UIUtils.showAlertMessage(message: "Need to select atleast one Day", viewController: self, durationInSeconds: 2)
         }
+//        }else{
+//            UIUtils.showAlertMessage(message: "Need to select atleast one Day", viewController: self, durationInSeconds: 2)
+//        }
     }
     
     @objc private func cancelButtonOnTapAction(){

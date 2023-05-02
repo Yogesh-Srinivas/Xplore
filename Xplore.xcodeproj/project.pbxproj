@@ -17,7 +17,7 @@
 		3F0BDAC829DE9FF600F6638B /* FetchableImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BDAC729DE9FF600F6638B /* FetchableImageHelper.swift */; };
 		3F0BDACA29DEF0DD00F6638B /* CustomCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BDAC929DEF0DD00F6638B /* CustomCollectionViewCell.swift */; };
 		3F0BDAD029E0338F00F6638B /* ReservationConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BDACF29E0338F00F6638B /* ReservationConfirmationViewController.swift */; };
-		3F0BDAD229E0469600F6638B /* ReservationConfirmCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BDAD129E0469600F6638B /* ReservationConfirmCustomCell.swift */; };
+		3F0BDAD229E0469600F6638B /* PlaceListCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BDAD129E0469600F6638B /* PlaceListCustomCell.swift */; };
 		3F0BDAD429E0557F00F6638B /* UIListContentConfiguration+fontConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BDAD329E0557F00F6638B /* UIListContentConfiguration+fontConfig.swift */; };
 		3F0BDAD629E061F200F6638B /* UIView+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BDAD529E061F200F6638B /* UIView+Theme.swift */; };
 		3F17E8D129E2EAD50030CC02 /* CustomLoginFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F17E8D029E2EAD50030CC02 /* CustomLoginFieldView.swift */; };
@@ -30,6 +30,8 @@
 		3F17E8E429E4DB410030CC02 /* UnreservedPlaceDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F17E8E329E4DB410030CC02 /* UnreservedPlaceDetailViewController.swift */; };
 		3F17E8E629E4DD890030CC02 /* UnvisitedPlaceDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F17E8E529E4DD890030CC02 /* UnvisitedPlaceDetailViewController.swift */; };
 		3F17E8E829E4DDCB0030CC02 /* ReservedPlaceDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F17E8E729E4DDCB0030CC02 /* ReservedPlaceDetailViewController.swift */; };
+		3F419B7229FADF000030E498 /* WhereSearchBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F419B7129FADF000030E498 /* WhereSearchBarViewController.swift */; };
+		3F419B7429FFF7C10030E498 /* ReservationConfirmCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F419B7329FFF7C10030E498 /* ReservationConfirmCustomCell.swift */; };
 		3F4FEDB529EAE00500DB940B /* GuestInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FEDB429EAE00500DB940B /* GuestInfo.swift */; };
 		3F50BAAF29CAFFB900E0D6D4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BAAE29CAFFB900E0D6D4 /* AppDelegate.swift */; };
 		3F50BAB129CAFFB900E0D6D4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BAB029CAFFB900E0D6D4 /* SceneDelegate.swift */; };
@@ -94,7 +96,6 @@
 		3F531C3229E9D25E0043185C /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F531C3129E9D25E0043185C /* SearchViewController.swift */; };
 		3F531C3429E9DAF80043185C /* AvailabilityCalenderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F531C3329E9DAF80043185C /* AvailabilityCalenderViewController.swift */; };
 		3F531C3629E9EAF90043185C /* CustomStepperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F531C3529E9EAF90043185C /* CustomStepperView.swift */; };
-		3F531C3A29EA94160043185C /* WhereSearchBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F531C3929EA94160043185C /* WhereSearchBarViewController.swift */; };
 		3F531C3E29EAC9D70043185C /* FilteredLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F531C3D29EAC9D70043185C /* FilteredLocation.swift */; };
 		3F72D21A29F19B0400506F51 /* EmptyDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F72D21929F19B0400506F51 /* EmptyDetailView.swift */; };
 		3F72D21C29F6430100506F51 /* ImageCollectionWithPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F72D21B29F6430100506F51 /* ImageCollectionWithPageControl.swift */; };
@@ -128,7 +129,7 @@
 		3F0BDAC729DE9FF600F6638B /* FetchableImageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchableImageHelper.swift; sourceTree = "<group>"; };
 		3F0BDAC929DEF0DD00F6638B /* CustomCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewCell.swift; sourceTree = "<group>"; };
 		3F0BDACF29E0338F00F6638B /* ReservationConfirmationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservationConfirmationViewController.swift; sourceTree = "<group>"; };
-		3F0BDAD129E0469600F6638B /* ReservationConfirmCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservationConfirmCustomCell.swift; sourceTree = "<group>"; };
+		3F0BDAD129E0469600F6638B /* PlaceListCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceListCustomCell.swift; sourceTree = "<group>"; };
 		3F0BDAD329E0557F00F6638B /* UIListContentConfiguration+fontConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIListContentConfiguration+fontConfig.swift"; sourceTree = "<group>"; };
 		3F0BDAD529E061F200F6638B /* UIView+Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Theme.swift"; sourceTree = "<group>"; };
 		3F17E8D029E2EAD50030CC02 /* CustomLoginFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLoginFieldView.swift; sourceTree = "<group>"; };
@@ -141,6 +142,8 @@
 		3F17E8E329E4DB410030CC02 /* UnreservedPlaceDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnreservedPlaceDetailViewController.swift; sourceTree = "<group>"; };
 		3F17E8E529E4DD890030CC02 /* UnvisitedPlaceDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnvisitedPlaceDetailViewController.swift; sourceTree = "<group>"; };
 		3F17E8E729E4DDCB0030CC02 /* ReservedPlaceDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservedPlaceDetailViewController.swift; sourceTree = "<group>"; };
+		3F419B7129FADF000030E498 /* WhereSearchBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhereSearchBarViewController.swift; sourceTree = "<group>"; };
+		3F419B7329FFF7C10030E498 /* ReservationConfirmCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservationConfirmCustomCell.swift; sourceTree = "<group>"; };
 		3F4FEDB429EAE00500DB940B /* GuestInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestInfo.swift; sourceTree = "<group>"; };
 		3F50BAAB29CAFFB900E0D6D4 /* Xplore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Xplore.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F50BAAE29CAFFB900E0D6D4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -207,7 +210,6 @@
 		3F531C3129E9D25E0043185C /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		3F531C3329E9DAF80043185C /* AvailabilityCalenderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailabilityCalenderViewController.swift; sourceTree = "<group>"; };
 		3F531C3529E9EAF90043185C /* CustomStepperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomStepperView.swift; sourceTree = "<group>"; };
-		3F531C3929EA94160043185C /* WhereSearchBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhereSearchBarViewController.swift; sourceTree = "<group>"; };
 		3F531C3D29EAC9D70043185C /* FilteredLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteredLocation.swift; sourceTree = "<group>"; };
 		3F72D21929F19B0400506F51 /* EmptyDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyDetailView.swift; sourceTree = "<group>"; };
 		3F72D21B29F6430100506F51 /* ImageCollectionWithPageControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionWithPageControl.swift; sourceTree = "<group>"; };
@@ -436,7 +438,7 @@
 			children = (
 				3F50BB3829D4657600E0D6D4 /* ImageWithLabelViewTableViewCell.swift */,
 				3F50BB3A29D465AD00E0D6D4 /* LabelWithButtonViewTableViewCell.swift */,
-				3F0BDAD129E0469600F6638B /* ReservationConfirmCustomCell.swift */,
+				3F419B7329FFF7C10030E498 /* ReservationConfirmCustomCell.swift */,
 			);
 			path = "Reservation Page";
 			sourceTree = "<group>";
@@ -449,6 +451,7 @@
 				3F50BB2B29D406C300E0D6D4 /* StackViewWithCornorLabels.swift */,
 				3F72D21929F19B0400506F51 /* EmptyDetailView.swift */,
 				3F72D22129F7AB8600506F51 /* HeaderImageWithTitle.swift */,
+				3F0BDAD129E0469600F6638B /* PlaceListCustomCell.swift */,
 			);
 			path = "Template Views";
 			sourceTree = "<group>";
@@ -472,7 +475,7 @@
 				3F50BB3C29D53F1700E0D6D4 /* ExplorePageViewController.swift */,
 				3F0BDAB929DD3DD700F6638B /* PricePresentationViewController.swift */,
 				3F531C3129E9D25E0043185C /* SearchViewController.swift */,
-				3F531C3929EA94160043185C /* WhereSearchBarViewController.swift */,
+				3F419B7129FADF000030E498 /* WhereSearchBarViewController.swift */,
 			);
 			path = "Explore Page";
 			sourceTree = "<group>";
@@ -666,9 +669,11 @@
 				3F50BB2029D1B03000E0D6D4 /* HouseRulesViewController.swift in Sources */,
 				3F17E8DD29E400F80030CC02 /* PageType.swift in Sources */,
 				3F50BB1829D159BD00E0D6D4 /* ReviewCard.swift in Sources */,
+				3F419B7229FADF000030E498 /* WhereSearchBarViewController.swift in Sources */,
 				3F50BB1629D0A36600E0D6D4 /* RatingView.swift in Sources */,
 				3F72D22229F7AB8600506F51 /* HeaderImageWithTitle.swift in Sources */,
-				3F0BDAD229E0469600F6638B /* ReservationConfirmCustomCell.swift in Sources */,
+				3F419B7429FFF7C10030E498 /* ReservationConfirmCustomCell.swift in Sources */,
+				3F0BDAD229E0469600F6638B /* PlaceListCustomCell.swift in Sources */,
 				3F50BB2C29D406C300E0D6D4 /* StackViewWithCornorLabels.swift in Sources */,
 				3F50BB5829D6A42500E0D6D4 /* FieldWithValue.swift in Sources */,
 				3FD1414729EE54E4007B97BB /* LoginViewController.swift in Sources */,
@@ -722,7 +727,6 @@
 				3F50BB5C29D6A53500E0D6D4 /* EqualityOperator.swift in Sources */,
 				3F50BB3729D4647F00E0D6D4 /* UIUtils.swift in Sources */,
 				3F17E8E129E440E40030CC02 /* CancelReservationPageViewController.swift in Sources */,
-				3F531C3A29EA94160043185C /* WhereSearchBarViewController.swift in Sources */,
 				3F50BAB129CAFFB900E0D6D4 /* SceneDelegate.swift in Sources */,
 				3F72D22029F7A47200506F51 /* ReservationViewController.swift in Sources */,
 				3F531C3029E9BACE0043185C /* InformationViewController.swift in Sources */,
@@ -871,7 +875,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 295N44AAZ9;
+				DEVELOPMENT_TEAM = M4A9TK6RZ3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Xplore/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -884,7 +888,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.Nothing.Xplore;
+				PRODUCT_BUNDLE_IDENTIFIER = Nothing.Xplore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -899,7 +903,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 295N44AAZ9;
+				DEVELOPMENT_TEAM = M4A9TK6RZ3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Xplore/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -912,7 +916,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.Nothing.Xplore;
+				PRODUCT_BUNDLE_IDENTIFIER = Nothing.Xplore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

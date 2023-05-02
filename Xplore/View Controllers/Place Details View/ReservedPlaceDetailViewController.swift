@@ -15,6 +15,15 @@ class ReservedPlaceDetailViewController: UnvisitedPlaceDetailViewController {
         return labelView
     }()
     
+    lazy var codeView = {
+        let labelView = StackViewWithCornorLabels(frame: .zero)
+        labelView.leadingLabel.text = "Reservation Code"
+        labelView.trailingLabel.text = tripDetails.reservationId
+        labelView.leadingLabel.configSecondaryStyle()
+        labelView.trailingLabel.configSecondaryFadedStyle()
+        return labelView
+    }()
+    
     lazy var cancelItem = {
         let barButtonItem = UIBarButtonItem()
         barButtonItem.title = "cancel Trip"
@@ -48,8 +57,13 @@ class ReservedPlaceDetailViewController: UnvisitedPlaceDetailViewController {
         super.viewDidLoad()
         super.contentScrollView.addSubview(UIUtils.getSeparator(size: 1))
         super.contentScrollView.insertSubview(priceDetailsView, belowSubview: amenitiesView)
+        super.contentScrollView.insertSubview(UIUtils.getSeparator(size: 1), belowSubview: amenitiesView)
+
         super.contentScrollView.insertSubview(guestView, aboveSubview: availabiltiyView)
         super.contentScrollView.insertSubview(UIUtils.getSeparator(size: 1), belowSubview: guestView)
+        
+        super.contentScrollView.insertSubview(codeView, aboveSubview: availabiltiyView)
+        super.contentScrollView.insertSubview(UIUtils.getSeparator(size: 1), belowSubview: codeView)
 
         setupTripDates()
         setupScrollView()

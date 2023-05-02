@@ -73,11 +73,15 @@ class ExplorePageViewController: UITableViewController {
         setupNoSearchResultView()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    
+    override func viewDidAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
         self.tabBarController?.tabBar.backgroundColor = .systemBackground
         self.navigationController?.navigationBar.isHidden = false
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+       
         updateWishListDetails()
         updateRatingDetails()
         convertFilteredListToCurrentCurrency()
@@ -144,8 +148,10 @@ class ExplorePageViewController: UITableViewController {
     private func configTabelCell(cell : inout PlaceDetailCardView,row : Int){
         
         let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(cellImageOnTapAction(_:)))
-        cell.placeImageView.tag = row
-        cell.placeImageView.addGestureRecognizer(gestureRecognizer)
+        
+        cell.imagesCollectionView.tag = row
+        cell.imagesCollectionView.addGestureRecognizer(gestureRecognizer)
+        cell.addImages(imageUrls: filteredPlaceList[row].images)
         
         let taxAmount = (filteredPlaceList[row].price.taxPercentage * 0.01 * filteredPlaceList[row].price.pricePerDay).round(to: 2)
         let priceAmount = "\(filteredPlaceList[row].price.currencyCode) \((filteredPlaceList[row].price.pricePerDay + taxAmount).round(to: 2))"
@@ -154,18 +160,21 @@ class ExplorePageViewController: UITableViewController {
         cell.priceLabelButton.setTitle(priceAmount, for: .normal)
         cell.priceLabelButton.addTarget(self, action: #selector(priceButtonOnTapAction(_:)), for: .touchDown)
         cell.priceLabelButton.tag = row
-        cell.priceLabelButton.titleLabel?.configSecondaryRegularStyle()
+        
+        cell.priceLabelButton.titleLabel?.font = .systemFont(ofSize: 15, weight: .regular)
+        
         cell.priceLabelButton.titleLabel?.underline()
         
         cell.titleCardView.text = filteredPlaceList[row].placeName
-        cell.titleCardView.configSemiPrimary()
+        cell.titleCardView.font = .systemFont(ofSize: 16, weight: .medium)
         
         cell.locationCardView.text = "\(filteredPlaceList[row].location.city), \(filteredPlaceList[row].location.state), \(filteredPlaceList[row].location.country)"
-        cell.locationCardView.configSecondaryFadedStyle()
+        
+        cell.locationCardView.font = .systemFont(ofSize: 14, weight: .light)
+        cell.locationCardView.textColor = .systemGray
         
         cell.ratingCard.text = filteredPlaceList[row].ratingDetail.count != 0 ? "\(Constants.RATING_STAR) \(filteredPlaceList[row].placeRating) (\(filteredPlaceList[row].ratingDetail.count))" : "\(Constants.RATING_STAR) new"
-       
-        
+        cell.ratingCard.font = .systemFont(ofSize: 15, weight: .regular)
         
         cell.wishListButton.tag = row
         
@@ -356,30 +365,6 @@ extension ExplorePageViewController {
         var cell = tableView.dequeueReusableCell(withIdentifier: PlaceDetailCardView.reuseIdentifier, for: indexPath) as! PlaceDetailCardView
         cell.tag = indexPath.row
         configTabelCell(cell: &cell, row: indexPath.row)
-        
-        
-        let imageUrl = filteredPlaceList[indexPath.row].images[0]
-        
-        
-        DispatchQueue.global(qos: .userInteractive).async {[weak self,imageUrl] in
-            
-            if let weakSelf = self{
-                
-                weakSelf.imageFetcher.fetchImage(from: imageUrl){
-                   (data) in
-                    
-                        guard let data = data else{return}
-                        let image = UIImage(data: data)
-                        
-                        DispatchQueue.main.async {
-                            if let updateCell = tableView.cellForRow(at: indexPath){
-                                (updateCell as! PlaceDetailCardView).placeImageView.image = image
-                            }
-                        }
-                }
-                
-            }
-        }
         
         cell.selectionStyle = .none
         return cell

@@ -33,21 +33,22 @@ class CancellationPolicyViewController: UIViewController {
     private func setupTitleView(){
         titleView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            titleView.topAnchor.constraint(equalTo: cancelButton.bottomAnchor),
+            titleView.topAnchor.constraint(equalTo: cancelButton.bottomAnchor,constant: 10),
             titleView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 20),
             titleView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -20),
-            titleView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.1)
+//            titleView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.1)
         
         ])
         
         titleView.text = "Cancellation Policy"
+        titleView.setContentHuggingPriority(.required, for: .vertical)
         titleView.configPrimaryStyle()
     }
     
     private func setupPolicyContentView(){
         labelWrapper.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            labelWrapper.topAnchor.constraint(equalTo: titleView.bottomAnchor),
+            labelWrapper.topAnchor.constraint(equalTo: titleView.bottomAnchor,constant: 10),
             labelWrapper.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             labelWrapper.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             labelWrapper.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
@@ -66,7 +67,7 @@ class CancellationPolicyViewController: UIViewController {
         policyContentView.text = ControlCenter.cancellationPolicy
         policyContentView.configSecondaryRegularStyle()
         policyContentView.numberOfLines = 0
-        policyContentView.textAlignment = .justified
+        policyContentView.textAlignment = .natural
         labelWrapper.contentVerticalAlignment = .top
         
     }

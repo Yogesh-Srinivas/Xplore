@@ -51,7 +51,8 @@ class MyTripViewController: UIViewController {
         
         view.addSubview(segmentedControl)
         view.addSubview(commonTableView)
-        commonTableView.register(UITableViewCell.self, forCellReuseIdentifier: "MyTripTableCell")
+        commonTableView.register(PlaceListCustomCell.self, forCellReuseIdentifier: "MyTripTableCell")
+        commonTableView.separatorStyle = .none
         view.addSubview(emptyPlaceListView)
 
         setupSegmentedControl()
@@ -60,10 +61,12 @@ class MyTripViewController: UIViewController {
         
     }
 
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
-        self.tabBarController?.tabBar.backgroundColor = .systemBackground
         self.navigationController?.navigationBar.isHidden = false
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.backgroundColor = .systemBackground
         self.navigationItem.title = "My Trip"
         
         getTripDetails()
@@ -193,20 +196,14 @@ class MyTripViewController: UIViewController {
         return placeDetail
     }
 
-    private func configTabelCell(cell : inout UITableViewCell,row : Int){
+    private func configTabelCell(cell : inout PlaceListCustomCell,row : Int){
         
         
-        var contentConfig = UIListContentConfiguration.valueCell()
-        contentConfig.text = primaryPlaceDetailDataSource[row].placeName
-        contentConfig.textProperties.configSemiPrimary()
-        contentConfig.textProperties.numberOfLines = 4
-        contentConfig.textToSecondaryTextVerticalPadding = 3
+        cell.primaryLabel.text = primaryPlaceDetailDataSource[row].placeName
         
         let totalPrice = (primaryBookedTripDataSource[row].totalPrice + ControlCenter.serviceFee + ControlCenter.cleaningFee).round(to: 2)
+        cell.secondaryLabel.text = "\(primaryPlaceDetailDataSource[row].price.currencyCode) \(totalPrice)  (\(primaryBookedTripDataSource[row].numberOfDays) Days)"
         
-        contentConfig.secondaryText = "\(primaryPlaceDetailDataSource[row].price.currencyCode) \(totalPrice)  (\(primaryBookedTripDataSource[row].numberOfDays) Days)"
-
-        contentConfig.secondaryTextProperties.configSecondaryFadedStyle()
         
         var placeImage = UIImage(named: "loadingImage")
         
@@ -214,14 +211,7 @@ class MyTripViewController: UIViewController {
             placeImage = UIImage(data: imageDate)
         }
         
-        contentConfig.image = placeImage
-        contentConfig.imageProperties.reservedLayoutSize = CGSize(width: 130, height: 100)
-        contentConfig.imageProperties.maximumSize = CGSize(width: 130, height: 100)
-        contentConfig.imageToTextPadding = 20
-        contentConfig.imageProperties.cornerRadius = 15
-        
-      
-        cell.contentConfiguration = contentConfig
+        cell.headerImage.image = placeImage
         
     }
 
@@ -233,7 +223,7 @@ extension MyTripViewController : UITableViewDelegate,UITableViewDataSource{
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = commonTableView.dequeueReusableCell(withIdentifier: "MyTripTableCell", for: indexPath)
+        var cell = commonTableView.dequeueReusableCell(withIdentifier: "MyTripTableCell", for: indexPath) as! PlaceListCustomCell
 
         configTabelCell(cell: &cell,row: indexPath.row)
 
@@ -265,6 +255,10 @@ extension MyTripViewController : UITableViewDelegate,UITableViewDataSource{
 
 
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        100
     }
 
 }

@@ -1,6 +1,7 @@
 
 import UIKit
 
+
 final class ReservationConfirmationViewController: UITableViewController {
     
     let reservationCode : String
@@ -30,11 +31,45 @@ final class ReservationConfirmationViewController: UITableViewController {
         tableView.separatorStyle = .none
         
         self.navigationItem.setHidesBackButton(true, animated: false)
+        
+        addConfitte()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = true
     }
+    
+    private func addConfitte(){
+        var emitter = CAEmitterLayer()
+        emitter.emitterPosition = CGPoint(x: self.view.frame.size.width / 2, y: -10)
+        emitter.emitterShape = CAEmitterLayerEmitterShape.line
+        emitter.emitterSize = CGSize(width: self.view.frame.size.width, height: 2.0)
+        emitter.emitterCells = generateEmitterCells()
+        self.view.layer.addSublayer(emitter)
+    }
+    
+    private func generateEmitterCells() -> [CAEmitterCell] {
+    var cells:[CAEmitterCell] = [CAEmitterCell]()
+    for index in 0..<16 {
+        let cell = CAEmitterCell()
+        cell.birthRate = 4.0
+        cell.lifetime = 14.0
+        cell.lifetimeRange = 0
+        cell.velocity = 10.0
+        cell.velocityRange = 0
+        cell.emissionLongitude = CGFloat(Double.pi)
+        cell.emissionRange = 0.5
+        cell.spin = 3.5
+        cell.spinRange = 0
+        cell.color = UIColor.systemBlue.cgColor
+        cell.contents
+        cell.scaleRange = 0.25
+        cell.scale = 0.1
+        cells.append(cell)
+    }
+        return cells
+    }
+    
     
     private func configCell(config : inout UIListContentConfiguration){
         config.text = "Reservation Code"
@@ -58,7 +93,9 @@ final class ReservationConfirmationViewController: UITableViewController {
             cheersButton.centerXAnchor.constraint(equalTo: cell.contentView.centerXAnchor),
             cheersButton.topAnchor.constraint(equalTo: cell.contentView.topAnchor,constant: 10),
             cheersButton.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor,constant: -10),
-            cheersButton.widthAnchor.constraint(equalToConstant: 200)
+            cheersButton.widthAnchor.constraint(equalToConstant: 200),
+            cheersButton.heightAnchor.constraint(equalToConstant: 45)
+
         ])
         
         cheersButton.addTarget(self, action: #selector(cheersButtonOnTapAction), for: .touchDown)

@@ -3,7 +3,7 @@ extension UITextField{
     func validateText(for validatorType: ValidatorType) -> Bool{
         switch validatorType{
         case .Email:
-            let emailFormat = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+            let emailFormat = "[0-9a-z._%+-]+@[a-z0-9.-]+\\.[a-z]{2,64}"
             let emailPredicate = NSPredicate(format:"SELF MATCHES %@", emailFormat)
             return emailPredicate.evaluate(with: self.text)
         case .Mobile:

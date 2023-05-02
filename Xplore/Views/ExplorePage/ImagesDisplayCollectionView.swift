@@ -36,6 +36,15 @@ class ImagesDisplayCollectionView: UICollectionView {
         self.pageControlAction = pageControlAction
     }
     
+    func refreshData(){
+        images = []
+        for _ in 0 ..< imageUrls.count{
+            images.append(UIImage(named: "loadingImage"))
+        }
+        self.scrollToItem(at: IndexPath(row: 0, section: 0), at: .left, animated: false)
+        self.reloadData()
+    }
+    
 }
 
 extension ImagesDisplayCollectionView : UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UIScrollViewDelegate{
@@ -90,9 +99,13 @@ extension ImagesDisplayCollectionView : UICollectionViewDelegate,UICollectionVie
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let page : Int = Int(round(scrollView.contentOffset.x / self.frame.width))
-
         pageControlAction?(page)
     }
+
+//    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+//        let page : Int = Int(round(scrollView.contentOffset.x / self.frame.width))
+//        pageControlAction?(page)
+//    }
    
     
 }
@@ -109,7 +122,7 @@ class CustomImageCell : UICollectionViewCell{
     func setupImageView(image : UIImage){
 
         imageToDisplay.clipsToBounds = true
-        imageToDisplay.contentMode = .scaleToFill
+        imageToDisplay.contentMode = .scaleAspectFill
 
         self.contentView.addSubview(imageToDisplay)
 

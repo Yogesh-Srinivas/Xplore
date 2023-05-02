@@ -37,7 +37,7 @@ class LoginTemplateViewController: UIViewController {
         return labelWithButton
     }()
     
-    private lazy var contentView = UIScrollView()
+    lazy var contentView = UIScrollView()
     
     private var pageButtonAction : (()->())?
     private var linkButtonAction : (()->())?
@@ -84,7 +84,7 @@ class LoginTemplateViewController: UIViewController {
             topIllustrationImage.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             topIllustrationImage.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             topIllustrationImage.bottomAnchor.constraint(equalTo: titleLabel.topAnchor, constant: -40),
-            topIllustrationImage.heightAnchor.constraint(equalTo:topIllustrationImage.widthAnchor ,multiplier: 0.15)
+            topIllustrationImage.heightAnchor.constraint(equalTo:topIllustrationImage.widthAnchor ,multiplier: 0.20)
         ])
     }
     

@@ -1,7 +1,7 @@
 import UIKit
 
-class HeaderImageWithTitle: UIView {
-    
+class PlaceListCustomCell: UITableViewCell {
+
     lazy var headerImage = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "loadingImage")
@@ -13,8 +13,8 @@ class HeaderImageWithTitle: UIView {
     
     lazy var primaryLabel = {
         let label = UILabel()
-        label.numberOfLines = 4
-        label.configSecondaryStyle()
+        label.numberOfLines = 3
+        label.font = .systemFont(ofSize: 16, weight: .medium)
         label.contentMode = .top
         return label
     }()
@@ -22,18 +22,18 @@ class HeaderImageWithTitle: UIView {
     lazy var secondaryLabel = {
         let label = UILabel()
         label.numberOfLines = 2
-        label.configSecondaryFadedStyle()
+        label.font = .systemFont(ofSize: 14, weight: .light)
+        label.textColor = .systemGray
         label.setContentHuggingPriority(.required, for: .vertical)
         return label
     }()
-
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self.addSubview(headerImage)
-        self.addSubview(primaryLabel)
-        self.addSubview(secondaryLabel)
+        self.contentView.addSubview(headerImage)
+        self.contentView.addSubview(primaryLabel)
+        self.contentView.addSubview(secondaryLabel)
         
         setupView()
     }
@@ -47,10 +47,9 @@ class HeaderImageWithTitle: UIView {
         
         NSLayoutConstraint.activate([
             headerImage.topAnchor.constraint(equalTo: self.topAnchor),
-            headerImage.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            headerImage.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            headerImage.heightAnchor.constraint(equalTo: headerImage.widthAnchor,multiplier: 0.7),
-            headerImage.widthAnchor.constraint(equalTo: self.widthAnchor,multiplier: 0.45),
+            headerImage.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor,constant: 20),
+            headerImage.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor,constant: -15),
+            headerImage.widthAnchor.constraint(equalTo: self.contentView.widthAnchor,multiplier: 0.40),
         ])
         
         primaryLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -58,7 +57,7 @@ class HeaderImageWithTitle: UIView {
         NSLayoutConstraint.activate([
             primaryLabel.topAnchor.constraint(equalTo: self.topAnchor),
             primaryLabel.leadingAnchor.constraint(equalTo: headerImage.trailingAnchor,constant: 10),
-            primaryLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            primaryLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
             primaryLabel.bottomAnchor.constraint(lessThanOrEqualTo: secondaryLabel.topAnchor,constant: -3)
             
         ])
@@ -66,9 +65,9 @@ class HeaderImageWithTitle: UIView {
         secondaryLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            secondaryLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            secondaryLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor,constant: -15),
             secondaryLabel.leadingAnchor.constraint(equalTo: headerImage.trailingAnchor,constant: 10),
-            secondaryLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor)
+            secondaryLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor)
         ])
         
     }

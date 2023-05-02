@@ -8,6 +8,7 @@ class ImageCollectionWithPageControl: UIView {
         pageControl.currentPage = 0
         pageControl.currentPageIndicatorTintColor = .systemPink
         pageControl.pageIndicatorTintColor = .systemGray2
+        pageControl.isUserInteractionEnabled = false
         return pageControl
     }()
     
@@ -57,4 +58,8 @@ class ImageCollectionWithPageControl: UIView {
         }
     }
     
+    func refreshData(){
+        self.placeImagesCollectionView.refreshData()
+        pageControl.currentPage = 0
+    }
 }

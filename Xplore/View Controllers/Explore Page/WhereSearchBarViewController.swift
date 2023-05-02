@@ -1,7 +1,7 @@
 import UIKit
 
-class WhereSearchBarViewController: UISearchController {
-
+class WhereSearchBarViewController: UIViewController {
+    
     
     lazy var cityList : [FilteredLocation] = []
     
@@ -10,10 +10,17 @@ class WhereSearchBarViewController: UISearchController {
     lazy var countryList : [FilteredLocation] = []
     
     lazy var filteredLocationList : [FilteredLocation] = []
-        
+    
     let placeDetailsTableView = UITableView()
     
     let completionHandler : (FilteredLocation)->()
+    
+    lazy var searchController = {
+        let searchController = UISearchController()
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.placeholder = "Pick your spot"
+        return searchController
+    }()
     
     init(locationDetail : [FilteredLocation],completionHandler : @escaping (FilteredLocation)->()){
         
@@ -30,8 +37,7 @@ class WhereSearchBarViewController: UISearchController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.configBackgroundTheme()
-        self.searchResultsUpdater = self
-        self.searchBar.placeholder = "Pick your spot"
+       
         
         self.view.addSubview(placeDetailsTableView)
         
@@ -41,24 +47,26 @@ class WhereSearchBarViewController: UISearchController {
         placeDetailsTableView.dataSource = self
         
         setupPlaceDetailsTableView()
-    
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         self.tabBarController?.tabBar.isHidden = true
+        
+        self.navigationController?.navigationBar.isHidden = false
+        self.navigationItem.searchController = searchController
+        self.navigationItem.hidesSearchBarWhenScrolling = false
     }
     
-    override func viewDidLayoutSubviews() {
-        placeDetailsTableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: self.searchBar.frame.height + 5).isActive = true
-    }
     
     private func setupPlaceDetailsTableView(){
         placeDetailsTableView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
+            placeDetailsTableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
             placeDetailsTableView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
             placeDetailsTableView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
-            placeDetailsTableView.bottomAnchor.constraint(equalTo: self.view.keyboardLayoutGuide.bottomAnchor, constant: -10),
+            placeDetailsTableView.bottomAnchor.constraint(equalTo: self.view.keyboardLayoutGuide.topAnchor, constant: -10),
         ])
     }
     
@@ -132,7 +140,7 @@ class WhereSearchBarViewController: UISearchController {
             for location in cityList {
                 
                 if let city = location.city?.lowercased(),
-                    let state = location.state?.lowercased(){
+                   let state = location.state?.lowercased(){
                     
                     let country = location.country.lowercased()
                     
@@ -190,8 +198,12 @@ extension WhereSearchBarViewController: UISearchResultsUpdating,UITableViewDeleg
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         completionHandler(filteredLocationList[indexPath.row])
-        self.dismiss(animated: true)
+        
+        self.navigationController?.popViewController(animated: true)
     }
     
     
 }
+
+
+

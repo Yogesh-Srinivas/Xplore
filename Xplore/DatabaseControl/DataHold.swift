@@ -956,10 +956,10 @@ class DataHold{
                     noOfBedRooms: Int.random(in: 1...8),
                     noOfBathRooms: Int.random(in: 1...12),
                     noOfBeds: Int.random(in: 1...12),
-                    noOfPeopleAccomodate: Int.random(in: 2...12),
+                    noOfPeopleAccomodate: Int.random(in: 2...4),
                     isAvailable: true,
                     price:
-                        Price(pricePerDay: Double(Int.random(in: 200...500)).round(to: 2), taxPercentage: Double.random(in: 1.0...25.0).round(to: 2), currencyCode: "USD"),
+                        Price(pricePerDay: Double(Int.random(in: 100...300)).round(to: 2), taxPercentage: Double.random(in: 1.0...25.0).round(to: 2), currencyCode: "USD"),
                     reviewDetail: getRandomReview(),
                     ratingDetail: getRandomRating(),
                     amenities: getRandomAmenity(row: i),

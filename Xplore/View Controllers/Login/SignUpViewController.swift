@@ -23,10 +23,10 @@ class SignUpViewController: LoginTemplateViewController {
     
     lazy var mobileField = {
         let mobileField = CustomLoginFieldView(frame: .zero)
-        mobileField.textField.placeholder = "Phone Number"
+        mobileField.textField.placeholder = "Phone Number - 10 digits"
         mobileField.textField.iconImageView.image = UIImage(systemName: "phone")
         mobileField.textField.keyboardType = .numberPad
-        emailField.textField.delegate = self
+        mobileField.textField.delegate = self
         return mobileField
     }()
     
@@ -36,6 +36,7 @@ class SignUpViewController: LoginTemplateViewController {
         passwordField.passwordTextField.iconImageView.image = UIImage(systemName: "lock")
         passwordField.passwordTextField.returnKeyType = .next
         passwordField.passwordTextField.delegate = self
+        passwordField.passwordTextField.textContentType = .oneTimeCode
         return passwordField
     }()
     
@@ -45,6 +46,8 @@ class SignUpViewController: LoginTemplateViewController {
         confirmPasswordField.passwordTextField.iconImageView.image = UIImage(systemName: "lock")
         confirmPasswordField.passwordTextField.returnKeyType = .done
         confirmPasswordField.passwordTextField.delegate = self
+        confirmPasswordField.passwordTextField.textContentType = .oneTimeCode
+
         return confirmPasswordField
     }()
 
@@ -70,20 +73,21 @@ class SignUpViewController: LoginTemplateViewController {
         
         self.setPageButtonAction { [unowned self] in
             
-            if !nameField.textField.validateText(for: .Name){
+             if !nameField.textField.validateText(for: .Name){
                 nameField.showErrorMessage(message: "Provide Proper Name eg. FirstName MiddleName(optional) LastName(optional)")
                 
             }else if !mobileField.textField.validateText(for: .Mobile){
                 mobileField.showErrorMessage(message: "Provide Proper mobile number")
                 
+            }else if let email = emailField.textField.text, email.count < 2 || email.count > 64{
+                    emailField.showErrorMessage(message: "length should be between 2-64.")
+                
             }else if !emailField.textField.validateText(for: .Email){
                 emailField.showErrorMessage(message: "Provide Proper email")
-                
+            }else if let password = passwordField.passwordTextField.text, password.count < 6 || password.count > 16{
+                    passwordField.showErrorMessage(message: "length should be between 6-16.")
             }else if !passwordField.passwordTextField.validateText(for: .Password){
                 passwordField.showErrorMessage(message: "Password should contain atleast an upperCase,a lowerCase and a number.No spaces or special charactes allowed.")
-                
-            }else if !confirmPasswordField.passwordTextField.validateText(for: .Password){
-                confirmPasswordField.showErrorMessage(message: "Password should contain atleast an upperCase,a lowerCase and a number.No spaces or special charactes allowed.")
                 
             }else if confirmPasswordField.passwordTextField.text != passwordField.passwordTextField.text{
                 confirmPasswordField.showErrorMessage(message: "Passwords do not match")
@@ -94,14 +98,23 @@ class SignUpViewController: LoginTemplateViewController {
                      let password = passwordField.passwordTextField.text{
                 if Authenticator.isEmailExist(email: email ){
                     emailField.showErrorMessage(message: "Email already exists")
+                    
                 }else{
                     Authenticator.signUp(
                         userName: userName,
                         email: email,
                         mobile: mobile,
                         password: password )
+                    
+                    let loadingVC = LodingViewController()
                     self.navigationController?.navigationBar.isHidden = true
-                    self.navigationController?.setViewControllers([MainTabBarController()], animated: true)
+                    self.navigationController?.setViewControllers([loadingVC], animated: false)
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1){[loadingVC] in
+                        loadingVC.navigationController?.navigationBar.isHidden = true
+                        loadingVC.navigationController?.setViewControllers([MainTabBarController()], animated: true)
+                    }
+                    
                 }
             }
            
@@ -109,7 +122,8 @@ class SignUpViewController: LoginTemplateViewController {
         
         self.linkLabel.leadingLabel.text = "Already have account?"
         self.linkLabel.trailingButton.setTitle("Log In", for: .normal)
-        self.linkLabel.trailingButton.underline()
+        self.linkLabel.trailingButton.titleLabel?.textColor = .link
+        self.linkLabel.trailingButton.titleLabel?.underline()
         
         self.setLinkButtonAction {
             self.navigationController?.popViewController(animated: true)
@@ -117,16 +131,25 @@ class SignUpViewController: LoginTemplateViewController {
         
     }
     
+    
+    
 }
 
 extension SignUpViewController : UITextFieldDelegate{
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        let offsetBalance = pageButton.frame.height + linkLabel.frame.height
+        
         if textField == nameField.textField{
             mobileField.textField.becomeFirstResponder()
+            contentView.contentOffset = CGPoint(x: 0, y: mobileField.frame.origin.y - offsetBalance)
+
         }else if textField == emailField.textField{
             passwordField.passwordTextField.becomeFirstResponder()
+            contentView.contentOffset = CGPoint(x: 0, y: passwordField.frame.origin.y - offsetBalance)
         }else if textField == passwordField.passwordTextField{
             confirmPasswordField.passwordTextField.becomeFirstResponder()
+            contentView.contentOffset = CGPoint(x: 0, y: confirmPasswordField.frame.origin.y - offsetBalance)
         }else if textField == confirmPasswordField.passwordTextField{
             confirmPasswordField.passwordTextField.resignFirstResponder()
             pageButtonOnClickAction()
@@ -135,17 +158,44 @@ extension SignUpViewController : UITextFieldDelegate{
     }
     
     func textFieldDidChangeSelection(_ textField: UITextField) {
+        let offsetBalance = pageButton.frame.height + linkLabel.frame.height
+
+        
         if textField == nameField.textField{
             nameField.hideErrorMessage()
+            contentView.contentOffset = CGPoint(x: 0, y: 0)
+            
         }else if textField == emailField.textField{
             emailField.hideErrorMessage()
+            contentView.contentOffset = CGPoint(x: 0, y: 0)
         }else if textField == passwordField.passwordTextField{
             passwordField.hideErrorMessage()
+            contentView.contentOffset = CGPoint(x: 0, y: passwordField.frame.origin.y - offsetBalance)
         }else if textField == confirmPasswordField.passwordTextField{
             confirmPasswordField.hideErrorMessage()
-        }else if textField == mobileField{
+            contentView.contentOffset = CGPoint(x: 0, y: confirmPasswordField.frame.origin.y - offsetBalance)
+        }else if textField == mobileField.textField{
             mobileField.hideErrorMessage()
+            contentView.contentOffset = CGPoint(x: 0, y: 0)
+
         }
+    }
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        print(textField)
+        
+        let offsetBalance = pageButton.frame.height + linkLabel.frame.height
+        
+        if textField == emailField.textField{
+            contentView.contentOffset = CGPoint(x: 0, y: emailField.frame.origin.y - offsetBalance)
+
+        }else if textField == passwordField.passwordTextField{
+            contentView.contentOffset = CGPoint(x: 0, y: passwordField.frame.origin.y - offsetBalance)
+        }else if textField == confirmPasswordField.passwordTextField{
+            contentView.contentOffset = CGPoint(x: 0, y: confirmPasswordField.frame.origin.y - offsetBalance)
+        }
+        
+        return true
     }
 }
 

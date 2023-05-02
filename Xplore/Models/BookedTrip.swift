@@ -13,6 +13,7 @@ struct BookedTrip{
     var cleaningFee : Double
     var serviceFee : Double
     let reservationId : String
+    var numberOfrooms  = 1
     var numberOfDays : Int {
         let fromDate = BookedDateFrom
         if let toDate = BookedDateTo,
@@ -23,7 +24,7 @@ struct BookedTrip{
         }
     }
     var actualPrice : Double {
-        return (Double(numberOfDays) * pricePerDay).round(to: 2)
+        return (Double(numberOfDays) * pricePerDay * Double(numberOfrooms)).round(to: 2)
     }
     var taxes : Double {
         return (Double(actualPrice) * taxPercentage * 0.01).round(to: 2)

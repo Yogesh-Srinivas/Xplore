@@ -4,7 +4,7 @@ class InformationViewController: UIViewController {
 
     lazy var contentTextView = {
         let textView = UITextView()
-        textView.textAlignment = .justified
+        textView.textAlignment = .natural
         textView.configSecondaryStyle()
         textView.isEditable = false
         textView.isFindInteractionEnabled = false
@@ -38,7 +38,6 @@ class InformationViewController: UIViewController {
         self.navigationController?.navigationBar.isHidden = false
         self.tabBarController?.tabBar.isHidden = true
         self.navigationItem.title = navTitle
-       
     }
     
     private func setupContentTextView(){

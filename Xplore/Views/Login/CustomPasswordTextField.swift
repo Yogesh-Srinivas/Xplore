@@ -45,7 +45,7 @@ class CustomPasswordTextField: CustomTextField {
     }
     
     override func rightViewRect(forBounds bounds: CGRect) -> CGRect {
-        return CGRect(x: frame.size.width - frame.size.height * 0.4 - 10, y: frame.size.height * 0.3, width: frame.size.height * 0.60, height: frame.size.height * 0.5)
+        return CGRect(x: frame.size.width - frame.size.height * 0.4 - 10, y: frame.size.height * 0.3, width: frame.size.height * 0.7, height: frame.size.height * 0.5)
     }
     
 }

@@ -19,6 +19,7 @@ class AvailabilityCalenderViewController: CustomCalenderViewController {
             footerLabel.text = "\(currencyCode) \((pricePerDay * Double(selectedDates.count)).round(to: 2))"
             
             saveButton.backgroundColor = selectedDates.count > 0 ? .systemPink : .systemGray4
+            saveButton.isEnabled = selectedDates.count > 0 ? true : false
             
         }
     }
@@ -57,6 +58,7 @@ class AvailabilityCalenderViewController: CustomCalenderViewController {
                 month: bookedDate.month,
                 day: bookedDate.day))
         }
+        
     }
     
     func setupHeaderLabel(){

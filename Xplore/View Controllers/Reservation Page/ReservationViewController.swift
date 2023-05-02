@@ -13,8 +13,16 @@ class ReservationViewController: UIViewController {
         let numberOfRating : Int
         let city : String
         let imageUrl : String
+        let numberOfPeopleAccomodate : Int
+        let numberOfRoom : Int
         var guestes : String {
             return String(numberOfGuestes)+" guests"
+        }
+    }
+    
+    var numberOfRoomsNeeded = 1 {
+        didSet{
+            self.priceDetailView.updatePriceDetail(for: numberOfRoomsNeeded)
         }
     }
     
@@ -23,6 +31,7 @@ class ReservationViewController: UIViewController {
             
             [unowned self](value) in
             self.tripDetails.numberOfGuestes = value
+            self.numberOfRoomsNeeded = Int(value / self.tripDetails.numberOfPeopleAccomodate) + (value % self.tripDetails.numberOfPeopleAccomodate == 0 ? 0 : 1)
             
         }
         customStepper.titleLabel.configSecondaryStyle()
@@ -174,7 +183,9 @@ class ReservationViewController: UIViewController {
             rating: placeDetail.placeRating,
             numberOfRating: placeDetail.ratingDetail.count,
             city: placeDetail.location.city,
-            imageUrl: placeDetail.images[0]
+            imageUrl: placeDetail.images[0],
+            numberOfPeopleAccomodate: placeDetail.noOfPeopleAccomodate,
+            numberOfRoom: placeDetail.noOfRooms
         )
         
         self.priceDetails = BookedTrip(
@@ -305,7 +316,8 @@ class ReservationViewController: UIViewController {
             numberOfGuests: tripDetails.numberOfGuestes,
             cleaningFee: ControlCenter.cleaningFee,
             serviceFee: ControlCenter.serviceFee,
-            reservationId: reservationId
+            reservationId: reservationId,
+            numberOfrooms: numberOfRoomsNeeded
         )
         
         databaseController.reservePlace(tripDetails : reservedPlaceDetail)

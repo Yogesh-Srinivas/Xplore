@@ -11,6 +11,7 @@ class PricePresentationViewController: UIViewController {
         let titleLabel = UILabel()
         titleLabel.text = "Price Details (\(priceDetails.currencyCode))"
         titleLabel.configPrimaryStyle()
+//        titleLabel.setContentHuggingPriority(.required, for: .vertical)
         return titleLabel
     }()
     
@@ -146,7 +147,6 @@ class PricePresentationViewController: UIViewController {
         contentStackView.addArrangedSubview(taxesPercentageView)
         contentStackView.addArrangedSubview(UIUtils.getSeparator(size: 1))
         contentStackView.addArrangedSubview(totalPerDayView)
-        contentStackView.addArrangedSubview(UIUtils.getSeparator(size: 1))
 
     }
     

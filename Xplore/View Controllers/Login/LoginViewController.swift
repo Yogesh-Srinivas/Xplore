@@ -53,7 +53,7 @@ class LoginViewController: LoginTemplateViewController {
                 self.navigationController?.navigationBar.isHidden = true
                 self.navigationController?.setViewControllers([loadingVC], animated: false)
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2){[loadingVC] in
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1){[loadingVC] in
                     loadingVC.navigationController?.navigationBar.isHidden = true
                     loadingVC.navigationController?.setViewControllers([MainTabBarController()], animated: true)
                 }
@@ -67,7 +67,8 @@ class LoginViewController: LoginTemplateViewController {
         self.linkLabel.leadingLabel.text = "New to Xplore?"
         self.linkLabel.trailingButton.setTitle("Sign Up", for: .normal)
         
-        self.linkLabel.trailingButton.underline()
+        self.linkLabel.trailingButton.titleLabel?.textColor = .link
+        self.linkLabel.trailingButton.titleLabel?.underline()
         
         self.setLinkButtonAction {
             self.navigationController?.navigationBar.isHidden = true

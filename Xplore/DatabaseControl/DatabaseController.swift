@@ -11,7 +11,6 @@ final class DatabaseController : PlaceDBController,FetchableImage,SessionDBContr
     
     private init(){
         self.databaseOperationDelegate = DatabaseOperation.shared
-        
         loadDatabase()
     }
     
@@ -76,6 +75,8 @@ final class DatabaseController : PlaceDBController,FetchableImage,SessionDBContr
         
         if let toDate = toDate{
             datesToBook = GeneralUtils.getDatesBetween(startDate: fromDate.date, endDate: toDate.date)
+        }else{
+            datesToBook.append(fromDate.date!)
         }
         
         databaseOperationDelegate.bookDates(reservationId: reservationId, placeId: placeId, datesToBook: datesToBook)

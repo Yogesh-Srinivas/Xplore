@@ -30,7 +30,7 @@ class CancelReservationPageViewController: CancellationPolicyViewController {
         
         view.addSubview(cancellationButton)
         super.cancelButton.removeFromSuperview()
-        super.titleView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
+        super.titleView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 5).isActive = true
         setupCancellationButton()
     }
     
@@ -41,7 +41,9 @@ class CancelReservationPageViewController: CancellationPolicyViewController {
             cancellationButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10),
             cancellationButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             cancellationButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            cancellationButton.heightAnchor.constraint(equalToConstant: 40)
+            cancellationButton.heightAnchor.constraint(equalToConstant: 40),
+            cancellationButton.heightAnchor.constraint(equalToConstant: 40),
+            
         ])
     }
     

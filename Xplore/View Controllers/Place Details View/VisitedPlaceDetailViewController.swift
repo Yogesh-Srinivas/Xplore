@@ -22,6 +22,15 @@ class VisitedPlaceDetailViewController: PlaceDetailViewController {
         return labelView
     }()
     
+    lazy var codeView = {
+        let labelView = StackViewWithCornorLabels(frame: .zero)
+        labelView.leadingLabel.text = "Reservation Code"
+        labelView.trailingLabel.text = tripDetails.reservationId
+        labelView.leadingLabel.configSecondaryStyle()
+        labelView.trailingLabel.configSecondaryFadedStyle()
+        return labelView
+    }()
+    
     lazy var priceDetailsView = PriceDetails(frame: .zero, tripDetails: tripDetails)
     
     init(placeDetails :  TravelPlaceDetail,tripDetails : BookedTrip,databaseController : PlaceDBController) {
@@ -38,9 +47,14 @@ class VisitedPlaceDetailViewController: PlaceDetailViewController {
         
         super.viewDidLoad()
         
-        super.contentScrollView.insertSubview(guestView, belowSubview: hostLabel)
+        super.contentScrollView.insertSubview(codeView, belowSubview: hostLabel)
         super.contentScrollView.insertSubview(UIUtils.getSeparator(size: 1), belowSubview: hostLabel)
+        
         super.contentScrollView.insertSubview(priceDetailsView, belowSubview: hostLabel)
+        super.contentScrollView.insertSubview(UIUtils.getSeparator(size: 1), belowSubview: hostLabel)
+        
+        super.contentScrollView.insertSubview(guestView, belowSubview: priceDetailsView)
+        super.contentScrollView.insertSubview(UIUtils.getSeparator(size: 1), aboveSubview: guestView)
        
         setupScrollView()
         

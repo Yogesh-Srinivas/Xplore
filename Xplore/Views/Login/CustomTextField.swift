@@ -47,13 +47,13 @@ class CustomTextField: UITextField {
     }
     
     override func textRect(forBounds bounds: CGRect) -> CGRect {
-        let leftImageIconWidth = frame.size.height * 0.24
+        let leftImageIconWidth = frame.size.height * 0.21
 
         return bounds.insetBy(dx: leftImageIconWidth + 25, dy: leftImageIconWidth)
     }
 
     override func editingRect(forBounds bounds: CGRect) -> CGRect {
-        let leftImageIconWidth = frame.size.height * 0.24
+        let leftImageIconWidth = frame.size.height * 0.21
 
         return bounds.insetBy(dx: leftImageIconWidth + 25, dy: leftImageIconWidth)
     }

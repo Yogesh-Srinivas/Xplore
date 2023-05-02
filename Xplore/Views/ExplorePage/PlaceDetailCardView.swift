@@ -8,19 +8,8 @@ class PlaceDetailCardView: UITableViewCell {
         
     var databaseController : PlaceDBController = DatabaseController.shared
     
-//    private var imagesCollectionView : ImagesDisplayCollectionView
-    
-    var placeImage = UIImage(named: "loadingImage")
-    
-    lazy var placeImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleToFill
-        imageView.image = placeImage
-        imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 15
-        return imageView
-    }()
-    
+    let imagesCollectionView = ImageCollectionWithPageControl()
+        
     let wishListButton = {
         let button = UIButton()
         button.contentVerticalAlignment = .fill
@@ -34,19 +23,17 @@ class PlaceDetailCardView: UITableViewCell {
     let ratingCard = UILabel()
     let priceLabelButton = {
         let button = UIButton()
-        button.setTitleColor(.label, for: .normal)
+        button.setTitleColor(.link, for: .normal)
         return button
     }()
    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         
-//        self.imagesCollectionView = ImagesDisplayCollectionView()
         
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-//        contentView.addSubview(imagesCollectionView)
-        contentView.addSubview(placeImageView)
+        contentView.addSubview(imagesCollectionView)
         contentView.addSubview(titleCardView)
         contentView.addSubview(locationCardView)
         contentView.addSubview(priceLabelButton)
@@ -61,9 +48,10 @@ class PlaceDetailCardView: UITableViewCell {
     }
     
     
-//    func addImages(imageUrls : [String]){
-//        self.imagesCollectionView.imageUrls = imageUrls
-//    }
+    func addImages(imageUrls : [String]){
+        self.imagesCollectionView.placeImagesCollectionView.imageUrls = imageUrls
+        self.imagesCollectionView.pageControl.numberOfPages = imageUrls.count
+    }
     
     
     
@@ -88,7 +76,7 @@ class PlaceDetailCardView: UITableViewCell {
 
             case contentView.subviews.count - 2:
                 NSLayoutConstraint.activate([
-                    contentView.subviews[childIndex].topAnchor.constraint(equalTo: contentView.subviews[childIndex-1].bottomAnchor,constant: 3),
+                    contentView.subviews[childIndex].topAnchor.constraint(equalTo: contentView.subviews[childIndex-1].bottomAnchor),
                 contentView.subviews[childIndex].bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -25),
                 contentView.subviews[childIndex].leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 20)
               
@@ -96,21 +84,29 @@ class PlaceDetailCardView: UITableViewCell {
                 
             case contentView.subviews.count - 1:
                 NSLayoutConstraint.activate([
-                    contentView.subviews[childIndex].topAnchor.constraint(equalTo: contentView.subviews[childIndex-2].bottomAnchor,constant: 3),
+                    contentView.subviews[childIndex].topAnchor.constraint(equalTo: contentView.subviews[childIndex-2].bottomAnchor),
                 contentView.subviews[childIndex].bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -25),
                 contentView.subviews[childIndex].trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -20)
               
                 ])
                 
-            default:
+            case 1:
                 NSLayoutConstraint.activate([
-                    contentView.subviews[childIndex].topAnchor.constraint(equalTo: contentView.subviews[childIndex-1].bottomAnchor,constant: 10),
                 contentView.subviews[childIndex].leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 20),
                 contentView.subviews[childIndex].trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -20)
                 ])
+            case 2:
+                NSLayoutConstraint.activate([
+                    contentView.subviews[childIndex].topAnchor.constraint(equalTo: contentView.subviews[childIndex-1].bottomAnchor),
+                contentView.subviews[childIndex].leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 20),
+                contentView.subviews[childIndex].trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -20)
+                ])
+            default:
+                break
             }
             
-//            imagesCollectionView.layer.cornerRadius = 20
+            imagesCollectionView.layer.cornerRadius = 20
+            imagesCollectionView.clipsToBounds = true
         }
         
                 
@@ -133,7 +129,7 @@ extension PlaceDetailCardView{
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        placeImageView.image = UIImage(named: "loadingImage")
+        imagesCollectionView.refreshData()
         
     }
 }

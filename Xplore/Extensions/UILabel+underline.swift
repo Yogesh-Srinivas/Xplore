@@ -2,7 +2,7 @@ import UIKit
 extension UILabel {
     func underline() {
         if let textString = self.text {
-            let underLineColor: UIColor = .label
+            let underLineColor: UIColor = textColor
 
             let attributedString = NSMutableAttributedString(string: textString)
             

@@ -149,6 +149,7 @@ final class DatabaseOperation : DatabaseOperationDelegate{
             FieldDetail(fieldName: "cleaningFee", fieldType: .REAL, isUnique: false, isNotNull: true, defaultValue: nil),
             FieldDetail(fieldName: "serviceFee", fieldType: .REAL, isUnique: false, isNotNull: true, defaultValue: nil),
             FieldDetail(fieldName: "numberOfGuests", fieldType: .INTEGER, isUnique: false, isNotNull: true, defaultValue: nil),
+            FieldDetail(fieldName: "numberOfRooms", fieldType: .INTEGER, isUnique: false, isNotNull: true, defaultValue: nil),
             FieldDetail(fieldName: "isVisited", fieldType: .INTEGER, isUnique: false, isNotNull: true, defaultValue: "0")
             ],
             primaryKeys: ["reservationId"]
@@ -374,6 +375,7 @@ final class DatabaseOperation : DatabaseOperationDelegate{
             let bookedDateFromString = parsedResult["bookedDateFrom"] as! String
             let bookedDateToString = parsedResult["bookedDateTo"] as! String
             let numberOfGuests = parsedResult["numberOfGuests"] as! Int
+            let numberOfRooms = parsedResult["numberOfRooms"] as! Int
             let isVisited = parsedResult["isVisited"] as! Int == 0 ? false : true
             let pricePerDay = (parsedResult["pricePerDay"] as! Double).round(to: 2)
             let taxPercentage = (parsedResult["taxPercentage"] as! Double).round(to: 2)
@@ -388,11 +390,10 @@ final class DatabaseOperation : DatabaseOperationDelegate{
                 
                 if  bookedDateFromString == bookedDateToString {
                     bookedDateToComponent = nil
-                }
-                
-                if let bookedDateTo = GeneralUtils.convertDateStringToComponent(dateString: bookedDateToString)  {
+                }else if let bookedDateTo = GeneralUtils.convertDateStringToComponent(dateString: bookedDateToString)  {
                     bookedDateToComponent = bookedDateTo
                 }
+                
                 
                 bookedTrips.append(
                     BookedTrip(
@@ -407,7 +408,8 @@ final class DatabaseOperation : DatabaseOperationDelegate{
                         numberOfGuests: numberOfGuests,
                         cleaningFee: cleaningFee,
                         serviceFee: serviceFee,
-                        reservationId: reservationId
+                        reservationId: reservationId,
+                        numberOfrooms: numberOfRooms
                     )
                 )
             }
@@ -620,6 +622,7 @@ final class DatabaseOperation : DatabaseOperationDelegate{
                 FieldWithValue(fieldName: "cleaningFee", fieldType: .REAL, fieldValue: String(bookedTrip.cleaningFee)),
                 FieldWithValue(fieldName: "ServiceFee", fieldType: .REAL, fieldValue: String(bookedTrip.serviceFee)),
                 FieldWithValue(fieldName: "numberOfGuests", fieldType: .INTEGER, fieldValue: String(bookedTrip.numberOfGuests)),
+                FieldWithValue(fieldName: "numberOfRooms", fieldType: .INTEGER, fieldValue: String(bookedTrip.numberOfrooms)),
                 FieldWithValue(fieldName: "reservationId", fieldType: .TEXT, fieldValue: bookedTrip.reservationId),
                 FieldWithValue(fieldName: "isVisited", fieldType: .INTEGER, fieldValue: bookedTrip.isVisited ? String(1) : String(0))
                 
@@ -628,6 +631,7 @@ final class DatabaseOperation : DatabaseOperationDelegate{
     }
     
     func bookDates(reservationId : String, placeId : String,datesToBook : [Date]){
+        
         for date in datesToBook{
             xploreSqliteWrapper.insert(into: "PlaceAvailability", values: [
                 FieldWithValue(fieldName: "placeId", fieldType: .TEXT, fieldValue: placeId),
@@ -661,6 +665,7 @@ final class DatabaseOperation : DatabaseOperationDelegate{
                     bookedDates.append(bookedDate)
             }
         }
+        
         return bookedDates
     }
     

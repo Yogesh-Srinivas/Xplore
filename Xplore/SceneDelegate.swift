@@ -19,6 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             
             userDefault.set(true, forKey: "hasAppOpenedBefore")
             window?.rootViewController = UINavigationController(rootViewController: LoginViewController())
+            DatabaseController.shared.loadDatabase()
             
         }else{
             if userDefault.string(forKey: "userId") != nil{
@@ -29,7 +30,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 navigationController.setViewControllers([LodingViewController()], animated: true)
                 self.window?.rootViewController = navigationController
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2){
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1){
                     navigationController.setViewControllers([MainTabBarController()], animated: true)
                     self.window?.rootViewController = navigationController
                 }

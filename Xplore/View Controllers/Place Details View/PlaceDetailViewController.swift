@@ -51,12 +51,7 @@ class PlaceDetailViewController: UIViewController {
     
    
     
-    lazy var reserveButton = {
-        let button = UIButton()
-        button.tag = 0
-        button.backgroundColor = .systemGray4
-        return button
-    }()
+   
     
     
     lazy var reviewView = ReviewView(frame: CGRect.zero, reviewList: placeDetails.reviewDetail,referenceViewController: self)

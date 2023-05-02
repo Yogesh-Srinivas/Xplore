@@ -169,9 +169,14 @@ extension ReviewView : UICollectionViewDelegate,UICollectionViewDataSource,UICol
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        var initialRowIndex = indexPath.row
+        
         if indexPath.row == min(5,reviewList.count){
-            showAllReviewAction()
+            initialRowIndex = 0
         }
+        referenceViewController.navigationController?.pushViewController(
+                ReviewPageViewController(reviewList: reviewList,initialRowIndex: initialRowIndex), animated: true)
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {

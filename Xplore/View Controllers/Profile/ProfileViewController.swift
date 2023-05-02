@@ -26,16 +26,26 @@ class ProfileViewController: UITableViewController {
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "ProfileTableCell")
         self.tableView.register(ProfileHeaderView.self, forHeaderFooterViewReuseIdentifier: "ProfileHeader")
         self.tableView.isScrollEnabled = false
+        
     }
-    override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.navigationBar.isHidden = true
+    
+    override func viewDidAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
         self.tabBarController?.tabBar.backgroundColor = .systemBackground
 
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isHidden = true
         
-        if let contentConfiguration = (tableView.cellForRow(at: IndexPath(row: 0, section: 0))?.contentConfiguration),var parsedContentConfiguration = contentConfiguration as? UIListContentConfiguration {
-            parsedContentConfiguration.secondaryText = GeneralUtils.getCurrentCurrency()
-            tableView.reloadData()
+        if let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)){
+            var config = UIListContentConfiguration.valueCell()
+            config.text = "Currency"
+            config.textProperties.configSecondaryStyle()
+            config.secondaryText = GeneralUtils.getCurrentCurrency()
+            tableView.cellForRow(at: IndexPath(row: 0, section: 0))?.contentConfiguration = config
+            
+            tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .none)
         }
     }
         
@@ -77,10 +87,6 @@ class ProfileViewController: UITableViewController {
 extension ProfileViewController{
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 4
-    }
-    
-    override func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-        UITableView.automaticDimension
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

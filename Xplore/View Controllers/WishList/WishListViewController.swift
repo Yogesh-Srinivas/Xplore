@@ -28,8 +28,9 @@ class WishListViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "WishListTableCell")
+        self.tableView.register(PlaceListCustomCell.self, forCellReuseIdentifier: "WishListTableCell")
         self.tableView.separatorStyle = .none
+        
         self.navigationItem.title = "Your WishList"
         
         view.addSubview(emptyWishListView)
@@ -57,10 +58,11 @@ class WishListViewController: UITableViewController {
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
         self.tabBarController?.tabBar.backgroundColor = .systemBackground
-
+    }
+    override func viewWillAppear(_ animated: Bool) {
         loadWishlist()
         wishListDetails = convertListToCurrentCurrency(travelPlaceList: wishListDetails)
         tableView.reloadData()
@@ -88,17 +90,10 @@ class WishListViewController: UITableViewController {
         return convertedList
     }
     
-    private func configTabelCell(cell : inout UITableViewCell,row : Int){
+    private func configTabelCell(cell : inout PlaceListCustomCell,row : Int){
         
-        var contentConfig = UIListContentConfiguration.valueCell()
-        contentConfig.text = wishListDetails[row].placeName
-        contentConfig.textProperties.configSemiPrimary()
-        contentConfig.textProperties.numberOfLines = 4
-        contentConfig.textToSecondaryTextVerticalPadding = 3
-        
-        contentConfig.secondaryText = "\(wishListDetails[row].location.city), \(wishListDetails[row].location.state), \(wishListDetails[row].location.country),"
-
-        contentConfig.secondaryTextProperties.configSecondaryFadedStyle()
+        cell.primaryLabel.text = wishListDetails[row].placeName
+        cell.secondaryLabel.text = "\(wishListDetails[row].location.city), \(wishListDetails[row].location.state), \(wishListDetails[row].location.country)"
         
         var placeImage = UIImage(named: "loadingImage")
         
@@ -106,19 +101,13 @@ class WishListViewController: UITableViewController {
             placeImage = UIImage(data: imageDate)
         }
         
-        contentConfig.image = placeImage
-        contentConfig.imageProperties.reservedLayoutSize = CGSize(width: 100, height: 100)
-        contentConfig.imageProperties.maximumSize = CGSize(width: 125, height: 100)
-        contentConfig.imageToTextPadding = 20
-        contentConfig.imageProperties.cornerRadius = 15
-      
-        cell.contentConfiguration = contentConfig
+        cell.headerImage.image = placeImage
         
-        
-        
+
         let wishListView = UIImageView(image: UIImage(systemName: "heart.fill"))
         cell.accessoryView = wishListView
         cell.accessoryView?.tintColor = .systemPink
+        
         
         let wishButtonGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(wishListButtonAction(_:)))
         cell.accessoryView?.tag = row
@@ -127,25 +116,29 @@ class WishListViewController: UITableViewController {
     }
     
     @objc private func wishListButtonAction(_ gestureRecognizer: UITapGestureRecognizer){
-        if let row = gestureRecognizer.view?.tag{
-            
-            let placeId = wishListDetails[row].placeId
-            
-            databaseController.removeFromWishList(placeId: placeId)
-            
-            wishListDetails.remove(at: row)
-            tableView.deleteRows(at: [IndexPath(row: row, section: 0)], with: .fade)
-            tableView.reloadData()
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3){ [unowned self] in
-                if self.wishListDetails.count > 0{
-                    emptyWishListView.isHidden = true
-                }else{
-                    emptyWishListView.isHidden = false
+        
+        for visibleCell in tableView.visibleCells{
+            if visibleCell.accessoryView == gestureRecognizer.view{
+                if let rowIndex = tableView.indexPath(for: visibleCell)?.row{
+                    let placeId = wishListDetails[rowIndex].placeId
+                    
+                    databaseController.removeFromWishList(placeId: placeId)
+                    
+                    wishListDetails.remove(at: rowIndex)
+                    tableView.deleteRows(at: [IndexPath(row: rowIndex, section: 0)], with: .fade)
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3){ [unowned self] in
+                        if self.wishListDetails.count > 0{
+                            emptyWishListView.isHidden = true
+                        }else{
+                            emptyWishListView.isHidden = false
+                        }
+                    }
                 }
+                break
             }
-            
         }
+        
     }
 }
 
@@ -156,7 +149,7 @@ extension WishListViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "WishListTableCell", for: indexPath)
+        var cell = tableView.dequeueReusableCell(withIdentifier: "WishListTableCell", for: indexPath) as! PlaceListCustomCell
         
         configTabelCell(cell: &cell, row: indexPath.row)
         cell.selectionStyle = .none
@@ -185,10 +178,12 @@ extension WishListViewController {
            placeDetailedPageViewController,
                 animated: true)
         
-        
         tableView.deselectRow(at: indexPath, animated: true)
-        
        
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        100
     }
     
 

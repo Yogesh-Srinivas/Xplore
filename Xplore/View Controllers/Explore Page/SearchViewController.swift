@@ -19,7 +19,7 @@ class SearchViewController: UIViewController {
     lazy var whenLabelButton = {
         let button = UIButton()
         button.setTitle("change", for: .normal)
-        button.setTitleColor(.label, for: .normal)
+        button.setTitleColor(.link, for: .normal)
         button.titleLabel?.underline()
         button.titleLabel?.configSecondaryStyle()
         button.addTarget(self, action: #selector(whenButtonOnTapAction), for: .touchDown)
@@ -78,7 +78,7 @@ class SearchViewController: UIViewController {
     lazy var whereLabelButton = {
         let button = UIButton()
         button.setTitle("change", for: .normal)
-        button.setTitleColor(.label, for: .normal)
+        button.setTitleColor(.link, for: .normal)
         button.titleLabel?.underline()
         button.titleLabel?.configSecondaryStyle()
         button.addTarget(self, action: #selector(whereButtonOnTapAction), for: .touchDown)
@@ -157,8 +157,8 @@ class SearchViewController: UIViewController {
     lazy var clearButton = {
         let button = UIButton()
         button.setTitle("clear all", for: .normal)
-        button.setTitleColor(.label, for: .normal)
-        button.underline()
+        button.setTitleColor(.link, for: .normal)
+        button.titleLabel?.underline()
         button.addTarget(self, action: #selector(clearButtonOnTapAction), for: .touchDown)
         button.titleLabel?.configSecondaryStyle()
         return button
@@ -188,7 +188,6 @@ class SearchViewController: UIViewController {
         contentScrollView.addSubview(whoView)
         contentScrollView.addSubview(UIUtils.getSeparator(size: 1))
         contentScrollView.addSubview(whereView)
-        contentScrollView.addSubview(paddingView)
         
         footerView.addSubview(clearButton)
         footerView.addSubview(searchButton)
@@ -198,19 +197,14 @@ class SearchViewController: UIViewController {
         setupWhoView()
         setupWhereView()
         setupFooterView()
-        setupPaddingView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
         self.tabBarController?.tabBar.isHidden = true
         self.navigationItem.title = "Search"
-    }
-    
-    private func setupPaddingView(){
-        paddingView.translatesAutoresizingMaskIntoConstraints = false
-      
-        paddingView.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        paddingView.topAnchor.constraint(equalTo: whereView.bottomAnchor, constant: 5).isActive = true
+        
     }
     
     func setupContentScrollView(){
@@ -222,6 +216,8 @@ class SearchViewController: UIViewController {
             contentScrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             contentScrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+        
+        contentScrollView.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 70, right: 0)
         
         let scrollViewChildren = contentScrollView.subviews
         
@@ -240,8 +236,8 @@ class SearchViewController: UIViewController {
                 ])
             default:
                 NSLayoutConstraint.activate([
-                    child.topAnchor.constraint(equalTo: scrollViewChildren[childIndex-1].bottomAnchor,constant: 20),
-                    child.bottomAnchor.constraint(equalTo: scrollViewChildren[childIndex+1].topAnchor,constant: -20)
+                    child.topAnchor.constraint(equalTo: scrollViewChildren[childIndex-1].bottomAnchor,constant: 15),
+                    child.bottomAnchor.constraint(equalTo: scrollViewChildren[childIndex+1].topAnchor,constant: -15)
     
                 ])
             }
@@ -384,7 +380,9 @@ class SearchViewController: UIViewController {
     }
     
     @objc private func whereButtonOnTapAction(){
-        self.present(
+
+
+        self.navigationController?.pushViewController(
             WhereSearchBarViewController(
                 locationDetail: databaseController.getAvailableLocations()
             ){
@@ -395,5 +393,5 @@ class SearchViewController: UIViewController {
         )
     }
     
-
+    
 }

@@ -3,6 +3,14 @@ import UIKit
 
 class UnreservedPlaceDetailsViewController: UnvisitedPlaceDetailViewController {
     
+    
+    lazy var reserveButton = {
+        let button = UIButton()
+        button.isEnabled = false
+        button.backgroundColor = .systemGray4
+        return button
+    }()
+    
     lazy var wishListItem = {
         let barButtonItem = UIBarButtonItem()
         return barButtonItem
@@ -24,14 +32,9 @@ class UnreservedPlaceDetailsViewController: UnvisitedPlaceDetailViewController {
             
             availabiltiyView.contentLabel.text = dateText
             datesButton.setTitle(dateText, for: .normal)
-            
-            availabiltiyView.contentLabel.configSecondaryStyle()
-            
-//            _ = placeDetails.price.pricePerDay
-//            _ = placeDetails.price.currencyCode
-                        
+                                
             reserveButton.backgroundColor = .systemPink
-            reserveButton.tag = 1
+            reserveButton.isEnabled = true
             
         }
     }
@@ -63,7 +66,7 @@ class UnreservedPlaceDetailsViewController: UnvisitedPlaceDetailViewController {
         let button = UIButton()
         button.setTitle("choose your dates", for: .normal)
         button.titleLabel?.configSecondaryRegularStyle()
-        button.setTitleColor(.label, for: .normal)
+        button.setTitleColor(.link, for: .normal)
         button.titleLabel?.underline()
         button.addTarget(self, action: #selector(datesButtonOnTapAction), for: .touchDown)
         
@@ -166,18 +169,14 @@ class UnreservedPlaceDetailsViewController: UnvisitedPlaceDetailViewController {
     }
     
     @objc private func reserveButtonOnTapAction(){
-        if reserveButton.tag == 0{
-//            availabiltiyView.viewOnTap()
-            UIUtils.showAlertMessage(message: "choose your dates", viewController: self, durationInSeconds: 1)
-        }else{
-            self.navigationController?.pushViewController(ReservationViewController(
-                fromDate: fromDate,
-                toDate: toDate,
-                placeDetail: placeDetails,
-                numberOfGuests: numberOfGuests,
-                databaseController: databaseController,
-                headerImage: self.placeImagesCollectionViewWithPageControl.placeImagesCollectionView.images[0]), animated: true)
-        }
+        self.navigationController?.pushViewController(ReservationViewController(
+            fromDate: fromDate,
+            toDate: toDate,
+            placeDetail: placeDetails,
+            numberOfGuests: numberOfGuests,
+            databaseController: databaseController,
+            headerImage: self.placeImagesCollectionViewWithPageControl.placeImagesCollectionView.images[0]), animated: true)
+        
     }
     
     private func setupWishItem(){
@@ -211,6 +210,7 @@ class UnreservedPlaceDetailsViewController: UnvisitedPlaceDetailViewController {
         
         availabiltiyView.contentLabel.text = "choose your dates"
         availabiltiyView.contentLabel.configSecondaryStyle()
+        availabiltiyView.contentLabel.textColor = .link
         availabiltiyView.contentLabel.underline()
        
     }
