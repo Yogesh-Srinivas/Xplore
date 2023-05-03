@@ -142,6 +142,9 @@ extension ProfileViewController{
                 
                 UserDefaults.standard.removeObject(forKey: "userId")
                 self.navigationController?.setViewControllers([LoginViewController()], animated: true)
+                
+                let notification = UINotificationFeedbackGenerator()
+                notification.notificationOccurred(.success)
             }))
 
             present(logoutAlert, animated: true, completion: nil)

@@ -19,9 +19,10 @@ class LabelWithButtonView: UIStackView {
         super.init(frame: frame)
         
         self.axis = .horizontal
+        self.alignment = .firstBaseline
         self.addArrangedSubview(leadingLabel)
         self.addArrangedSubview(trailingButton)
-        self.spacing = 2
+        self.spacing = 3
     }
     
     required init(coder: NSCoder) {

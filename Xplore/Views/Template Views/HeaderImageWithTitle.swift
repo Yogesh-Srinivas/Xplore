@@ -13,7 +13,7 @@ class HeaderImageWithTitle: UIView {
     
     lazy var primaryLabel = {
         let label = UILabel()
-        label.numberOfLines = 4
+        label.numberOfLines = 1
         label.configSecondaryStyle()
         label.contentMode = .top
         return label
@@ -26,6 +26,15 @@ class HeaderImageWithTitle: UIView {
         label.setContentHuggingPriority(.required, for: .vertical)
         return label
     }()
+    
+    lazy var tertiaryLabel = {
+        let label = UILabel()
+        label.numberOfLines = 2
+        label.configTertiaryStyle()
+        label.contentMode = .top
+        label.setContentHuggingPriority(.required, for: .vertical)
+        return label
+    }()
 
     
     override init(frame: CGRect) {
@@ -34,7 +43,8 @@ class HeaderImageWithTitle: UIView {
         self.addSubview(headerImage)
         self.addSubview(primaryLabel)
         self.addSubview(secondaryLabel)
-        
+        self.addSubview(tertiaryLabel)
+
         setupView()
     }
     
@@ -66,9 +76,17 @@ class HeaderImageWithTitle: UIView {
         secondaryLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            secondaryLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            secondaryLabel.topAnchor.constraint(equalTo: primaryLabel.bottomAnchor),
             secondaryLabel.leadingAnchor.constraint(equalTo: headerImage.trailingAnchor,constant: 10),
             secondaryLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor)
+        ])
+        
+        tertiaryLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            tertiaryLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            tertiaryLabel.leadingAnchor.constraint(equalTo: headerImage.trailingAnchor,constant: 10),
+            tertiaryLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor)
         ])
         
     }

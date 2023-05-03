@@ -116,6 +116,7 @@
 		3FD1415029EE75F3007B97BB /* Authenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD1414F29EE75F3007B97BB /* Authenticator.swift */; };
 		3FD1415229EE8BD7007B97BB /* ValidatorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD1415129EE8BD7007B97BB /* ValidatorType.swift */; };
 		3FD1415429EE8C2E007B97BB /* UITextField+validateText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD1415329EE8C2E007B97BB /* UITextField+validateText.swift */; };
+		3FD248A02A02221F0088846E /* ConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD2489F2A02221F0088846E /* ConfettiView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -230,6 +231,7 @@
 		3FD1414F29EE75F3007B97BB /* Authenticator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authenticator.swift; sourceTree = "<group>"; };
 		3FD1415129EE8BD7007B97BB /* ValidatorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidatorType.swift; sourceTree = "<group>"; };
 		3FD1415329EE8C2E007B97BB /* UITextField+validateText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+validateText.swift"; sourceTree = "<group>"; };
+		3FD2489F2A02221F0088846E /* ConfettiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -391,6 +393,7 @@
 				3F50BB3629D4647F00E0D6D4 /* UIUtils.swift */,
 				3F50BB4229D55CC600E0D6D4 /* Constants.swift */,
 				3F0BDABD29DD659300F6638B /* ControlCenter.swift */,
+				3FD2489F2A02221F0088846E /* ConfettiView.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -728,6 +731,7 @@
 				3F50BB3729D4647F00E0D6D4 /* UIUtils.swift in Sources */,
 				3F17E8E129E440E40030CC02 /* CancelReservationPageViewController.swift in Sources */,
 				3F50BAB129CAFFB900E0D6D4 /* SceneDelegate.swift in Sources */,
+				3FD248A02A02221F0088846E /* ConfettiView.swift in Sources */,
 				3F72D22029F7A47200506F51 /* ReservationViewController.swift in Sources */,
 				3F531C3029E9BACE0043185C /* InformationViewController.swift in Sources */,
 				3F50BB5A29D6A4D900E0D6D4 /* QueryCondition.swift in Sources */,
@@ -875,7 +879,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = M4A9TK6RZ3;
+				DEVELOPMENT_TEAM = 295N44AAZ9;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Xplore/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -888,7 +892,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = Nothing.Xplore;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Nothing.Xplore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -903,7 +907,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = M4A9TK6RZ3;
+				DEVELOPMENT_TEAM = 295N44AAZ9;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Xplore/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -916,7 +920,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = Nothing.Xplore;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Nothing.Xplore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

@@ -1,4 +1,5 @@
 import UIKit
+import QuartzCore
 
 class ExplorePageViewController: UITableViewController {
     
@@ -92,7 +93,10 @@ class ExplorePageViewController: UITableViewController {
         }else{
             noSearchResultView.isHidden = true
         }
+
     }
+    
+    
     
     private func setupNoSearchResultView(){
         noSearchResultView.translatesAutoresizingMaskIntoConstraints = false
@@ -205,7 +209,7 @@ class ExplorePageViewController: UITableViewController {
         let priceVc = PricePresentationViewController(priceDetails: filteredPlaceList[sender.tag].price,placeTitle: filteredPlaceList[sender.tag].placeName)
         
         priceVc.modalPresentationStyle = .formSheet
-        priceVc.sheetPresentationController?.detents = [.custom(resolver: { _ in 270 })]
+        priceVc.sheetPresentationController?.detents = [.custom(resolver: { _ in 250 })]
         present(priceVc, animated: true)
     }
     

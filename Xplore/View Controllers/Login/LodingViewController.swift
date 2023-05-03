@@ -16,13 +16,21 @@ class LodingViewController: UIViewController {
         label.textColor = .white
         return label
     }()
+    
+    lazy var loadingIndicator = {
+        let activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator.color = .white
+        return activityIndicator
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemPink
         view.addSubview(logoImageView)
-        view.addSubview(loadingLabel)
+        view.addSubview(loadingIndicator)
         setupLoadingView()
+        
+        loadingIndicator.startAnimating()
     }
     
     private func setupLoadingView(){
@@ -35,11 +43,11 @@ class LodingViewController: UIViewController {
             logoImageView.widthAnchor.constraint(equalToConstant: 350)
         ])
         
-        loadingLabel.translatesAutoresizingMaskIntoConstraints = false
+        loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            loadingLabel.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor),
-            loadingLabel.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 20)
+            loadingIndicator.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor),
+            loadingIndicator.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 20)
         ])
         
     }

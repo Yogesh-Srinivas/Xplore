@@ -4,6 +4,21 @@ import UIKit
 
 final class ReservationConfirmationViewController: UITableViewController {
     
+    
+    lazy var loadingView = {
+        let view = UIView()
+        let activityIndicator = UIActivityIndicatorView(style: .large)
+        view.addSubview(activityIndicator)
+        view.backgroundColor = .systemGray6
+        activityIndicator.startAnimating()
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+        return view
+    }()
+    
     let reservationCode : String
     let location : String
 
@@ -16,6 +31,7 @@ final class ReservationConfirmationViewController: UITableViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,45 +47,41 @@ final class ReservationConfirmationViewController: UITableViewController {
         tableView.separatorStyle = .none
         
         self.navigationItem.setHidesBackButton(true, animated: false)
+        self.view.addSubview(loadingView)
+        setupLoadingView()
+    }
+    
+    private func setupLoadingView(){
+        loadingView.translatesAutoresizingMaskIntoConstraints = false
         
-        addConfitte()
+        NSLayoutConstraint.activate([
+            loadingView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            loadingView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
+            loadingView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
+            loadingView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor)
+        ])
     }
 
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = true
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1){[unowned self] in
+            self.loadingView.removeFromSuperview()
+            addConfetti()
+        }
     }
     
-    private func addConfitte(){
-        var emitter = CAEmitterLayer()
-        emitter.emitterPosition = CGPoint(x: self.view.frame.size.width / 2, y: -10)
-        emitter.emitterShape = CAEmitterLayerEmitterShape.line
-        emitter.emitterSize = CGSize(width: self.view.frame.size.width, height: 2.0)
-        emitter.emitterCells = generateEmitterCells()
-        self.view.layer.addSublayer(emitter)
+    private func addConfetti(){
+        let confettiView = ConfettiView(frame: self.view.bounds)
+        confettiView.startConfetti()
+        self.view.addSubview(confettiView)
+        confettiView.sendSubviewToBack(tableView)
+        confettiView.isUserInteractionEnabled = false
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
+            confettiView.stopConfetti()
+        }
     }
-    
-    private func generateEmitterCells() -> [CAEmitterCell] {
-    var cells:[CAEmitterCell] = [CAEmitterCell]()
-    for index in 0..<16 {
-        let cell = CAEmitterCell()
-        cell.birthRate = 4.0
-        cell.lifetime = 14.0
-        cell.lifetimeRange = 0
-        cell.velocity = 10.0
-        cell.velocityRange = 0
-        cell.emissionLongitude = CGFloat(Double.pi)
-        cell.emissionRange = 0.5
-        cell.spin = 3.5
-        cell.spinRange = 0
-        cell.color = UIColor.systemBlue.cgColor
-        cell.contents
-        cell.scaleRange = 0.25
-        cell.scale = 0.1
-        cells.append(cell)
-    }
-        return cells
-    }
-    
     
     private func configCell(config : inout UIListContentConfiguration){
         config.text = "Reservation Code"

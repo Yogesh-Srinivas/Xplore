@@ -11,7 +11,7 @@ class ReservationViewController: UIViewController {
         var numberOfGuestes : Int
         let rating : Double
         let numberOfRating : Int
-        let city : String
+        let location : Location
         let imageUrl : String
         let numberOfPeopleAccomodate : Int
         let numberOfRoom : Int
@@ -107,60 +107,6 @@ class ReservationViewController: UIViewController {
         return sectionView
     }()
     
-    
-//    lazy var specialRequestTextView = {
-//        let textView = UITextView()
-//        textView.configSecondaryRegularStyle()
-//        textView.backgroundColor = .systemGray5
-//        textView.layer.cornerRadius = 5
-//        textView.layer.borderWidth = 1
-//        textView.layer.borderColor = UIColor.systemGray3.cgColor
-//
-//        return textView
-//    }()
-    
-//    lazy var specialRequestYesButton = {
-//        let button = UIButton()
-//        button.backgroundColor = .systemPink
-//        button.setTitle("Yes", for: .normal)
-//        button.layer.cornerRadius = 10
-//        button.titleLabel?.configSecondaryRegularStyle()
-//        button.tag = 1
-//        button.addTarget(self, action: #selector(specialRequestButtonOnTapAction(_:)), for: .touchDown)
-//
-//        return button
-//    }()
-//
-//    lazy var specialRequestNoButton = {
-//        let button = UIButton()
-//        button.backgroundColor = .systemPink
-//        button.setTitle("No", for: .normal)
-//        button.layer.cornerRadius = 4
-//        button.titleLabel?.configSecondaryRegularStyle()
-//        button.tag = 0
-//        button.addTarget(self, action: #selector(specialRequestButtonOnTapAction(_:)), for: .touchDown)
-//        return button
-//    }()
-//
-//    lazy var specialRequestionActionButtonView = {
-//        let stackView = UIStackView()
-//        stackView.axis = .horizontal
-//        stackView.distribution = .equalCentering
-//        stackView.spacing = 20
-//        stackView.addArrangedSubview(specialRequestYesButton)
-//        stackView.addArrangedSubview(specialRequestNoButton)
-//        return stackView
-//    }()
-    
-    
-    
-//    lazy var specialRequestView = {
-//        let sectionView = SectionView(frame: .zero, contentView: self.specialRequestionActionButtonView, titleText: "Do you want to add any special request?")
-//        sectionView.titleView.numberOfLines = 0
-//        sectionView.titleView.configSecondaryRegularStyle()
-//        return sectionView
-//    }()
-    
     init(fromDate : DateComponents,toDate : DateComponents?,placeDetail : TravelPlaceDetail,numberOfGuests : Int,databaseController : PlaceDBController,headerImage : UIImage?){
         
         
@@ -182,7 +128,7 @@ class ReservationViewController: UIViewController {
             numberOfGuestes: numberOfGuests,
             rating: placeDetail.placeRating,
             numberOfRating: placeDetail.ratingDetail.count,
-            city: placeDetail.location.city,
+            location : placeDetail.location,
             imageUrl: placeDetail.images[0],
             numberOfPeopleAccomodate: placeDetail.noOfPeopleAccomodate,
             numberOfRoom: placeDetail.noOfRooms
@@ -238,7 +184,9 @@ class ReservationViewController: UIViewController {
     private func setupHeaderview(){
         headerView.primaryLabel.text = tripDetails.placeName
         
-        headerView.secondaryLabel.text = tripDetails.numberOfRating != 0 ? "\(Constants.RATING_STAR) \(tripDetails.rating) (\(tripDetails.numberOfRating))" : "\(Constants.RATING_STAR) New"
+        headerView.tertiaryLabel.text = tripDetails.numberOfRating != 0 ? "\(Constants.RATING_STAR) \(tripDetails.rating) (\(tripDetails.numberOfRating))" : "\(Constants.RATING_STAR) New"
+        
+        headerView.secondaryLabel.text = "\(tripDetails.location.city), \(tripDetails.location.state), \(tripDetails.location.country)"
     }
     
     private func setupYourTripView(){
@@ -320,13 +268,27 @@ class ReservationViewController: UIViewController {
             numberOfrooms: numberOfRoomsNeeded
         )
         
-        databaseController.reservePlace(tripDetails : reservedPlaceDetail)
-                
-        self.navigationController?.pushViewController(
-            ReservationConfirmationViewController(
-                location: tripDetails.city,
-                reservationCode: reservationId,
-                imageUrl: tripDetails.imageUrl), animated: true)
+        
+        let confirmReserveAlert = UIAlertController(title: "Confirm Reservation", message: "Are you sure you want to make this reservation?", preferredStyle: UIAlertController.Style.alert)
+        
+        confirmReserveAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+
+        confirmReserveAlert.addAction(UIAlertAction(title: "Reserve", style: .default, handler: { (action: UIAlertAction!) in
+            
+            self.databaseController.reservePlace(tripDetails : reservedPlaceDetail)
+                    
+            self.navigationController?.pushViewController(
+                ReservationConfirmationViewController(
+                    location: self.tripDetails.location.city,
+                    reservationCode: reservationId,
+                    imageUrl: self.tripDetails.imageUrl), animated: true)
+            
+            let notification = UINotificationFeedbackGenerator()
+            notification.notificationOccurred(.success)
+        }))
+
+        present(confirmReserveAlert, animated: true, completion: nil)
+       
     }
  
 }

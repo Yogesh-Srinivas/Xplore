@@ -110,6 +110,10 @@ class SignUpViewController: LoginTemplateViewController {
                     self.navigationController?.navigationBar.isHidden = true
                     self.navigationController?.setViewControllers([loadingVC], animated: false)
                     
+                    //Haptic Feedback
+                    let notification = UINotificationFeedbackGenerator()
+                    notification.notificationOccurred(.success)
+                    
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1){[loadingVC] in
                         loadingVC.navigationController?.navigationBar.isHidden = true
                         loadingVC.navigationController?.setViewControllers([MainTabBarController()], animated: true)
@@ -187,7 +191,7 @@ extension SignUpViewController : UITextFieldDelegate{
         let offsetBalance = pageButton.frame.height + linkLabel.frame.height
         
         if textField == emailField.textField{
-            contentView.contentOffset = CGPoint(x: 0, y: emailField.frame.origin.y - offsetBalance)
+            contentView.contentOffset = CGPoint(x: 0, y: 0)
 
         }else if textField == passwordField.passwordTextField{
             contentView.contentOffset = CGPoint(x: 0, y: passwordField.frame.origin.y - offsetBalance)

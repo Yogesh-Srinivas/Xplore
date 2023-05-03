@@ -53,6 +53,7 @@ class MyTripViewController: UIViewController {
         view.addSubview(commonTableView)
         commonTableView.register(PlaceListCustomCell.self, forCellReuseIdentifier: "MyTripTableCell")
         commonTableView.separatorStyle = .none
+    
         view.addSubview(emptyPlaceListView)
 
         setupSegmentedControl()
@@ -226,7 +227,7 @@ extension MyTripViewController : UITableViewDelegate,UITableViewDataSource{
         var cell = commonTableView.dequeueReusableCell(withIdentifier: "MyTripTableCell", for: indexPath) as! PlaceListCustomCell
 
         configTabelCell(cell: &cell,row: indexPath.row)
-
+        cell.selectionStyle = .none
         return cell
     }
 

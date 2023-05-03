@@ -53,6 +53,10 @@ class LoginViewController: LoginTemplateViewController {
                 self.navigationController?.navigationBar.isHidden = true
                 self.navigationController?.setViewControllers([loadingVC], animated: false)
                 
+                //Haptic Feedback
+                let notification = UINotificationFeedbackGenerator()
+                notification.notificationOccurred(.success)
+                
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1){[loadingVC] in
                     loadingVC.navigationController?.navigationBar.isHidden = true
                     loadingVC.navigationController?.setViewControllers([MainTabBarController()], animated: true)

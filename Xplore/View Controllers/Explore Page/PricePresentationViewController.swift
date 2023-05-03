@@ -80,7 +80,7 @@ class PricePresentationViewController: UIViewController {
         titleView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            titleView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 5),
+            titleView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 15),
             titleView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
             
         ])
@@ -111,7 +111,7 @@ class PricePresentationViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             contentStackView.topAnchor.constraint(equalTo: mainSeparator.bottomAnchor,constant:30),
-            contentStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -10),
+//            contentStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -10),
             contentStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 10),
             contentStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -10)
         ])

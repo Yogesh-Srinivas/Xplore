@@ -46,16 +46,16 @@ class PlaceListCustomCell: UITableViewCell {
         headerImage.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            headerImage.topAnchor.constraint(equalTo: self.topAnchor),
+            headerImage.topAnchor.constraint(equalTo: self.topAnchor,constant: 10),
             headerImage.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor,constant: 20),
-            headerImage.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor,constant: -15),
-            headerImage.widthAnchor.constraint(equalTo: self.contentView.widthAnchor,multiplier: 0.40),
+            headerImage.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor,constant: -10),
+            headerImage.widthAnchor.constraint(equalToConstant: 140),
         ])
         
         primaryLabel.translatesAutoresizingMaskIntoConstraints = false
     
         NSLayoutConstraint.activate([
-            primaryLabel.topAnchor.constraint(equalTo: self.topAnchor),
+            primaryLabel.topAnchor.constraint(equalTo: self.topAnchor,constant: 10),
             primaryLabel.leadingAnchor.constraint(equalTo: headerImage.trailingAnchor,constant: 10),
             primaryLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
             primaryLabel.bottomAnchor.constraint(lessThanOrEqualTo: secondaryLabel.topAnchor,constant: -3)
@@ -65,7 +65,7 @@ class PlaceListCustomCell: UITableViewCell {
         secondaryLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            secondaryLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor,constant: -15),
+            secondaryLabel.topAnchor.constraint(equalTo: primaryLabel.bottomAnchor,constant: 5),
             secondaryLabel.leadingAnchor.constraint(equalTo: headerImage.trailingAnchor,constant: 10),
             secondaryLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor)
         ])

@@ -84,9 +84,6 @@ class UnreservedPlaceDetailsViewController: UnvisitedPlaceDetailViewController {
         navigationItem.rightBarButtonItem = wishListItem
         setupWishItem()
         
-//        contentScrollView.insertSubview(guestView, belowSubview: cancellationPolicyView)
-//        contentScrollView.insertSubview(UIUtils.getSeparator(size: 1), aboveSubview: guestView)
-        
         contentScrollView.addSubview(paddingView)
         footerView.backgroundColor = .systemBackground
         view.addSubview(footerView)

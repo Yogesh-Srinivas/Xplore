@@ -3,7 +3,7 @@ import UIKit
 class CustomPasswordTextField: CustomTextField {
     private lazy var eyeButton = {
         let button = UIButton(type: .custom)
-        let eyeImage = UIImage(systemName: "eye")
+        let eyeImage = UIImage(systemName: "eye.slash")
         button.setImage(eyeImage, for: .normal)
         button.contentHorizontalAlignment = .fill
         button.contentVerticalAlignment = .fill
@@ -37,8 +37,8 @@ class CustomPasswordTextField: CustomTextField {
         isPasswordVisible.toggle()
         
         let eyeImage = isPasswordVisible ?
-        UIImage(systemName: "eye.slash") :
-        UIImage(systemName: "eye")
+        UIImage(systemName: "eye") :
+        UIImage(systemName: "eye.slash")
         
         eyeButton.setImage(eyeImage, for: .normal)
         self.isSecureTextEntry = !isPasswordVisible

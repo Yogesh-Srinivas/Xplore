@@ -26,7 +26,7 @@ class ReservedPlaceDetailViewController: UnvisitedPlaceDetailViewController {
     
     lazy var cancelItem = {
         let barButtonItem = UIBarButtonItem()
-        barButtonItem.title = "cancel Trip"
+        barButtonItem.title = "Cancel Trip"
         barButtonItem.tintColor = .systemRed
         barButtonItem.target = self
         barButtonItem.action = #selector(cancelReservationButtonOnTapAction)
