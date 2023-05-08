@@ -7,6 +7,8 @@ class CustomCalenderViewController: UIViewController {
         return calendar
     }()
     
+    lazy var selectionBehaviour = UICalendarSelectionMultiDate(delegate: self)
+    
     var selectedDates : [DateComponents] = []{
         didSet{
             saveButton.backgroundColor = selectedDates.count > 0 ? .systemPink : .systemGray4
@@ -44,6 +46,7 @@ class CustomCalenderViewController: UIViewController {
     init(completionHandler: @escaping (_ fromDate : DateComponents,_ toDate : DateComponents?)->()){
         self.completionHandler = completionHandler
         super.init(nibName: nil, bundle: nil)
+        
     }
     
     required init?(coder: NSCoder) {
@@ -65,7 +68,6 @@ class CustomCalenderViewController: UIViewController {
         view.addSubview(footerView)
         footerView.addSubview(saveButton)
         view.addSubview(calendarView)
-        
         
         setupCalendar()
         setupHeaderView()
@@ -91,7 +93,9 @@ class CustomCalenderViewController: UIViewController {
         calendarView.availableDateRange = DateInterval(start: .now, end: Date(timeIntervalSinceNow: TimeInterval(Constants.NUMBER_OF_SECONDS_IN_A_YEAR / 2)))
         calendarView.fontDesign = .monospaced
         
-        calendarView.selectionBehavior = UICalendarSelectionMultiDate(delegate: self)
+        
+        calendarView.selectionBehavior = selectionBehaviour
+        
         
         setupBookedDatesCalender()
     }
@@ -240,9 +244,7 @@ extension CustomCalenderViewController :UICalendarViewDelegate, UICalendarSelect
         return true
     }
     
-    func dateSelection(_ selection: UICalendarSelectionSingleDate, didSelectDate dateComponents: DateComponents?) {
-    }
-    
+
     
     func calendarView(_ calendarView: UICalendarView, decorationFor dateComponents: DateComponents) -> UICalendarView.Decoration? {
         if self.bookedDates.contains(dateComponents) {

@@ -4,19 +4,26 @@ import UIKit
 class CustomStepperView: UIView {
     
     
-    lazy var contentStepper = {
-        let stepper = UIStepper()
-        stepper.stepValue = 1
-        stepper.addTarget(self, action: #selector(stepperAction), for: .valueChanged)
-        return stepper
-    }()
+//    lazy var contentStepper = {
+//        let stepper = UIStepper()
+//        stepper.stepValue = 1
+//        stepper.addTarget(self, action: #selector(stepperAction), for: .valueChanged)
+//        return stepper
+//    }()
     
-    lazy var stepperValueLabel = {
-        let label = UILabel()
-        label.text = String(Int(contentStepper.value))
-        label.configSemiPrimary()
-        label.textAlignment = .center
-        return label
+//    lazy var stepperValueLabel = {
+//        let label = UILabel()
+//        label.text = String(Int(contentStepper.value))
+//        label.configSemiPrimary()
+//        label.textAlignment = .center
+//        return label
+//    }()
+    
+    lazy var contentStepper = {
+        let stepper = CustomStepper(frame: .zero, stepperSize: 40)
+        stepper.stepValue = 1
+//        stepper.addTarget(self, action: #selector(stepperAction), for: .valueChanged)
+        return stepper
     }()
     
     lazy var titleLabel = {
@@ -37,17 +44,17 @@ class CustomStepperView: UIView {
         self.completionHandler = completionHandler
         super.init(frame: frame)
         
-        self.contentStepper.maximumValue = Double(maxValue)
-        self.contentStepper.minimumValue = Double(minValue)
-        self.contentStepper.value = Double(minValue)
-        stepperValueLabel.text = String(minValue)
+        self.contentStepper.maximumValue = maxValue
+        self.contentStepper.minimumValue = minValue
+        self.contentStepper.value = minValue
+//        stepperValueLabel.text = String(minValue)
         self.titleLabel.text = titleText
         self.subTitleLabel.text = subTitleText
         
         self.addSubview(titleLabel)
         self.addSubview(subTitleLabel)
         self.addSubview(contentStepper)
-        self.addSubview(stepperValueLabel)
+//        self.addSubview(stepperValueLabel)
         
         setupView()
     }
@@ -79,20 +86,20 @@ class CustomStepperView: UIView {
             contentStepper.centerYAnchor.constraint(equalTo: self.centerYAnchor),
         ])
         
-        stepperValueLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            stepperValueLabel.trailingAnchor.constraint(equalTo: contentStepper.leadingAnchor, constant: -20),
-            stepperValueLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            stepperValueLabel.heightAnchor.constraint(equalToConstant: 35),
-            stepperValueLabel.widthAnchor.constraint(equalToConstant: 35),
-        ])
+//        stepperValueLabel.translatesAutoresizingMaskIntoConstraints = false
+//
+//        NSLayoutConstraint.activate([
+//            stepperValueLabel.trailingAnchor.constraint(equalTo: contentStepper.leadingAnchor, constant: -20),
+//            stepperValueLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+//            stepperValueLabel.heightAnchor.constraint(equalToConstant: 35),
+//            stepperValueLabel.widthAnchor.constraint(equalToConstant: 35),
+//        ])
         
     }
     
-    @objc private func stepperAction(){
-        stepperValueLabel.text = String(Int(contentStepper.value))
-        completionHandler(Int(contentStepper.value))
-    }
+//    @objc private func stepperAction(){
+//        stepperValueLabel.text = String(Int(contentStepper.value))
+//        completionHandler(Int(contentStepper.value))
+//    }
     
 }

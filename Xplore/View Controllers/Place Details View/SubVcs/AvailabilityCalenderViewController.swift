@@ -61,6 +61,17 @@ class AvailabilityCalenderViewController: CustomCalenderViewController {
         
     }
     
+    func setSelectedDates(selectedDates : [DateComponents]){
+        
+        selectionBehaviour.selectedDates = []
+        
+        for selectedDate in selectedDates {
+            var selectedDate = selectedDate
+            selectedDate.calendar = calendarView.calendar
+            selectionBehaviour.selectedDates.append(selectedDate)
+        }
+    }
+    
     func setupHeaderLabel(){
         
         headerLabel.translatesAutoresizingMaskIntoConstraints = false

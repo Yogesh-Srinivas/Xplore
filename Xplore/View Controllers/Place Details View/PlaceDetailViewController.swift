@@ -6,7 +6,14 @@ class PlaceDetailViewController: UIViewController {
     
     lazy var placeImagesCollectionViewWithPageControl  = ImageCollectionWithPageControl(frame: .zero)
     
-    lazy var availabiltiyView = AvailabilityDetailView()
+    lazy var availabiltiyView = {
+        let availabiltiyView = AvailabilityDetailView()
+        availabiltiyView.contentLabel.text = "choose your dates"
+        availabiltiyView.contentLabel.configSecondaryStyle()
+        availabiltiyView.contentLabel.textColor = .link
+        availabiltiyView.contentLabel.underline()
+        return availabiltiyView
+    }()
     
     lazy var contentScrollView = UIScrollView()
         

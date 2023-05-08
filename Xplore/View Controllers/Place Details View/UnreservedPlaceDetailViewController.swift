@@ -3,6 +3,17 @@ import UIKit
 
 class UnreservedPlaceDetailsViewController: UnvisitedPlaceDetailViewController {
     
+    lazy var availabilityCalender = AvailabilityCalenderViewController(
+        
+        districtName: placeDetails.location.city,
+        pricePerDay: placeDetails.price.pricePerDay,
+        currencyCode: placeDetails.price.currencyCode,
+        bookedDates: databaseController.getBookedDates(of: placeDetails.placeId)
+        
+    ){[unowned self](fromDate,toDate) in
+        self.fromDate = fromDate
+        self.toDate = toDate
+    }
     
     lazy var reserveButton = {
         let button = UIButton()
@@ -18,11 +29,48 @@ class UnreservedPlaceDetailsViewController: UnvisitedPlaceDetailViewController {
     
     let wishListButtonClosure : (()->())?
 
-    init(placeDetails :  TravelPlaceDetail,databaseController : PlaceDBController,wishListButtonClosure : (()->())?){
+    init(placeDetails :  TravelPlaceDetail,databaseController : PlaceDBController,fromDatePreference : DateComponents?,toDatePreference : DateComponents?,guestPreference : GuestInfo?,wishListButtonClosure : (()->())?){
 
         
         self.wishListButtonClosure = wishListButtonClosure
         super.init(placeDetails: placeDetails, databaseController: databaseController)
+        
+        if let fromDatePreference = fromDatePreference{
+            self.fromDate = fromDatePreference
+            var selectedDates : [DateComponents] = [fromDatePreference]
+            
+            let dateText = "on \(fromDate.day!) \(GeneralUtils.getMonthInString(month: fromDate.month!) )"
+            
+            availabiltiyView.contentLabel.text = dateText
+            datesButton.setTitle(dateText, for: .normal)
+                                
+            reserveButton.backgroundColor = .systemPink
+            reserveButton.isEnabled = true
+            
+            if let toDate = toDatePreference{
+                self.toDate = toDate
+                let dateText = "\(fromDate.day!) \(GeneralUtils.getMonthInString(month: fromDate.month!)) to \(toDate.day!) \(GeneralUtils.getMonthInString(month: toDate.month!))"
+                
+                selectedDates = []
+                for date in GeneralUtils.getDatesBetween(startDate: fromDatePreference.date, endDate: toDate.date){
+                    selectedDates.append(
+                        GeneralUtils.convertDateStringToComponent(dateString: date.description)!
+                    )
+                }
+                
+                
+                availabiltiyView.contentLabel.text = dateText
+                datesButton.setTitle(dateText, for: .normal)
+                
+            }
+            availabilityCalender.setSelectedDates(selectedDates: selectedDates) 
+            
+            
+        }
+        
+        if let guestPreference = guestPreference{
+            self.guestInfo = guestPreference
+        }
        
     }
     
@@ -52,7 +100,11 @@ class UnreservedPlaceDetailsViewController: UnvisitedPlaceDetailViewController {
         }
     }
     
-    var numberOfGuests : Int = 1
+    var guestInfo  = GuestInfo(
+            numberOfAdult: 1,
+            numberOfChildren: 0,
+            numberOfInfant: 0
+    )
 
     lazy var footerView = UIView()
     
@@ -170,7 +222,7 @@ class UnreservedPlaceDetailsViewController: UnvisitedPlaceDetailViewController {
             fromDate: fromDate,
             toDate: toDate,
             placeDetail: placeDetails,
-            numberOfGuests: numberOfGuests,
+            guestDetail: guestInfo,
             databaseController: databaseController,
             headerImage: self.placeImagesCollectionViewWithPageControl.placeImagesCollectionView.images[0]), animated: true)
         
@@ -193,23 +245,10 @@ class UnreservedPlaceDetailsViewController: UnvisitedPlaceDetailViewController {
     }
     
     private func setupAvailabilityView(){
-        availabiltiyView.setupTapAction(currentViewController: self, viewControllerToPresentOnTap: AvailabilityCalenderViewController(
-            
-            districtName: placeDetails.location.city,
-            pricePerDay: placeDetails.price.pricePerDay,
-            currencyCode: placeDetails.price.currencyCode,
-            bookedDates: databaseController.getBookedDates(of: placeDetails.placeId)
-            
-        ){[unowned self](fromDate,toDate) in
-            self.fromDate = fromDate
-            self.toDate = toDate
-        })
-        
-        availabiltiyView.contentLabel.text = "choose your dates"
-        availabiltiyView.contentLabel.configSecondaryStyle()
-        availabiltiyView.contentLabel.textColor = .link
-        availabiltiyView.contentLabel.underline()
-       
+        availabiltiyView.setupTapAction(
+            currentViewController: self,
+            viewControllerToPresentOnTap: availabilityCalender
+        )
     }
     
     @objc private func wishListButtonOnTapActionAddToWishList(){

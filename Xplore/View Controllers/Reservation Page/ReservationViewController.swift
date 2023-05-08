@@ -8,16 +8,16 @@ class ReservationViewController: UIViewController {
         let fromDate : DateComponents
         let toDate : DateComponents?
         let dates : String
-        var numberOfGuestes : Int
+        var guestInfo : GuestInfo
         let rating : Double
         let numberOfRating : Int
         let location : Location
         let imageUrl : String
         let numberOfPeopleAccomodate : Int
         let numberOfRoom : Int
-        var guestes : String {
-            return String(numberOfGuestes)+" guests"
-        }
+//        var guestes : String {
+//            return String(numberOfGuestes)+" guests"
+//        }
     }
     
     var numberOfRoomsNeeded = 1 {
@@ -30,12 +30,12 @@ class ReservationViewController: UIViewController {
         let customStepper = CustomStepperView(frame: .zero, maxValue: 33, minValue: 1, titleText: "Guests", subTitleText: ""){
             
             [unowned self](value) in
-            self.tripDetails.numberOfGuestes = value
+            self.tripDetails.guestInfo.numberOfAdult = value
             self.numberOfRoomsNeeded = Int(value / self.tripDetails.numberOfPeopleAccomodate) + (value % self.tripDetails.numberOfPeopleAccomodate == 0 ? 0 : 1)
             
         }
         customStepper.titleLabel.configSecondaryStyle()
-        customStepper.stepperValueLabel.configSecondaryRegularStyle()
+//        customStepper.stepperValueLabel.configSecondaryRegularStyle()
         return customStepper
     }()
     
@@ -107,7 +107,7 @@ class ReservationViewController: UIViewController {
         return sectionView
     }()
     
-    init(fromDate : DateComponents,toDate : DateComponents?,placeDetail : TravelPlaceDetail,numberOfGuests : Int,databaseController : PlaceDBController,headerImage : UIImage?){
+    init(fromDate : DateComponents,toDate : DateComponents?,placeDetail : TravelPlaceDetail,guestDetail : GuestInfo,databaseController : PlaceDBController,headerImage : UIImage?){
         
         
         var dates = "\(fromDate.day!) \(GeneralUtils.getMonthInString(month: fromDate.month!))"
@@ -125,7 +125,7 @@ class ReservationViewController: UIViewController {
             fromDate: fromDate,
             toDate: toDate,
             dates: dates,
-            numberOfGuestes: numberOfGuests,
+            guestInfo: guestDetail,
             rating: placeDetail.placeRating,
             numberOfRating: placeDetail.ratingDetail.count,
             location : placeDetail.location,
@@ -155,6 +155,15 @@ class ReservationViewController: UIViewController {
         if let headerImage = headerImage{
             self.headerView.headerImage.image = headerImage
         }
+        
+        self.tripDetails.guestInfo.numberOfAdult = guestDetail.numberOfGuests
+        
+        self.numberOfRoomsNeeded = Int(guestDetail.numberOfGuests / self.tripDetails.numberOfPeopleAccomodate) + (guestDetail.numberOfGuests % self.tripDetails.numberOfPeopleAccomodate == 0 ? 0 : 1)
+        
+        self.guestView.contentStepper.value = guestDetail.numberOfGuests
+//        self.guestView.stepperValueLabel.text = String(guestDetail.numberOfGuests)
+        self.priceDetailView.updatePriceDetail(for: numberOfRoomsNeeded)
+        
     }
     
     required init?(coder: NSCoder) {
@@ -261,7 +270,7 @@ class ReservationViewController: UIViewController {
             taxPercentage: priceDetails.taxPercentage,
             currencyCode: priceDetails.currencyCode,
             isVisited: false,
-            numberOfGuests: tripDetails.numberOfGuestes,
+            numberOfGuests: tripDetails.guestInfo.numberOfGuests,
             cleaningFee: ControlCenter.cleaningFee,
             serviceFee: ControlCenter.serviceFee,
             reservationId: reservationId,

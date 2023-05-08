@@ -364,11 +364,11 @@ class SearchViewController: UIViewController {
         adultStepperView.contentStepper.value = 1
         childrenStepperView.contentStepper.value = 0
         infantStepperView.contentStepper.value = 0
-        
-        adultStepperView.stepperValueLabel.text = "1"
-        childrenStepperView.stepperValueLabel.text = "0"
-        infantStepperView.stepperValueLabel.text = "0"
-        
+//        
+//        adultStepperView.stepperValueLabel.text = "1"
+//        childrenStepperView.stepperValueLabel.text = "0"
+//        infantStepperView.stepperValueLabel.text = "0"
+//        
         customCalenderView = {
             let calenderView = CustomCalenderViewController{
                     [unowned self](fromDate,toDate) in

@@ -11,6 +11,10 @@ class ExplorePageViewController: UITableViewController {
     
     var filteredPlaceList : [TravelPlaceDetail] = []
     
+    var fromDatePreference : DateComponents?
+    var toDatePreference : DateComponents?
+    var guestDetailPreference : GuestInfo?
+    
     lazy var noSearchResultView = {
         let emptyDetailView = EmptyDetailView(
                     frame: .zero,
@@ -249,7 +253,12 @@ class ExplorePageViewController: UITableViewController {
         
         let placeDetailedPageViewController =  UnreservedPlaceDetailsViewController(
             placeDetails: filteredPlaceList[row],
-            databaseController: databaseController,wishListButtonClosure : wishListButtonClosure)
+            databaseController: databaseController,
+            fromDatePreference: fromDatePreference,
+            toDatePreference: toDatePreference,
+            guestPreference: guestDetailPreference,
+            wishListButtonClosure : wishListButtonClosure
+        )
                 
         self.navigationController?.pushViewController(
            placeDetailedPageViewController,
@@ -292,6 +301,11 @@ class ExplorePageViewController: UITableViewController {
                            toDate : DateComponents?,
                            guestDetails : GuestInfo,
                            locationDetail : FilteredLocation?) in
+            
+            //update Search Preference
+            self.fromDatePreference = fromDate
+            self.toDatePreference = toDate
+            self.guestDetailPreference = guestDetails
             
             self.filteredPlaceList = []
             

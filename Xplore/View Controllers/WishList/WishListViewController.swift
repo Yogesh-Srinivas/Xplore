@@ -172,7 +172,11 @@ extension WishListViewController {
         
         let placeDetailedPageViewController =  UnreservedPlaceDetailsViewController(
             placeDetails: wishListDetails[indexPath.row],
-            databaseController: databaseController,wishListButtonClosure : wishListButtonClosure)
+            databaseController: databaseController,
+            fromDatePreference: nil,
+            toDatePreference: nil,
+            guestPreference: nil,
+            wishListButtonClosure : wishListButtonClosure)
                 
         self.navigationController?.pushViewController(
            placeDetailedPageViewController,

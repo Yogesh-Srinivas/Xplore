@@ -32,6 +32,7 @@
 		3F17E8E829E4DDCB0030CC02 /* ReservedPlaceDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F17E8E729E4DDCB0030CC02 /* ReservedPlaceDetailViewController.swift */; };
 		3F419B7229FADF000030E498 /* WhereSearchBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F419B7129FADF000030E498 /* WhereSearchBarViewController.swift */; };
 		3F419B7429FFF7C10030E498 /* ReservationConfirmCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F419B7329FFF7C10030E498 /* ReservationConfirmCustomCell.swift */; };
+		3F4E52532A04F88000CEC578 /* CustomStepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4E52522A04F88000CEC578 /* CustomStepper.swift */; };
 		3F4FEDB529EAE00500DB940B /* GuestInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FEDB429EAE00500DB940B /* GuestInfo.swift */; };
 		3F50BAAF29CAFFB900E0D6D4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BAAE29CAFFB900E0D6D4 /* AppDelegate.swift */; };
 		3F50BAB129CAFFB900E0D6D4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F50BAB029CAFFB900E0D6D4 /* SceneDelegate.swift */; };
@@ -145,6 +146,7 @@
 		3F17E8E729E4DDCB0030CC02 /* ReservedPlaceDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservedPlaceDetailViewController.swift; sourceTree = "<group>"; };
 		3F419B7129FADF000030E498 /* WhereSearchBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhereSearchBarViewController.swift; sourceTree = "<group>"; };
 		3F419B7329FFF7C10030E498 /* ReservationConfirmCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservationConfirmCustomCell.swift; sourceTree = "<group>"; };
+		3F4E52522A04F88000CEC578 /* CustomStepper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomStepper.swift; sourceTree = "<group>"; };
 		3F4FEDB429EAE00500DB940B /* GuestInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestInfo.swift; sourceTree = "<group>"; };
 		3F50BAAB29CAFFB900E0D6D4 /* Xplore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Xplore.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F50BAAE29CAFFB900E0D6D4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -491,6 +493,7 @@
 				3F0BDAC929DEF0DD00F6638B /* CustomCollectionViewCell.swift */,
 				3F531C3529E9EAF90043185C /* CustomStepperView.swift */,
 				3F72D21B29F6430100506F51 /* ImageCollectionWithPageControl.swift */,
+				3F4E52522A04F88000CEC578 /* CustomStepper.swift */,
 			);
 			path = ExplorePage;
 			sourceTree = "<group>";
@@ -734,6 +737,7 @@
 				3FD248A02A02221F0088846E /* ConfettiView.swift in Sources */,
 				3F72D22029F7A47200506F51 /* ReservationViewController.swift in Sources */,
 				3F531C3029E9BACE0043185C /* InformationViewController.swift in Sources */,
+				3F4E52532A04F88000CEC578 /* CustomStepper.swift in Sources */,
 				3F50BB5A29D6A4D900E0D6D4 /* QueryCondition.swift in Sources */,
 				3F17E8E429E4DB410030CC02 /* UnreservedPlaceDetailViewController.swift in Sources */,
 				3F0BDAD429E0557F00F6638B /* UIListContentConfiguration+fontConfig.swift in Sources */,
