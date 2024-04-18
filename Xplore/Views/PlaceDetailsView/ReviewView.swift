@@ -112,9 +112,10 @@ final class ReviewView: UIView {
         
     }
     
+    #warning("ReviewPageViewController is missing, so replaced with dummy vc")
     @objc private func showAllReviewAction(){
         referenceViewController.navigationController?.pushViewController(
-            ReviewPageViewController(reviewList: reviewList), animated: true)
+            ViewController(), animated: true)
     }
     
     func updateReviewList(updatedReviewList : [Review]){
@@ -174,8 +175,8 @@ extension ReviewView : UICollectionViewDelegate,UICollectionViewDataSource,UICol
         if indexPath.row == min(5,reviewList.count){
             initialRowIndex = 0
         }
-        referenceViewController.navigationController?.pushViewController(
-                ReviewPageViewController(reviewList: reviewList,initialRowIndex: initialRowIndex), animated: true)
+        #warning("ReviewPageViewController is missing, so replaced with dummy vc")
+        referenceViewController.navigationController?.pushViewController( ViewController(), animated: true)
         
     }
     
