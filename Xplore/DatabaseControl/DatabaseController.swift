@@ -145,17 +145,15 @@ final class DatabaseController : PlaceDBController,FetchableImage,SessionDBContr
         from imageUrl : String,
         completionHander : @escaping (_ imageData : Data?)->()
     ) {
-        
 
-                
         if isImageAvailableLocal(imageUrl: imageUrl), let imageLocalUrl = getImageDirUrl(for: imageUrl),
-           FileManager.default.fileExists(atPath: imageLocalUrl.path){
+           FileManager.default.fileExists(atPath: imageLocalUrl.path) {
             
             let loadedImageData = FetchableImageHelper.loadLocalImage(from: imageLocalUrl.path)
     
             completionHander(loadedImageData)
             
-        }else{
+        } else {
             guard let url = URL(string: imageUrl)
                 else {
                     completionHander(nil)

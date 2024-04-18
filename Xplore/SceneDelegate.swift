@@ -15,13 +15,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.makeKeyAndVisible()
         
         let userDefault = UserDefaults.standard
-        if !userDefault.bool(forKey: "hasAppOpenedBefore"){
+        if !userDefault.bool(forKey: "hasAppOpenedBefore") {
             
             userDefault.set(true, forKey: "hasAppOpenedBefore")
             window?.rootViewController = UINavigationController(rootViewController: LoginViewController())
             DatabaseController.shared.loadDatabase()
             
-        }else{
+        } else {
             if userDefault.string(forKey: "userId") != nil{
                 
                 let navigationController = UINavigationController()
@@ -36,7 +36,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 }
 
                
-            }else{
+            } else {
                 window?.rootViewController = UINavigationController(rootViewController: LoginViewController())
             }
         }
